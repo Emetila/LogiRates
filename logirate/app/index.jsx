@@ -1,10 +1,15 @@
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const splashScreens = [
+  // {
+  //   id: 1,
+  //   backgroundColor: Colors.primary,
+  //   image: require("../assets/images/splash1.png"),
+  // },
   {
     id: 1,
     backgroundColor: Colors.white,
@@ -46,9 +51,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
+    alignItems: 'center',
     width: 200,
-    height: 200,
-    marginBottom: 20,
+    resizeMode: 'contain',
+    justifyContent: 'center',
+    marginVertical: 'auto'
+
   },
   text: {
     fontSize: 24,

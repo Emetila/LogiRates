@@ -8,12 +8,17 @@
     "scheme": "logirate",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash1.png",
+      "resizeMode":"cover",
+      "backgroundColor":"#0F141A"
+    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/images/splash1.png",
         "backgroundColor": "#0F141A"
       },
       "edgeToEdgeEnabled": true
@@ -21,14 +26,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/logo.png"
+      "favicon": "./assets/images/splash1.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.png",
+          "image": "./assets/images/splash1.png",
           "imageWidth": 200,
           "resizeMode": "cover",
           "backgroundColor": "#0F141A"
