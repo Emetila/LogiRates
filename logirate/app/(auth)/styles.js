@@ -2,6 +2,18 @@ import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
 const authStyles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.white,
+    flex: 1,
+    paddingHorizontal: "10%",
+  },
+
+  textBox: {
+    flexDirection: 'column', 
+    alignItems: 'flex-start',
+    gap: 10,
+    marginVertical: '10%'
+  },
   authText: {
     fontFamily: "PoppinsSemiBold",
     color: Colors.white,
@@ -9,6 +21,7 @@ const authStyles = StyleSheet.create({
   },
   formContainer: {
     gap: 10,
+    justifyContent: 'center'
   },
   formText: {
     fontFamily: "PoppinsMedium",
@@ -16,14 +29,16 @@ const authStyles = StyleSheet.create({
     color: Colors.text,
   },
   input: {
-    height: 50,
-    backgroundColor: Colors.inputBgTwo,
-    color: Colors.white,
+    height: 55,
+    color: Colors.text,
     paddingLeft: 15,
     fontFamily: "PoppinsSemiBold",
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: Colors.text,
     borderStyle: "solid",
+    width: 320,
+    alignSelf: 'center'
   },
   secContainer: {
     marginTop: 40,
