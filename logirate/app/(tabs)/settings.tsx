@@ -6,7 +6,7 @@ const About = () => {
   return (
     <SafeAreaView>
       <Text>
-        This is the about page
+        This is the setting page
       </Text>
     </SafeAreaView>
   )
