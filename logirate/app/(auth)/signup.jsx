@@ -1,5 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import axios from "axios";
 import { router } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
 import React, { useState } from "react";
 import {
   Alert,
@@ -15,6 +17,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "./styles";
 
+WebBrowser.maybeCompleteAuthSession();
+
+const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
+
 const signupPage = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,6 +30,16 @@ const signupPage = () => {
   const [passwordShow, setPasswordShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   expoClientId:
+  //     "http://500313097785-qdq6touioobd4i3rsddglusu8masbtfk.apps.googleusercontent.com",
+  //   iosClientId:
+  //     "http://500313097785-5tmjopme3p150in9jedgtp0ip1592ial.apps.googleusercontent.com",
+  //   // androidClientId: "YOUR_ANDROID_CLIENT_ID.apps.googleusercontent.com",
+  //   webClientId:
+  //     "500313097785-i9hkuag0gkb074a57tfhbcuou3ugc87e.apps.googleusercontent.com",
+  // });
 
   const handleSignup = async () => {
     // if (!fullName || !email || !password || !confirmpassword) {
@@ -38,6 +54,37 @@ const signupPage = () => {
     //   Alert.alert("Error", "Please accept the Terms & Conditions.");
     //   return;
     // }
+
+    try {
+      // Sign up the user
+      const res = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+        {
+          email,
+          password,
+          returnSecureToken: true,
+        }
+      );
+
+      const idToken = res.data.idToken;
+
+      // Set display name
+      await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`,
+        {
+          idToken,
+          displayName: fullName,
+          returnSecureToken: true,
+        }
+      );
+
+      router.navigate("./login");
+    } catch (error) {
+      Alert.alert(
+        "Signup Error",
+        error.response?.data?.error?.message || "Something went wrong"
+      );
+    }
 
     const validate = () => {
       const newErrors = {};
@@ -101,6 +148,30 @@ const signupPage = () => {
     //   Alert.alert("Signup Error", error.message);
     // }
   };
+
+  // const handleGoogleSignup = async () => {
+  //     const result = await promptAsync();
+  //     if (result?.type === "success") {
+  //       const googleIdToken = result.authentication.idToken;
+  //       try {
+  //         const res = await axios.post(
+  //           `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${API_KEY}`,
+  //           {
+  //             postBody: `id_token=${googleIdToken}&providerId=google.com`,
+  //             requestUri: "http://localhost",
+  //             returnSecureToken: true,
+  //           }
+  //         );
+  //         router.navigate('./login')
+  //       } catch (error) {
+  //         Alert.alert(
+  //           "Google Signup Error",
+  //           error.response?.data?.error?.message || "Something went wrong"
+  //         );
+  //       }
+  //     }
+  //   };
+    
   return (
     <SafeAreaView style={authStyles.container}>
       <ScrollView>
@@ -249,7 +320,7 @@ const signupPage = () => {
           OR
         </Text>
         <View style={{ gap: 20 }}>
-          <TouchableOpacity style={authStyles.signupButtons}>
+          <TouchableOpacity style={authStyles.signupButtons} >
             <Image
               style={{ width: 28, height: 28 }}
               resizeMode="contain"

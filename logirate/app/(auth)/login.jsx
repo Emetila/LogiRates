@@ -1,5 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import axios from "axios";
 import { router } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
 import { useState } from "react";
 import {
     Alert,
@@ -15,14 +17,37 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "./styles";
 
+WebBrowser.maybeCompleteAuthSession();
+
+const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
+
 const Login = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameFocused, setUsernameFocused] = useState(false);
+  const [email, setEmail] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleLogin = async () => {
+    const url = isLogin
+      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
+      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+    try {
+      const res = await axios.post(url, {
+        fullName,
+        email,
+        password,
+        returnSecureToken: true,
+      });
+      Alert.alert("Success", `Welcome ${res.data.fullName}`);
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        error.response?.data?.error?.message || "Something went wrong"
+      );
+    }
+
     // if (!fullName || !email || !password || !confirmpassword) {
     //   Alert.alert("Error", "Please fill in all fields.");
     //   return;
