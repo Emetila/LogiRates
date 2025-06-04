@@ -18,8 +18,8 @@ const Colors = {
   text: '#0F141A',
   buttonBg: '#00A1BF',
   buttonText: '#FFF',
-  inputBg: "#232533",
-  inputBgTwo: '#1E1E2D',
+  inputBg: "#DADADA4D",
+  inputBorder: '#007AFF',
 };
 
 export default Colors;

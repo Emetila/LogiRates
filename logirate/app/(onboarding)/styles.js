@@ -6,7 +6,6 @@ const onboarding = StyleSheet.create({
     paddingHorizontal: "20%",
     backgroundColor: Colors.white,
     flex: 1,
-    gap: 120
   },
   logo: {
     width: 91,
@@ -26,19 +25,22 @@ const onboarding = StyleSheet.create({
     fontFamily: 'PoppinsBold',
     fontSize: 20,
     fontWeight: '600',
-    lineHeight: 28
+    lineHeight: 28,
+    textAlign: 'center'
   },
   title2: {
     color: Colors.text,
     fontFamily: 'PoppinsBold',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
-    lineHeight: 28
+    lineHeight: 28,
+    width: 231,
+    textAlign: 'center'
   },
   image: {
     resizeMode: 'contain',
     width: 282,
-    height: 282,
+    height: 292,
     alignSelf: 'center'
   },
   text: {
@@ -59,7 +61,7 @@ const onboarding = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 21,
-    width: 335,
+    width: 300,
   },
   textBoxText: {
     flexDirection: 'column',
@@ -72,8 +74,8 @@ const onboarding = StyleSheet.create({
     alignItems: 'center',
     gap: 20,
     justifyContent: 'center',
-    paddingTop: '30%',
-    paddingBottom: '10%'
+    paddingTop: '10%',
+    paddingBottom: '20%'
   }
 });
 

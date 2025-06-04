@@ -1,4 +1,6 @@
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
@@ -23,6 +25,7 @@ const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
 
 const signupPage = () => {
   const [fullName, setFullName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -95,7 +98,8 @@ const signupPage = () => {
         );
         return;
       }
-      if (!fullName.trim()) newErrors.fullName = "Name is required";
+      if (!fullName.trim()) newErrors.fullName = "First name is required";
+      if (!surname.trim()) newErrors.surname = "Surname is required";
       if (!email.trim()) {
         newErrors.email = "Email is required";
       } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -171,18 +175,19 @@ const signupPage = () => {
   //       }
   //     }
   //   };
-    
+
   return (
     <SafeAreaView style={authStyles.container}>
       <ScrollView>
         <View style={authStyles.textBox}>
           <Text
             style={{
-              color: Colors.primary,
+              color: "#3B3C3D",
               fontFamily: "PoppinsBold",
-              fontSize: 24,
+              fontSize: 32,
               fontWeight: "800",
               lineHeight: 24,
+              letterSpacing: -1.6,
             }}
           >
             Hello there!
@@ -190,9 +195,10 @@ const signupPage = () => {
           <Text
             style={{
               fontFamily: "PoppinsRegular",
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: "400",
-              color: Colors.primary,
+              color: Colors.text,
+              letterSpacing: -0.28,
             }}
           >
             Let&apos;s get you ready for a ride!
@@ -200,40 +206,81 @@ const signupPage = () => {
 
           <View style={authStyles.secContainer}>
             <View style={authStyles.formContainer}>
-              <Text style={authStyles.formText}>Full Name</Text>
-              <TextInput
-                label="full name"
-                mode="outlined"
-                error={!!errors.fullName}
-                value={fullName}
-                onChangeText={setFullName}
-                style={authStyles.input}
-                cursorColor={Colors.primary}
-              />
-              {errors.name && (
-                <Text style={authStyles.error}>{errors.fullName}</Text>
-              )}
+              <Text style={authStyles.formText}>First Name</Text>
+              <View style={{ position: "relative" }}>
+                <FontAwesome6
+                  style={authStyles.icon}
+                  name="user-large"
+                  size={24}
+                  color="#00A1BF"
+                />
+                <TextInput
+                  label="full name"
+                  mode="outlined"
+                  error={!!errors.fullName}
+                  value={fullName}
+                  onChangeText={setFullName}
+                  style={authStyles.input}
+                  cursorColor={Colors.primary}
+                />
+                {errors.name && (
+                  <Text style={authStyles.error}>{errors.fullName}</Text>
+                )}
+              </View>
             </View>
             <View style={authStyles.formContainer}>
-              <Text style={authStyles.formText}>Email Address</Text>
-              <TextInput
-                mode="outlined"
-                label="email"
-                value={email}
-                onChangeText={setEmail}
-                style={authStyles.input}
-                cursorColor={Colors.primary}
-                keyboardType="email-address"
-                error={!!errors.email}
-              />
-              {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+              <Text style={authStyles.formText}>Surname</Text>
+              <View style={{ position: "relative" }}>
+                <FontAwesome6
+                  style={authStyles.icon}
+                  name="user-large"
+                  size={24}
+                  color="#00A1BF"
+                />
+                <TextInput
+                  label="full name"
+                  mode="outlined"
+                  error={!!errors.surname}
+                  value={surname}
+                  onChangeText={setSurname}
+                  style={authStyles.input}
+                  cursorColor={Colors.primary}
+                />
+                {errors.name && (
+                  <Text style={authStyles.error}>{errors.surname}</Text>
+                )}
+              </View>
+            </View>
+            <View style={authStyles.formContainer}>
+              <Text style={authStyles.formText}>Email/Mobile</Text>
+              <View style={{ position: "relative" }}>
+                <MaterialCommunityIcons
+                  style={authStyles.icon}
+                  name="email"
+                  size={24}
+                  color="#00A1BF"
+                />
+                <TextInput
+                  mode="outlined"
+                  label="email"
+                  value={email}
+                  onChangeText={setEmail}
+                  style={authStyles.input}
+                  cursorColor={Colors.primary}
+                  keyboardType="email-address"
+                  error={!!errors.email}
+                />
+                {errors.email && (
+                  <Text style={styles.error}>{errors.email}</Text>
+                )}
+              </View>
             </View>
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Password</Text>
               <TextInput
                 value={password}
                 onChangeText={setPassword}
-                style={authStyles.input}
+                style={authStyles.input2}
                 secureTextEntry={!passwordShow}
                 cursorColor={Colors.primary}
                 mode="outlined"
@@ -244,25 +291,34 @@ const signupPage = () => {
                 <Text style={authStyles.error}>{errors.password}</Text>
               )}
             </View>
-            <View style={{ position: "absolute", bottom: 130, right: 20 }}>
+            <View style={{ position: "absolute", bottom: 120, right: 20 }}>
               <Pressable onPress={() => setPasswordShow(!passwordShow)}>
                 <Ionicons
-                  name={passwordShow ? "eye-off" : "eye"}
+                  name={passwordShow ? "eye" : "eye-off"}
                   size={24}
-                  color="black"
+                  color="#0F141A66"
                 />
               </Pressable>
             </View>
 
             <View style={authStyles.formContainer}>
-              <Text style={authStyles.formText}>Confirm Password</Text>
+              <Text style={authStyles.formText}>Repeat Password</Text>
               <TextInput
                 value={confirmpassword}
                 onChangeText={setConfirmPassword}
-                style={authStyles.input}
+                style={authStyles.input2}
                 secureTextEntry
                 cursorColor={Colors.primary}
               />
+            </View>
+            <View style={{ position: "absolute", bottom: 10, right: 20 }}>
+              <Pressable onPress={() => setPasswordShow(!passwordShow)}>
+                <Ionicons
+                  name={passwordShow ? "eye" : "eye-off"}
+                  size={24}
+                  color="#0F141A66"
+                />
+              </Pressable>
             </View>
           </View>
           <View
@@ -284,7 +340,11 @@ const signupPage = () => {
               <Text style={authStyles.label}>
                 Agree with{" "}
                 <Text
-                  style={{ color: Colors.primary, fontFamily: "PoppinsMedium" }}
+                  style={{
+                    color: Colors.primary,
+                    fontFamily: "PoppinsMedium",
+                    textDecorationLine: "underline",
+                  }}
                 >
                   Terms & Conditions{" "}
                 </Text>
@@ -306,35 +366,54 @@ const signupPage = () => {
             Sign Up
           </Text>
         </TouchableOpacity>
-        <Text
+        <View
           style={{
-            marginVertical: 35,
-            color: Colors.text,
-            fontSize: 20,
-            fontFamily: "PoppinsRegular",
-            fontWeight: "500",
-            lineHeight: 20,
-            textAlign: "center",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
           }}
         >
-          OR
-        </Text>
-        <View style={{ gap: 20 }}>
-          <TouchableOpacity style={authStyles.signupButtons} >
-            <Image
-              style={{ width: 28, height: 28 }}
-              resizeMode="contain"
-              source={require("../../assets/images/google.png")}
-            />
-            <Text>Continue with Google</Text>
-          </TouchableOpacity>
+          <View
+            style={{ backgroundColor: "#0000004D", width: 96, height: 2 }}
+          ></View>
+          <Text
+            style={{
+              marginVertical: 35,
+              color: Colors.text,
+              fontSize: 12,
+              fontFamily: "PoppinsRegular",
+              fontWeight: "600",
+              letterSpacing: -0.24,
+            }}
+          >
+            Or Sign Up with
+          </Text>
+          <View
+            style={{ backgroundColor: "#0000004D", width: 96, height: 2 }}
+          ></View>
+        </View>
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 32,
+            justifyContent: "center",
+          }}
+        >
           <TouchableOpacity style={authStyles.signupButtons}>
             <Image
-              style={{ width: 28, height: 28 }}
+              style={{ width: 30, height: 30 }}
               resizeMode="contain"
               source={require("../../assets/images/apple.png")}
             />
-            <Text>Continue with Apple</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={authStyles.signupButtons}>
+            <Image
+              style={{ width: 30, height: 30 }}
+              resizeMode="contain"
+              source={require("../../assets/images/google.png")}
+            />
           </TouchableOpacity>
         </View>
 
@@ -344,11 +423,15 @@ const signupPage = () => {
           }}
         >
           <Text style={authStyles.footer}>
-            Have an account?{" "}
+            Already have an account?{" "}
             <Text
-              style={{ color: Colors.primary, fontFamily: "PoppinsSemiBold" }}
+              style={{
+                color: Colors.primary,
+                fontFamily: "PoppinsSemiBold",
+                textDecorationLine: "underline",
+              }}
             >
-              Sign in
+              Login Here
             </Text>
           </Text>
         </TouchableOpacity>

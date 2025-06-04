@@ -30,7 +30,7 @@ export default function NotFoundScreen() {
       } else {
         router.navigate('/onboarding1')
       }
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [currentIndex]);

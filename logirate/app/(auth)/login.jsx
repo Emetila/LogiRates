@@ -1,4 +1,6 @@
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
@@ -25,9 +27,9 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
   const [errors, setErrors] = useState({});
+  const [email, setEmail] = useState("");
 
   const handleLogin = async () => {
     const url = isLogin
@@ -41,25 +43,18 @@ const Login = () => {
         returnSecureToken: true,
       });
       Alert.alert("Success", `Welcome ${res.data.fullName}`);
+      router.push("/home");
     } catch (error) {
       Alert.alert(
-        "Error",
+        "Login Error",
         error.response?.data?.error?.message || "Something went wrong"
       );
     }
 
-    // if (!fullName || !email || !password || !confirmpassword) {
-    //   Alert.alert("Error", "Please fill in all fields.");
-    //   return;
-    // }
-    // if (password !== confirmpassword) {
-    //   Alert.alert("Error", "Passwords do not match.");
-    //   return;
-    // }
-    // if (!isChecked) {
-    //   Alert.alert("Error", "Please accept the Terms & Conditions.");
-    //   return;
-    // }
+    if (!fullName || !email || !password) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
+    }
 
     const validate = () => {
       const newErrors = {};
@@ -76,7 +71,7 @@ const Login = () => {
         Alert.alert("Success!", "You have signed up successfully.", [
           {
             text: "Continue",
-            onPress: () => router.navigate("/home"),
+            onPress: () => router.push("/home"),
           },
         ]);
       }
@@ -114,61 +109,102 @@ const Login = () => {
   return (
     <SafeAreaView style={authStyles.container}>
       <ScrollView>
+        <Image
+          source={require("../../assets/images/loginimg.png")}
+          style={{
+            width: 222,
+            alignSelf: "center",
+            height: 222,
+            marginTop: "10%",
+            resizeMode: "contain",
+          }}
+        />
         <View
           style={{
             flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 20,
+            alignItems: "flex-start",
           }}
         >
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={{
-              width: 91,
-              alignSelf: "center",
-              height: 99,
-              aspectRatio: 91,
-              marginTop: "10%",
-              resizeMode: "contain",
-            }}
-          />
           <Text
             style={{
-              color: Colors.primary,
-              textAlign: "center",
-              fontFamily: "PoppinsRegular",
-              fontSize: 20,
-              fontWeight: 500,
+              color: Colors.text,
+              fontFamily: "PoppinsMedium",
+              fontSize: 32,
+              fontWeight: 600,
+              letterSpacing: -1.6,
             }}
           >
             Welcome back!
+          </Text>
+          <Text
+            style={{
+              fontFamily: "PoppinsRegular",
+              fontSize: 14,
+              fontWeight: "400",
+              color: Colors.text,
+              letterSpacing: -0.28,
+            }}
+          >
+            Let&apos;s get you ready for another trip!
           </Text>
         </View>
         <View style={authStyles.textBox}>
           <View style={authStyles.secContainer}>
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Name</Text>
-              <TextInput
-                label="name"
-                mode="outlined"
-                error={!!errors.fullName}
-                value={fullName}
-                onChangeText={setFullName}
-                style={authStyles.input}
-                cursorColor={Colors.primary}
-              />
-              {errors.name && (
-                <Text style={authStyles.error}>{errors.fullName}</Text>
-              )}
+              <View style={{ position: "relative" }}>
+                <FontAwesome6
+                  style={authStyles.icon}
+                  name="user-large"
+                  size={24}
+                  color="#00A1BF"
+                />
+                <TextInput
+                  label="full name"
+                  mode="outlined"
+                  error={!!errors.fullName}
+                  value={fullName}
+                  onChangeText={setFullName}
+                  style={authStyles.input}
+                  cursorColor={Colors.primary}
+                />
+                {errors.name && (
+                  <Text style={authStyles.error}>{errors.fullName}</Text>
+                )}
+              </View>
             </View>
 
+            <View style={authStyles.formContainer}>
+              <Text style={authStyles.formText}>Email/Mobile</Text>
+              <View style={{ position: "relative" }}>
+                <MaterialCommunityIcons
+                  style={authStyles.icon}
+                  name="email"
+                  size={24}
+                  color="#00A1BF"
+                />
+                <TextInput
+                  mode="outlined"
+                  label="email"
+                  value={email}
+                  onChangeText={setEmail}
+                  style={authStyles.input}
+                  cursorColor={Colors.primary}
+                  keyboardType="email-address"
+                  error={!!errors.email}
+                />
+                {errors.email && (
+                  <Text style={styles.error}>{errors.email}</Text>
+                )}
+              </View>
+            </View>
+            
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Password</Text>
               <TextInput
                 value={password}
                 onChangeText={setPassword}
-                style={authStyles.input}
+                style={authStyles.input2}
                 secureTextEntry={!passwordShow}
                 cursorColor={Colors.primary}
                 mode="outlined"
@@ -179,7 +215,7 @@ const Login = () => {
                 <Text style={authStyles.error}>{errors.password}</Text>
               )}
             </View>
-            <View style={{ position: "absolute", bottom: 15, right: 20 }}>
+            <View style={{ position: "absolute", bottom: 30, right: 20 }}>
               <Pressable onPress={() => setPasswordShow(!passwordShow)}>
                 <Ionicons
                   name={passwordShow ? "eye-off" : "eye"}
@@ -188,6 +224,26 @@ const Login = () => {
                 />
               </Pressable>
             </View>
+            <TouchableOpacity
+              style={{ marginTop: -20 }}
+              onPress={() => {
+                router.push("/forgot-password");
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "right",
+                  color: Colors.text,
+                  fontFamily: "PoppinsMedium",
+                  fontSize: 12,
+                  fontWeight: "600",
+                  letterSpacing: -0.24,
+                  paddingRight: 20,
+                }}
+              >
+                Forgotten Password
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity
@@ -201,9 +257,66 @@ const Login = () => {
           }}
         >
           <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
-            SignIn
+            Login
           </Text>
         </TouchableOpacity>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+          }}
+        >
+          <View
+            style={{ backgroundColor: "#0000004D", width: 96, height: 2 }}
+          ></View>
+          <Text
+            style={{
+              marginVertical: 35,
+              color: Colors.text,
+              fontSize: 12,
+              fontFamily: "PoppinsRegular",
+              fontWeight: "600",
+              letterSpacing: -0.24,
+            }}
+          >
+            Or Sign Up with
+          </Text>
+          <View
+            style={{ backgroundColor: "#0000004D", width: 96, height: 2 }}
+          ></View>
+        </View>
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 32,
+            justifyContent: "center",
+          }}
+        >
+          <TouchableOpacity style={authStyles.signupButtons}>
+            <Image
+              style={{ width: 30, height: 30 }}
+              resizeMode="contain"
+              source={require("../../assets/images/apple.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={authStyles.signupButtons}>
+            <Image
+              style={{ width: 30, height: 30 }}
+              resizeMode="contain"
+              source={require("../../assets/images/google.png")}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => {
+            router.navigate("./login");
+          }}
+        ></TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => {
@@ -211,11 +324,15 @@ const Login = () => {
           }}
         >
           <Text style={authStyles.footer}>
-            Don't have an account?{" "}
+            Want to open an account?{" "}
             <Text
-              style={{ color: Colors.primary, fontFamily: "PoppinsSemiBold" }}
+              style={{
+                color: Colors.primary,
+                fontFamily: "PoppinsSemiBold",
+                textDecorationLine: "underline",
+              }}
             >
-              Sign up
+              Sign Up
             </Text>
           </Text>
         </TouchableOpacity>

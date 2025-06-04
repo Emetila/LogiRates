@@ -6,14 +6,13 @@ const authStyles = StyleSheet.create({
     backgroundColor: Colors.white,
     flex: 1,
     paddingHorizontal: "25%",
-    marginBottom: '20%'
+    marginBottom: "20%",
   },
 
   textBox: {
-    flexDirection: 'column', 
-    alignItems: 'flex-start',
-    gap: 10,
-    marginVertical: '10%'
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginTop: "10%",
   },
   authText: {
     fontFamily: "PoppinsSemiBold",
@@ -22,29 +21,44 @@ const authStyles = StyleSheet.create({
   },
   formContainer: {
     gap: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   formText: {
     fontFamily: "PoppinsMedium",
     fontSize: 16,
     color: Colors.text,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   input: {
-    height: 55,
-    color: Colors.text,
-    paddingLeft: 15,
-    fontFamily: "PoppinsRegular",
+    color: "#3B3C3D66",
+    width: 310,
+    borderStyle: "solid",
+    alignSelf: "stretch",
+    height: 50,
+    backgroundColor: Colors.inputBg,
+    paddingLeft: 50,
+    fontFamily: "PoppinsSemiBold",
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: Colors.inputBg,
+  },
+  input2: {
+    color: "#3B3C3D66",
     width: 310,
-    borderColor: Colors.text,
     borderStyle: "solid",
-    alignSelf: 'stretch'
+    alignSelf: "stretch",
+    height: 50,
+    backgroundColor: Colors.inputBg,
+    paddingLeft: 15,
+    fontFamily: "PoppinsSemiBold",
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Colors.inputBg,
+    position: 'relative'
   },
   secContainer: {
-    marginTop: 40,
+    marginTop: 10,
     gap: 22,
   },
   //   inputbtn: {
@@ -55,7 +69,7 @@ const authStyles = StyleSheet.create({
     color: Colors.text,
     fontFamily: "PoppinsRegular",
     fontSize: 14,
-    marginVertical: 20
+    marginVertical: 20,
   },
   error: {
     color: Colors.error,
@@ -69,36 +83,37 @@ const authStyles = StyleSheet.create({
     borderColor: Colors.primary,
     borderRadius: 4,
     marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   checked: {
     backgroundColor: Colors.primary,
   },
   checkmark: {
     color: Colors.white,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   label: {
     fontSize: 16,
   },
   signupButtons: {
     height: 50,
-    paddingVertical: 8,
-    paddingHorizontal: 66,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row', 
-    borderRadius: 8,
-    borderColor: Colors.primary,
-    borderWidth: 2,
-    borderStyle: 'solid',
+    width: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+    borderColor: '#0000004D',
+    borderWidth: 1,
+    borderStyle: "solid",
     backgroundColor: Colors.white,
-    fontFamily: 'PoppinsRegular',
-    fontSize: 14,
-    fontWeight: '500',
-    gap: 5
-  }
+  },
+  icon: {
+    position: "absolute",
+    top: 10,
+    left: 10
+  },
 });
 
 export default authStyles;
