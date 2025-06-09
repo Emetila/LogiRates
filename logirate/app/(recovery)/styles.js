@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const authStyles = StyleSheet.create({
+const PasStyles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
@@ -31,7 +31,7 @@ const authStyles = StyleSheet.create({
     alignSelf: "stretch",
   },
   input: {
-    color: "#3B3C3D66",
+    color: "#000000",
     width: 310,
     borderStyle: "solid",
     alignSelf: "stretch",
@@ -44,7 +44,7 @@ const authStyles = StyleSheet.create({
     borderColor: Colors.inputBg,
   },
   input2: {
-    color: "#3B3C3D66",
+    color: "#000000",
     width: 310,
     borderStyle: "solid",
     alignSelf: "stretch",
@@ -116,4 +116,4 @@ const authStyles = StyleSheet.create({
   },
 });
 
-export default authStyles;
+export default PasStyles;

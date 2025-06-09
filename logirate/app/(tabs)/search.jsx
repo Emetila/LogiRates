@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const About = () => {
   return (
     <SafeAreaView>
-      <Text>This is the setting page</Text>
+      <Text>This is the search page</Text>
     </SafeAreaView>
   );
 };
