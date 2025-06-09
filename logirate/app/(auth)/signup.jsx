@@ -66,7 +66,7 @@ const signupPage = () => {
           email,
           password,
           returnSecureToken: true,
-        }
+        },
       );
 
       const idToken = res.data.idToken;
@@ -78,14 +78,14 @@ const signupPage = () => {
           idToken,
           displayName: fullName,
           returnSecureToken: true,
-        }
+        },
       );
 
       router.navigate("./login");
     } catch (error) {
       Alert.alert(
         "Signup Error",
-        error.response?.data?.error?.message || "Something went wrong"
+        error.response?.data?.error?.message || "Something went wrong",
       );
     }
 
@@ -94,7 +94,7 @@ const signupPage = () => {
       if (!isChecked) {
         Alert.alert(
           "Terms & Conditions",
-          "You must agree to the terms to continue."
+          "You must agree to the terms to continue.",
         );
         return;
       }

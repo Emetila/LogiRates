@@ -1,12 +1,12 @@
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const About = () => {
+const Home = () => {
   return (
     <SafeAreaView>
-      <Text>This is the setting page</Text>
+      <Text>Home page</Text>
     </SafeAreaView>
   );
 };
 
-export default About;
+export default Home;

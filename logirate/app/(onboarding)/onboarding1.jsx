@@ -26,7 +26,7 @@ const OnboardingOne = () => {
           </Text>
         </View>
 
-        <View style={{marginBottom: '10%'}}>
+        <View style={{ marginBottom: "10%" }}>
           <Button
             text={"Next"}
             onPress={() => {

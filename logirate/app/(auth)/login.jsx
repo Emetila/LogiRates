@@ -6,14 +6,14 @@ import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import { useState } from "react";
 import {
-    Alert,
-    Image,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
@@ -47,7 +47,7 @@ const Login = () => {
     } catch (error) {
       Alert.alert(
         "Login Error",
-        error.response?.data?.error?.message || "Something went wrong"
+        error.response?.data?.error?.message || "Something went wrong",
       );
     }
 
@@ -198,7 +198,7 @@ const Login = () => {
                 )}
               </View>
             </View>
-            
+
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Password</Text>
               <TextInput
