@@ -10,4 +10,3 @@ return (
 };
 
 export default ForgotPassword;
-export default ForgotPassword;
