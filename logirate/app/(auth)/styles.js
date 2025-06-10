@@ -55,7 +55,7 @@ const authStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: Colors.inputBg,
-    position: 'relative'
+    position: "relative",
   },
   secContainer: {
     marginTop: 10,
@@ -104,7 +104,7 @@ const authStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    borderColor: '#0000004D',
+    borderColor: "#0000004D",
     borderWidth: 1,
     borderStyle: "solid",
     backgroundColor: Colors.white,
@@ -112,7 +112,7 @@ const authStyles = StyleSheet.create({
   icon: {
     position: "absolute",
     top: 10,
-    left: 10
+    left: 10,
   },
 });
 

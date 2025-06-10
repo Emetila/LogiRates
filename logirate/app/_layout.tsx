@@ -9,7 +9,7 @@ export default function RootLayout() {
     PoppinsBold: require("../assets/fonts/Poppins-Bold.ttf"),
     PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
     PoppinsMedium: require("../assets/fonts/Poppins-Medium.ttf"),
-    InterBold: require("../assets/fonts/Inter_18pt-Bold.ttf")
+    InterBold: require("../assets/fonts/Inter_18pt-Bold.ttf"),
   });
 
   if (!loaded) {
@@ -18,7 +18,7 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack screenOptions={{headerShown: false}}>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="(onboarding)" />
       <Stack.Screen name="(tabs)" />

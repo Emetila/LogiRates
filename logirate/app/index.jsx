@@ -28,7 +28,7 @@ export default function NotFoundScreen() {
       if (currentIndex < splashScreens.length - 1) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        router.navigate('/onboarding1')
+        router.navigate("/onboarding1");
       }
     }, 1000);
 
@@ -37,7 +37,9 @@ export default function NotFoundScreen() {
   const splash = splashScreens[currentIndex];
   return (
     <SafeAreaView>
-      <View style={[styles.container, {backgroundColor: splash.backgroundColor}]}>
+      <View
+        style={[styles.container, { backgroundColor: splash.backgroundColor }]}
+      >
         <Image source={splash.image} style={styles.image} />
       </View>
     </SafeAreaView>
@@ -51,12 +53,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    alignItems: 'center',
+    alignItems: "center",
     width: 200,
-    resizeMode: 'contain',
-    justifyContent: 'center',
-    marginVertical: 'auto'
-
+    resizeMode: "contain",
+    justifyContent: "center",
+    marginVertical: "auto",
   },
   text: {
     fontSize: 24,

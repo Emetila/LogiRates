@@ -1,93 +1,119 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const recoveryStyles = StyleSheet.create({
+const PasStyles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
-    paddingHorizontal: "10%",
-    paddingTop: 20,
+    paddingHorizontal: "25%",
+    marginBottom: "20%",
   },
 
-  title: {
-    color: Colors.text,
-    fontFamily: "PoppinsMedium",
-    fontSize: 32,
-    fontWeight: "600",
-    letterSpacing: -1.6,
-    paddingVertical: 10,
-    width: 150
+  textBox: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginTop: "10%",
   },
-  text: {
+  authText: {
+    fontFamily: "PoppinsSemiBold",
+    color: Colors.white,
+    fontSize: 22,
+  },
+  formContainer: {
+    gap: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  formText: {
+    fontFamily: "PoppinsMedium",
+    fontSize: 16,
+    color: Colors.text,
+    alignSelf: "stretch",
+  },
+  input: {
+    color: "#000000",
+    width: 310,
+    borderStyle: "solid",
+    alignSelf: "stretch",
+    height: 50,
+    backgroundColor: Colors.inputBg,
+    paddingLeft: 50,
+    fontFamily: "PoppinsSemiBold",
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Colors.inputBg,
+  },
+  input2: {
+    color: "#000000",
+    width: 310,
+    borderStyle: "solid",
+    alignSelf: "stretch",
+    height: 50,
+    backgroundColor: Colors.inputBg,
+    paddingLeft: 15,
+    fontFamily: "PoppinsSemiBold",
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Colors.inputBg,
+    position: "relative",
+  },
+  secContainer: {
+    marginTop: 10,
+    gap: 22,
+  },
+  //   inputbtn: {
+  //     marginVertical: 15
+  //   },
+  footer: {
+    textAlign: "center",
     color: Colors.text,
     fontFamily: "PoppinsRegular",
     fontSize: 14,
-    fontWeight: "500",
-    letterSpacing: -0.28,
-    paddingVertical: 10,
+    marginVertical: 20,
   },
-  methodContainer: {
-    marginBottom: 30,
+  error: {
+    color: Colors.error,
+    marginBottom: 10,
+    fontSize: 13,
   },
-  methodLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 15,
-  },
-  methodOptions: {
-    gap: 10,
-  },
-  methodOption: {
-    flexDirection: "row",
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: Colors.primary,
+    borderRadius: 4,
+    marginRight: 10,
+    justifyContent: "center",
     alignItems: "center",
-    padding: 16,
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
-    borderRadius: 12,
-    backgroundColor: "#fff",
   },
-  methodOptionSelected: {
-    borderColor: "#007bff",
-    backgroundColor: "#f0f8ff",
+  checked: {
+    backgroundColor: Colors.primary,
   },
-  methodIconContainer: {
-    marginRight: 12,
+  checkmark: {
+    color: Colors.white,
+    fontWeight: "bold",
   },
-  methodIcon: {
-    fontSize: 24,
-  },
-  methodTextContainer: {
-    flex: 1,
-  },
-  methodTitle: {
+  label: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 2,
   },
-  methodSubtitle: {
-    fontSize: 14,
-    color: "#666",
+  signupButtons: {
+    height: 50,
+    width: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+    borderColor: "#0000004D",
+    borderWidth: 1,
+    borderStyle: "solid",
+    backgroundColor: Colors.white,
   },
-   radioContainer: {
-    marginLeft: 12,
+  icon: {
+    position: "absolute",
+    top: 10,
+    left: 10,
   },
-  radioButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-  },
-  radioButtonSelected: {
-    borderColor: '#007bff',
-    backgroundColor: '#007bff',
-  },
-  button: {
-    marginTop: 50
-  }
 });
 
-export default recoveryStyles;
+export default PasStyles;
