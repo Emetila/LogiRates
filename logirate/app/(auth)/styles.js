@@ -6,7 +6,7 @@ const authStyles = StyleSheet.create({
     backgroundColor: Colors.white,
     flex: 1,
     paddingHorizontal: "25%",
-    marginBottom: "20%",
+    paddingBottom: "20%",
   },
 
   textBox: {

@@ -1,13 +1,12 @@
-import { Text } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import {Text} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
+const Otp = () => {  
+return (
+    <SafeAreaView>
+      <Text>This is otp verification screen</Text>
+    </SafeAreaView>
+  );
+};
 
-const OtpVerification = () => {
-    return (
-        <SafeAreaView>
-            <Text>Otp verification</Text>
-        </SafeAreaView>
-    )
-}
-
-export default OtpVerification
+export default Otp;

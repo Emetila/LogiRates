@@ -1,13 +1,12 @@
-import { Text } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import {Text} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
+const ForgotPassword = () => {  
+return (
+    <SafeAreaView>
+      <Text>This is forgot ForgotPassword</Text>
+    </SafeAreaView>
+  );
+};
 
-const ForgotPassword = () => {
-    return (
-        <SafeAreaView>
-            <Text>Welcome to forgot password</Text>
-        </SafeAreaView>
-    )
-}
-
-export default ForgotPassword
+export default ForgotPassword;

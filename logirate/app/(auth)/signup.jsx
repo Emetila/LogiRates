@@ -18,10 +18,21 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "./styles";
+import * as AuthSession from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
+const API_BASE_URL = "https://your-api.com/api"; // Replace with your backend URL
+const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 const signupPage = () => {
   const [fullName, setFullName] = useState("");
@@ -33,16 +44,65 @@ const signupPage = () => {
   const [passwordShow, setPasswordShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // const [request, response, promptAsync] = Google.useAuthRequest({
-  //   expoClientId:
-  //     "http://500313097785-qdq6touioobd4i3rsddglusu8masbtfk.apps.googleusercontent.com",
-  //   iosClientId:
-  //     "http://500313097785-5tmjopme3p150in9jedgtp0ip1592ial.apps.googleusercontent.com",
-  //   // androidClientId: "YOUR_ANDROID_CLIENT_ID.apps.googleusercontent.com",
-  //   webClientId:
-  //     "500313097785-i9hkuag0gkb074a57tfhbcuou3ugc87e.apps.googleusercontent.com",
-  // });
+  const clientIds = {
+    web: "500313097785-i9hkuag0gkb074a57tfhbcuou3ugc87e.apps.googleusercontent.com",
+    android:
+      "500313097785-64dlu0d7e4avajegp1ar34pr3ojgj0eq.apps.googleusercontent.com",
+    ios: "500313097785-5tmjopme3p150in9jedgtp0ip1592ial.apps.googleusercontent.com",
+  };
+
+  const [request, response, promptAsync] = AuthSession.useAuthRequest(
+    {
+      clientId: clientIds.web, // Use web client ID for Expo Go
+      scopes: ["openid", "profile", "email"],
+      redirectUri: AuthSession.makeRedirectUri({
+        useProxy: true,
+      }),
+    },
+    {
+      authorizationEndpoint: "https://accounts.google.com/oauth/authorize",
+      tokenEndpoint: "https://oauth2.googleapis.com/token",
+    }
+  );
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      setLoading(true);
+      fetchUserInfo(response.authentication.accessToken);
+    }
+  }, [response]);
+
+  const fetchUserInfo = async (token) => {
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const userInfo = await response.json();
+      setUser(userInfo);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signIn = () => {
+    promptAsync();
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   const handleSignup = async () => {
     // if (!fullName || !email || !password || !confirmpassword) {
@@ -57,6 +117,8 @@ const signupPage = () => {
     //   Alert.alert("Error", "Please accept the Terms & Conditions.");
     //   return;
     // }
+
+    // Google Auth setup
 
     try {
       // Sign up the user
@@ -152,29 +214,6 @@ const signupPage = () => {
     //   Alert.alert("Signup Error", error.message);
     // }
   };
-
-  // const handleGoogleSignup = async () => {
-  //     const result = await promptAsync();
-  //     if (result?.type === "success") {
-  //       const googleIdToken = result.authentication.idToken;
-  //       try {
-  //         const res = await axios.post(
-  //           `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${API_KEY}`,
-  //           {
-  //             postBody: `id_token=${googleIdToken}&providerId=google.com`,
-  //             requestUri: "http://localhost",
-  //             returnSecureToken: true,
-  //           }
-  //         );
-  //         router.navigate('./login')
-  //       } catch (error) {
-  //         Alert.alert(
-  //           "Google Signup Error",
-  //           error.response?.data?.error?.message || "Something went wrong"
-  //         );
-  //       }
-  //     }
-  //   };
 
   return (
     <SafeAreaView style={authStyles.container}>
@@ -401,7 +440,11 @@ const signupPage = () => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity style={authStyles.signupButtons}>
+          <TouchableOpacity
+            style={authStyles.signupButtons}
+            onPress={signIn}
+            disabled={!request}
+          >
             <Image
               style={{ width: 30, height: 30 }}
               resizeMode="contain"
