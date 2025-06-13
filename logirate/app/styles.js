@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 15,
     left: 8,
-    zIndex: 1
+    zIndex: 1,
   },
 
   inputfield: {
@@ -44,6 +44,34 @@ const styles = StyleSheet.create({
     letterSpacing: -0.24,
     paddingLeft: "15%",
     alignSelf: "stretch",
+  },
+
+  text: {
+    fontFamily: "PoppinsBold",
+    color: Colors.text,
+    fontSize: 14,
+    fontWeight: 600,
+    letterSpacing: -0.28,
+  },
+
+  price: {
+    color: "#3B3C3D99",
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 13,
+    fontWeight: 600,
+    letterSpacing: -0.26,
+  },
+
+  box: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 40,
+    backgroundColor: Colors.white,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 15,
+    width: "100%",
   },
 });
 

@@ -1,4 +1,12 @@
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -122,7 +130,7 @@ const Home = () => {
             justifyContent: "center",
             alignItems: "center",
             width: "90%",
-            alignSelf: 'center',
+            alignSelf: "center",
             left: 0,
           }}
         >
@@ -224,7 +232,7 @@ const Home = () => {
           </View>
         </View>
 
-        <View style={{ paddingHorizontal: "8%" }}>
+        <View style={{ paddingHorizontal: "5%", paddingBottom: "8%" }}>
           <Text
             style={{
               color: Colors.text,
@@ -237,22 +245,96 @@ const Home = () => {
           <View
             style={{
               marginHorizontal: "8%",
-              paddingVertical: 15,
-              paddingHorizontal: 10,
-              borderRadius: 15,
-              backgroundColor: Colors.white,
-              // position: "relative",
-              // top: "-6%",
-              // zIndex: 2,
               gap: 20,
               justifyContent: "center",
               alignItems: "center",
-              alignSelf: 'center',
+              alignSelf: "center",
               width: "100%",
               left: 0,
             }}
-          ></View>
+          >
+            <View style={styles.box}>
+              <Image
+                source={require("../../assets/images/routeimg1.png")}
+                resizeMode="cover"
+                style={{ width: 90, height: 90 }}
+              />
+              <View style={{ gap: 5 }}>
+                <Text style={styles.text}>Lagos - Portharcourt</Text>
+                <Text style={styles.text}>6am</Text>
+                <Text style={styles.price}>NGN 27,900</Text>
+              </View>
+            </View>
+
+            <View style={[styles.box, {gap: 0, justifyContent: "space-between"}]}>
+              <Image
+                source={require("../../assets/images/routeimg2.png")}
+                resizeMode="cover"
+                style={{ width: 90, height: 90 }}
+              />
+              <View style={{ gap: 5, alignItems: 'flex-start', width: 150 }}>
+                <Text style={styles.text}>Lagos - Abuja</Text>
+                <Text style={styles.text}>6am</Text>
+                <Text style={styles.price}>NGN 28,900</Text>
+              </View>
+            </View>
+
+            <View style={styles.box}>
+              <Image
+                source={require("../../assets/images/routeimg3.png")}
+                resizeMode="cover"
+                style={{ width: 90, height: 90 }}
+              />
+              <View style={{ gap: 5, alignItems: 'flex-start', width: 150 }}>
+                <Text style={styles.text}>Lagos - Enugu</Text>
+                <Text style={styles.text}>6am</Text>
+                <Text style={styles.price}>NGN 32,900</Text>
+              </View>
+            </View>
+          </View>
         </View>
+
+        {/* <FlatList 
+        renderItem={()=>{
+          return (
+            <View
+            style={{
+              marginHorizontal: "8%",
+              paddingVertical: 15,
+              paddingHorizontal: 5,
+              borderRadius: 15,
+              backgroundColor: Colors.white,
+              gap: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              alignSelf: "center",
+              width: "100%",
+              left: 0,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 40,
+              }}
+            >
+              <Image
+                source={require("../../assets/images/routeimg1.png")}
+                resizeMode="cover"
+                style={{ width: 90, height: 90 }}
+              />
+              <View style={{ gap: 5 }}>
+                <Text style={styles.text}>Lagos - Portharcourt</Text>
+                <Text style={styles.text}>6am</Text>
+                <Text style={styles.price}>NGN 27,900</Text>
+              </View>
+            </View>
+          </View>
+          )
+        }}
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );
