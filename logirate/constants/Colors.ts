@@ -20,6 +20,7 @@ const Colors = {
   buttonText: "#FFF",
   inputBg: "#DADADA4D",
   inputBorder: "#007AFF",
+  white2: "#F2F2F2F2"
 };
 
 export default Colors;

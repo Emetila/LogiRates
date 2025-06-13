@@ -18,6 +18,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "./styles";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -30,14 +31,15 @@ const Login = () => {
   const [passwordShow, setPasswordShow] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
     const url = isLogin
       ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
       : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
     try {
       const res = await axios.post(url, {
-        fullName,
         email,
         password,
         returnSecureToken: true,
@@ -47,7 +49,7 @@ const Login = () => {
     } catch (error) {
       Alert.alert(
         "Login Error",
-        error.response?.data?.error?.message || "Something went wrong",
+        error.response?.data?.error?.message || "Something went wrong"
       );
     }
 
@@ -56,9 +58,22 @@ const Login = () => {
       return;
     }
 
+    // Store user data in AsyncStorage
+    const userData = {
+      idToken: res.data.idToken,
+      refreshToken: res.data.refreshToken,
+      localId: res.data.localId,
+      email: res.data.email,
+      fullName: fullName, // For signup, use the entered name
+      displayName: res.data.displayName || fullName, // Firebase may return displayName
+    };
+
+    await AsyncStorage.setItem("userData", JSON.stringify(userData));
+
     const validate = () => {
       const newErrors = {};
       if (!fullName.trim()) newErrors.fullName = "Name is required";
+      if (!email.trim()) newErrors.email = "Email is required";
       if (!password.trim()) newErrors.password = "Password is required";
 
       setErrors(newErrors);
@@ -75,36 +90,7 @@ const Login = () => {
           },
         ]);
       }
-    };
-
-    // } catch (error) {
-    //   Alert.alert("Signup Error", error.message);
-
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(
-    //     Auth,
-    //     email,
-    //     password
-    //   );
-    //   const user = userCredential.user;
-
-    //   // Update display name in Firebase
-    //   await updateProfile(user, { displayName: fullName });
-
-    //   // Save to AsyncStorage
-    //   await AsyncStorage.setItem(
-    //     "user",
-    //     JSON.stringify({
-    //       uid: user.uid,
-    //       email: user.email,
-    //       username: fullName,
-    //     })
-    //   );
-
-    //   router.navigate("./login");
-    // } catch (error) {
-    //   Alert.alert("Signup Error", error.message);
-    // }
+    }
   };
   return (
     <SafeAreaView style={authStyles.container}>
@@ -215,10 +201,10 @@ const Login = () => {
                 <Text style={authStyles.error}>{errors.password}</Text>
               )}
             </View>
-            <View style={{ position: "absolute", bottom: 30, right: 20 }}>
+            <View style={{ position: "absolute", bottom: 30, right: 30 }}>
               <Pressable onPress={() => setPasswordShow(!passwordShow)}>
                 <Ionicons
-                  name={passwordShow ? "eye-off" : "eye"}
+                  name={passwordShow ? "eye" : "eye-off"}
                   size={24}
                   color="black"
                 />
@@ -248,6 +234,7 @@ const Login = () => {
         </View>
         <TouchableOpacity
           onPress={handleLogin}
+          disabled={loading}
           style={{
             backgroundColor: Colors.primary,
             padding: 16,
@@ -257,7 +244,7 @@ const Login = () => {
           }}
         >
           <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
-            Login
+            {loading ? "Logging in..." : "Login"}
           </Text>
         </TouchableOpacity>
 

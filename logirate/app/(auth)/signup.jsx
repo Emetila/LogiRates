@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Image,
@@ -105,20 +105,6 @@ const signupPage = () => {
   }
 
   const handleSignup = async () => {
-    // if (!fullName || !email || !password || !confirmpassword) {
-    //   Alert.alert("Error", "Please fill in all fields.");
-    //   return;
-    // }
-    // if (password !== confirmpassword) {
-    //   Alert.alert("Error", "Passwords do not match.");
-    //   return;
-    // }
-    // if (!isChecked) {
-    //   Alert.alert("Error", "Please accept the Terms & Conditions.");
-    //   return;
-    // }
-
-    // Google Auth setup
 
     try {
       // Sign up the user
@@ -132,6 +118,20 @@ const signupPage = () => {
       );
 
       const idToken = res.data.idToken;
+
+      // Update display name in Firebase
+      await updateProfile(user, { displayName: fullName });
+
+      // Save to AsyncStorage
+      await AsyncStorage.setItem(
+        "user",
+        JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          username: fullName,
+        })
+      );
+
 
       // Set display name
       await axios.post(
@@ -330,7 +330,7 @@ const signupPage = () => {
                 <Text style={authStyles.error}>{errors.password}</Text>
               )}
             </View>
-            <View style={{ position: "absolute", bottom: 120, right: 20 }}>
+            <View style={{ position: "absolute", bottom: 120, right: 30 }}>
               <Pressable onPress={() => setPasswordShow(!passwordShow)}>
                 <Ionicons
                   name={passwordShow ? "eye" : "eye-off"}
@@ -350,7 +350,7 @@ const signupPage = () => {
                 cursorColor={Colors.primary}
               />
             </View>
-            <View style={{ position: "absolute", bottom: 10, right: 20 }}>
+            <View style={{ position: "absolute", bottom: 10, right: 30 }}>
               <Pressable onPress={() => setPasswordShow(!passwordShow)}>
                 <Ionicons
                   name={passwordShow ? "eye" : "eye-off"}

@@ -31,10 +31,11 @@ const authStyles = StyleSheet.create({
     alignSelf: "stretch",
   },
   input: {
-    color: "#3B3C3D66",
-    width: 310,
+    color: Colors.text,
+    width: 330,
     borderStyle: "solid",
-    alignSelf: "stretch",
+    alignSelf: 'center',
+    // alignSelf: "stretch",
     height: 50,
     backgroundColor: Colors.inputBg,
     paddingLeft: 50,
@@ -44,7 +45,7 @@ const authStyles = StyleSheet.create({
     borderColor: Colors.inputBg,
   },
   input2: {
-    color: "#3B3C3D66",
+    color: Colors.text,
     width: 310,
     borderStyle: "solid",
     alignSelf: "stretch",
