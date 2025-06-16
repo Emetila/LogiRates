@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   Pressable,
@@ -20,26 +21,33 @@ import Colors from "../../constants/Colors";
 import authStyles from "./styles";
 import * as AuthSession from "expo-auth-session";
 
-WebBrowser.maybeCompleteAuthSession();
+// WebBrowser.maybeCompleteAuthSession();
 
-const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
-const API_BASE_URL = "https://your-api.com/api"; // Replace with your backend URL
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+// const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
+// const API_BASE_URL = "https://your-api.com/api"; // Replace with your backend URL
+// const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// const api = axios.create({
+//   baseURL: API_BASE_URL,
+//   timeout: 10000,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
 
 const signupPage = () => {
-  const [fullName, setFullName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    surname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  // const [firstName, setFirstName] = useState("");
+  // const [surname, setSurname] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmpassword, setConfirmPassword] = useState("");
   const [usernameFocused, setUsernameFocused] = useState(false);
   const [passwordShow, setPasswordShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -47,173 +55,111 @@ const signupPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const clientIds = {
-    web: "500313097785-i9hkuag0gkb074a57tfhbcuou3ugc87e.apps.googleusercontent.com",
-    android:
-      "500313097785-64dlu0d7e4avajegp1ar34pr3ojgj0eq.apps.googleusercontent.com",
-    ios: "500313097785-5tmjopme3p150in9jedgtp0ip1592ial.apps.googleusercontent.com",
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: "",
+      }));
+    }
   };
 
-  const [request, response, promptAsync] = AuthSession.useAuthRequest(
-    {
-      clientId: clientIds.web, // Use web client ID for Expo Go
-      scopes: ["openid", "profile", "email"],
-      redirectUri: AuthSession.makeRedirectUri({
-        useProxy: true,
-      }),
-    },
-    {
-      authorizationEndpoint: "https://accounts.google.com/oauth/authorize",
-      tokenEndpoint: "https://oauth2.googleapis.com/token",
-    }
-  );
+  const validateForm = () => {
+    const newErrors = {};
 
-  useEffect(() => {
-    if (response?.type === "success") {
-      setLoading(true);
-      fetchUserInfo(response.authentication.accessToken);
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
     }
-  }, [response]);
 
-  const fetchUserInfo = async (token) => {
+    if (!formData.surname.trim()) {
+      newErrors.surname = "Last name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+
+    // Fixed the validation logic - was comparing confirmPassword to itself
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    if (!isChecked) {
+      newErrors.terms = "You must agree to the terms and conditions";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle signup
+  const handleSignup = async () => {
+    if (!validateForm()) return;
+
+    setLoading(true);
+
     try {
-      const response = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
+      // Replace with your actual API endpoint
+      const response = await axios.post(
+        "https://logirate-api.onrender.com/api-docs/#/default/post_register",
         {
-          headers: { Authorization: `Bearer ${token}` },
+          firstName: formData.firstName,
+          surname: formData.surname,
+          email: formData.email,
+          password: formData.password,
         }
       );
-      const userInfo = await response.json();
-      setUser(userInfo);
+
+      // Handle successful signup
+      Alert.alert(
+        "Success",
+        "Account created successfully! Please check your email for verification.",
+        [
+          {
+            text: "OK",
+            onPress: () => router.navigate("./login"), // Navigate to login page
+          },
+        ]
+      );
     } catch (error) {
-      console.error("Error fetching user info:", error);
+      let errorMessage = "Something went wrong. Please try again.";
+
+      if (error.response) {
+        // Server responded with error status
+        const { status, data } = error.response;
+
+        if (status === 400) {
+          errorMessage = data.message || "Invalid input data";
+        } else if (status === 409) {
+          errorMessage = "Email already exists";
+        } else if (status === 422) {
+          errorMessage = "Please check your input and try again";
+        }
+      } else if (error.request) {
+        // Network error
+        errorMessage = "Network error. Please check your connection.";
+      }
+
+      Alert.alert("Signup Failed", errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const signIn = () => {
-    promptAsync();
-  };
-
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
-  const handleSignup = async () => {
-
-    try {
-      // Sign up the user
-      const res = await axios.post(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
-        {
-          email,
-          password,
-          returnSecureToken: true,
-        },
-      );
-
-      const idToken = res.data.idToken;
-
-      // Update display name in Firebase
-      await updateProfile(user, { displayName: fullName });
-
-      // Save to AsyncStorage
-      await AsyncStorage.setItem(
-        "user",
-        JSON.stringify({
-          uid: user.uid,
-          email: user.email,
-          username: fullName,
-        })
-      );
-
-
-      // Set display name
-      await axios.post(
-        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`,
-        {
-          idToken,
-          displayName: fullName,
-          returnSecureToken: true,
-        },
-      );
-
-      router.navigate("./login");
-    } catch (error) {
-      Alert.alert(
-        "Signup Error",
-        error.response?.data?.error?.message || "Something went wrong",
-      );
-    }
-
-    const validate = () => {
-      const newErrors = {};
-      if (!isChecked) {
-        Alert.alert(
-          "Terms & Conditions",
-          "You must agree to the terms to continue.",
-        );
-        return;
-      }
-      if (!fullName.trim()) newErrors.fullName = "First name is required";
-      if (!surname.trim()) newErrors.surname = "Surname is required";
-      if (!email.trim()) {
-        newErrors.email = "Email is required";
-      } else if (!/\S+@\S+\.\S+/.test(email)) {
-        newErrors.email = "Email is invalid";
-      }
-      if (!password.trim()) newErrors.password = "Password is required";
-
-      setErrors(newErrors);
-
-      return Object.keys(newErrors).length === 0;
-    };
-
-    const handleSignup = () => {
-      if (validate()) {
-        Alert.alert("Success!", "You have signed up successfully.", [
-          {
-            text: "Continue",
-            onPress: () => router.navigate("./login"),
-          },
-        ]);
-      }
-    };
-
-    // } catch (error) {
-    //   Alert.alert("Signup Error", error.message);
-
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(
-    //     Auth,
-    //     email,
-    //     password
-    //   );
-    //   const user = userCredential.user;
-
-    //   // Update display name in Firebase
-    //   await updateProfile(user, { displayName: fullName });
-
-    //   // Save to AsyncStorage
-    //   await AsyncStorage.setItem(
-    //     "user",
-    //     JSON.stringify({
-    //       uid: user.uid,
-    //       email: user.email,
-    //       username: fullName,
-    //     })
-    //   );
-
-    //   router.navigate("./login");
-    // } catch (error) {
-    //   Alert.alert("Signup Error", error.message);
-    // }
-  };
+  
 
   return (
     <SafeAreaView style={authStyles.container}>
@@ -256,14 +202,14 @@ const signupPage = () => {
                 <TextInput
                   label="full name"
                   mode="outlined"
-                  error={!!errors.fullName}
-                  value={fullName}
-                  onChangeText={setFullName}
-                  style={authStyles.input}
+                  // error={!!errors.firstName}
+                  value={formData.firstName}
+                  onChangeText={(value) => handleInputChange("firstName", value)}
+                  style={[authStyles.input, errors.firstName && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                 />
-                {errors.name && (
-                  <Text style={authStyles.error}>{errors.fullName}</Text>
+                {errors.firstName && (
+                  <Text style={authStyles.error}>{errors.firstName}</Text>
                 )}
               </View>
             </View>
@@ -280,12 +226,12 @@ const signupPage = () => {
                   label="full name"
                   mode="outlined"
                   error={!!errors.surname}
-                  value={surname}
-                  onChangeText={setSurname}
-                  style={authStyles.input}
+                  value={formData.surname}
+                  onChangeText={(value) => handleInputChange("surname", value)}
+                  style={[authStyles.input, errors.surname && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                 />
-                {errors.name && (
+                {errors.surname && (
                   <Text style={authStyles.error}>{errors.surname}</Text>
                 )}
               </View>
@@ -302,9 +248,10 @@ const signupPage = () => {
                 <TextInput
                   mode="outlined"
                   label="email"
-                  value={email}
-                  onChangeText={setEmail}
-                  style={authStyles.input}
+                  value={formData.email}
+                  onChangeText={(value) => handleInputChange("email", value)}
+                  autoCorrect={false}
+                  style={[authStyles.input, errors.email && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                   keyboardType="email-address"
                   error={!!errors.email}
@@ -317,9 +264,9 @@ const signupPage = () => {
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Password</Text>
               <TextInput
-                value={password}
-                onChangeText={setPassword}
-                style={authStyles.input2}
+                value={formData.password}
+                onChangeText={(value) => handleInputChange("password", value)}
+                style={[authStyles.input2, errors.password && { borderColor: 'red' }]}
                 secureTextEntry={!passwordShow}
                 cursorColor={Colors.primary}
                 mode="outlined"
@@ -343,9 +290,11 @@ const signupPage = () => {
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Repeat Password</Text>
               <TextInput
-                value={confirmpassword}
-                onChangeText={setConfirmPassword}
-                style={authStyles.input2}
+                value={formData.confirmPassword}
+                onChangeText={(value) =>
+                  handleInputChange("confirmPassword", value)
+                }
+                style={[authStyles.input2, errors.confirmPassword && { borderColor: 'red' }]}
                 secureTextEntry
                 cursorColor={Colors.primary}
               />
@@ -393,6 +342,7 @@ const signupPage = () => {
         </View>
         <TouchableOpacity
           onPress={handleSignup}
+          disabled={loading}
           style={{
             backgroundColor: Colors.primary,
             padding: 16,
@@ -401,9 +351,13 @@ const signupPage = () => {
             marginTop: 20,
           }}
         >
-          <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
-            Sign Up
-          </Text>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
+              Sign Up
+            </Text>
+          )}
         </TouchableOpacity>
         <View
           style={{
@@ -442,8 +396,8 @@ const signupPage = () => {
         >
           <TouchableOpacity
             style={authStyles.signupButtons}
-            onPress={signIn}
-            disabled={!request}
+            // onPress={signIn}
+            // disabled={!request}
           >
             <Image
               style={{ width: 30, height: 30 }}

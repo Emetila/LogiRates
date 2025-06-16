@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
-import { useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   Alert,
   Image,
@@ -18,80 +18,206 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "./styles";
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-WebBrowser.maybeCompleteAuthSession();
+// WebBrowser.maybeCompleteAuthSession();
 
-const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
+// const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
 
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
+
+  // Check if user is already logged in on app start
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  const checkAuthStatus = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem("userToken");
+      const storedUser = await AsyncStorage.getItem("userData");
+
+      if (storedToken && storedUser) {
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error("Error checking auth status:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post(
+        "https://logirate-api.onrender.com/api-docs/#/default/post_login",
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          timeout: 1000,
+        }
+      );
+
+      console.log("✅ Login successful:", response.status);
+      console.log(
+        "📄 Full response data:",
+        JSON.stringify(response.data, null, 2)
+      );
+
+      const { user: userData, token: authToken } = response.data;
+
+      if (!userData || !authToken) {
+        console.error(
+          "❌ Missing user data or token in response:",
+          response.data
+        );
+        throw new Error("Invalid response structure");
+      }
+
+      // Store user data and token
+      await AsyncStorage.setItem("userToken", authToken);
+      await AsyncStorage.setItem("userData", JSON.stringify(userData));
+
+      setUser(userData);
+      setToken(authToken);
+
+      return { success: true };
+    } catch (error) {
+      console.error("🔥 Login error:", {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        url: error.config?.url,
+      });
+      let errorMessage = "Login failed. Please try again.";
+
+      if (error.code === "ECONNABORTED") {
+        errorMessage =
+          "Request timeout. The server might be starting up (Render.com can take 30+ seconds).";
+      } else if (
+        error.message.includes("Network Error") ||
+        error.code === "NETWORK_ERROR"
+      ) {
+        errorMessage = "Network error. Please check your internet connection.";
+      } else if (error.response?.status === 401) {
+        errorMessage = "Invalid email or password.";
+      } else if (error.response?.status === 404) {
+        errorMessage = "Login endpoint not found. Please contact support.";
+      } else if (error.response?.status === 422) {
+        errorMessage = "Invalid input format. Please check your email.";
+      } else if (error.response?.status === 404) {
+        errorMessage = "User not found";
+      }
+
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userData");
+      setUser(null);
+      setToken(null);
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
+  const updateUser = async (updatedData) => {
+    try {
+      const updatedUser = { ...user, ...updatedData };
+      await AsyncStorage.setItem("userData", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        loading,
+        login,
+        logout,
+        updateUser,
+        isAuthenticated: !!user,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [fullName, setFullName] = useState("");
+  // const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+
+  const validate = () => {
+    const newErrors = {};
+    if (!email.trim()) newErrors.email = "Email is required";
+    if (!password.trim()) newErrors.password = "Password is required";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleLogin = async () => {
-    setLoading(true);
-    const url = isLogin
-      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
-      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
-    try {
-      const res = await axios.post(url, {
-        email,
-        password,
-        returnSecureToken: true,
-      });
-      Alert.alert("Success", `Welcome ${res.data.fullName}`);
-      router.push("/home");
-    } catch (error) {
-      Alert.alert(
-        "Login Error",
-        error.response?.data?.error?.message || "Something went wrong"
-      );
-    }
-
-    if (!fullName || !email || !password) {
-      Alert.alert("Error", "Please fill in all fields.");
+    if (!validate()) {
       return;
     }
 
-    // Store user data in AsyncStorage
-    const userData = {
-      idToken: res.data.idToken,
-      refreshToken: res.data.refreshToken,
-      localId: res.data.localId,
-      email: res.data.email,
-      fullName: fullName, // For signup, use the entered name
-      displayName: res.data.displayName || fullName, // Firebase may return displayName
-    };
+    setLoading(true);
 
-    await AsyncStorage.setItem("userData", JSON.stringify(userData));
+    try {
+      const result = await login(email, password);
 
-    const validate = () => {
-      const newErrors = {};
-      if (!fullName.trim()) newErrors.fullName = "Name is required";
-      if (!email.trim()) newErrors.email = "Email is required";
-      if (!password.trim()) newErrors.password = "Password is required";
-
-      setErrors(newErrors);
-
-      return Object.keys(newErrors).length === 0;
-    };
-
-    const handleLogin = () => {
-      if (validate()) {
-        Alert.alert("Success!", "You have signed up successfully.", [
+      if (result.success) {
+        Alert.alert("Success", "Login successful!");
+        [
           {
-            text: "Continue",
+            text: "OK",
             onPress: () => router.push("/home"),
           },
-        ]);
+        ];
+      } else {
+        Alert.alert("Login Failed", result.error);
       }
+    } catch (error) {
+      Alert.alert("Error", "An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <SafeAreaView style={authStyles.container}>
       <ScrollView>
@@ -137,30 +263,6 @@ const Login = () => {
         <View style={authStyles.textBox}>
           <View style={authStyles.secContainer}>
             <View style={authStyles.formContainer}>
-              <Text style={authStyles.formText}>Name</Text>
-              <View style={{ position: "relative" }}>
-                <FontAwesome6
-                  style={authStyles.icon}
-                  name="user-large"
-                  size={24}
-                  color="#00A1BF"
-                />
-                <TextInput
-                  label="full name"
-                  mode="outlined"
-                  error={!!errors.fullName}
-                  value={fullName}
-                  onChangeText={setFullName}
-                  style={authStyles.input}
-                  cursorColor={Colors.primary}
-                />
-                {errors.name && (
-                  <Text style={authStyles.error}>{errors.fullName}</Text>
-                )}
-              </View>
-            </View>
-
-            <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Email/Mobile</Text>
               <View style={{ position: "relative" }}>
                 <MaterialCommunityIcons
@@ -196,6 +298,7 @@ const Login = () => {
                 mode="outlined"
                 label="password"
                 error={!!errors.password}
+                autoCapitalize="none"
               />
               {errors.password && (
                 <Text style={authStyles.error}>{errors.password}</Text>
