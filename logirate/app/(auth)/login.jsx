@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await axios.post(
-        "https://logirate-api.onrender.com/api-docs/#/default/post_login",
+        "https://logirate-api.onrender.com/auth/login",
         {
           email,
           password,

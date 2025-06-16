@@ -114,7 +114,7 @@ const signupPage = () => {
     try {
       // Replace with your actual API endpoint
       const response = await axios.post(
-        "https://logirate-api.onrender.com/api-docs/#/default/post_register",
+        "https://logirate-api.onrender.com/auth/register",
         {
           firstName: formData.firstName,
           surname: formData.surname,
