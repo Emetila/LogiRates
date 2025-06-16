@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 const Explore = () => {
     return (
         <SafeAreaView>
-            <Text>This is explore screen</Text>
+            <Text>Coming up shortly</Text>
         </SafeAreaView>
     )
 }

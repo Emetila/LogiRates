@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     color: "#26323880",
     fontFamily: "PoppinsRegular",
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: "500",
     letterSpacing: -0.24,
     paddingLeft: "15%",
     alignSelf: "stretch",
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsBold",
     color: Colors.text,
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: "600",
     letterSpacing: -0.28,
   },
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     color: "#3B3C3D99",
     fontFamily: "PoppinsSemiBold",
     fontSize: 13,
-    fontWeight: 600,
+    fontWeight: "600",
     letterSpacing: -0.26,
   },
 

@@ -31,9 +31,8 @@ const OnboardingTwo = () => {
           <Button
             text={"Next"}
             onPress={() => {
-              router.navigate("./onboarding3");
-            }}
-          />
+              router.navigate("/onboarding3");
+            }}/>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -48,17 +48,17 @@ const CreatePassword = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-      <Pressable onPress={() => navigation.goBack()} style={{ padding: 10 }}>
+      <Pressable onPress={() => {
+        navigation.goBack();
+        }} style={{ padding: 10 }}>
         <Image
           source={require("../../assets/images/Vector.png")}
           style={{
             width: 20,
             height: 20,
             resizeMode: "contain",
-          }}
-        />
+          }}/>
       </Pressable>
-
       <View style={{ paddingHorizontal: 20 }}>
         <Text
           style={{
@@ -67,8 +67,7 @@ const CreatePassword = () => {
             fontSize: 32,
             fontWeight: "600",
             marginBottom: 10,
-          }}
-        >
+          }}>
           Create{"\n"}Password
         </Text>
 
@@ -90,8 +89,7 @@ const CreatePassword = () => {
             marginBottom: 15,
             fontSize: 16,
             color: "black",
-          }}
-        />
+          }}/>
         <TextInput
           value={confirmPassword}
           onChangeText={setConfirmPassword}
@@ -105,8 +103,7 @@ const CreatePassword = () => {
             height: 50,
             fontSize: 16,
             color: "black",
-          }}
-        />
+          }}/>
 
         <TouchableOpacity onPress={handleSubmit} activeOpacity={0.8}>
           <Text
@@ -121,8 +118,7 @@ const CreatePassword = () => {
               borderRadius: 10,
               backgroundColor: Colors.buttonBg,
               marginTop: 250,
-            }}
-          >
+            }}>
             Continue
           </Text>
         </TouchableOpacity>
@@ -133,16 +129,16 @@ const CreatePassword = () => {
         visible={modalVisible}
         transparent
         animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
+        onRequestClose={() =>{ 
+          setModalVisible(false);
+        }}>
         <View
           style={{
             flex: 1,
             backgroundColor: "rgba(0,0,0,0.4)",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
+          }}>
           <View
             style={{
               backgroundColor: "white",
@@ -150,8 +146,7 @@ const CreatePassword = () => {
               padding: 20,
               alignItems: "center",
               width: "80%",
-            }}
-          >
+            }}>
             <Image
               source={require("../../assets/images/success-filled.png")} // 🟢 your green checkmark icon here
               style={{ width: 60, height: 60, marginBottom: 15 }}
@@ -161,8 +156,7 @@ const CreatePassword = () => {
                 fontSize: 18,
                 fontWeight: "bold",
                 color:'black',
-              }}
-            >
+              }}>
               Password Created {"\n"} Successfully
             </Text>
             <Text
@@ -170,10 +164,8 @@ const CreatePassword = () => {
                 fontSize: 16,
                 textAlign: "center",
                 color: Colors.text,
-              }}
-            >
+              }}>
             </Text>
-
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
@@ -186,31 +178,27 @@ const CreatePassword = () => {
                 style={{
                   fontSize: 16,
                   color: Colors.text,
-                }}
-              >
-                Let's Continue
+                }}>
+                Click the button to Continue
               </Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
-                router.push("/(tabs)/home");
+                router.push("/home");
               }}
               style={{
                 backgroundColor: "#007bff",
                 paddingVertical: 12,
                 paddingHorizontal: 30,
                 borderRadius: 8,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   color: "white",
                   fontSize: 16,
                   fontWeight: "600",
-                }}
-              >
+                }}>
                 Back Home
               </Text>
             </TouchableOpacity>

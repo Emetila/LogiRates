@@ -1,5 +1,4 @@
 import {
-  FlatList,
   Image,
   Pressable,
   ScrollView,
@@ -12,62 +11,18 @@ import styles from "../styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import authStyles from "../(auth)/styles";
 import Colors from "@/constants/Colors";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Button from "@/components/ui/Button";
 
 const Home = () => {
   const [from, setFrom] = useState("");
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   loadUserData();
-  // }, []);
-
-  // const loadUserData = async () => {
-  //   try {
-  //     const userData = await AsyncStorage.getItem("userData");
-  //     if (userData) {
-  //       const parsedUser = JSON.parse(userData);
-  //       setUser(parsedUser);
-  //     } else {
-  //       // If no user data, redirect to login
-  //       router.replace("/login");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error loading user data:", error);
-  //     Alert.alert("Error", "Unable to load user data");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const getDisplayName = () => {
-  //   if (!user) return "User";
-  //   if (user.fullName) return user.fullName;
-  //   if (user.displayName) return user.displayName;
-
-  //   // Extract name from email if no full name
-  //   const emailName = user.email?.split("@")[0];
-  //   return emailName || "User";
-  // };
-
-  // if (loading) {
-  //   return (
-  //     <SafeAreaView style={styles.container2}>
-  //       <View
-  //         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-  //       >
-  //         <Text>Loading...</Text>
-  //       </View>
-  //     </SafeAreaView>
-  //   );
-  // }
+  const [to, setTo] = useState("");
+  const [departure, setDeparture] = useState("");
+  const [passenger, setPassenger] = useState("");
 
   return (
     <SafeAreaView style={styles.container2}>
@@ -81,28 +36,20 @@ const Home = () => {
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
             position: "relative",
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
               alignItems: "flex-start",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <Text style={[authStyles.authText, { fontSize: 32 }]}>
               Hello User
-              {/* <Text
-              style={[authStyles.formText, { color: Colors.white, fontSize: 12, opacity: 0.8 }]}
-            >
-              {user?.email}
-            </Text> */}
             </Text>
             <Pressable
               onPress={() => {
                 router.push("/notification");
-              }}
-            >
+              }}>
               <MaterialCommunityIcons
                 name="bell-circle"
                 size={28}
@@ -132,8 +79,7 @@ const Home = () => {
             width: "90%",
             alignSelf: "center",
             left: 0,
-          }}
-        >
+          }}>
           <View style={{ position: "relative" }}>
             <Text style={styles.inputfield}>From</Text>
             <View style={{ position: "relative" }}>
@@ -151,9 +97,6 @@ const Home = () => {
                 style={styles.input}
                 cursorColor={Colors.primary}
               />
-              {/* {errors.name && (
-            <Text style={authStyles.error}>{errors.fullName}</Text>
-          )} */}
             </View>
           </View>
 
@@ -167,16 +110,13 @@ const Home = () => {
                 color="#00A1BF"
               />
               <TextInput
-                label="from"
+                label="to"
                 mode="outlined"
-                value={from}
-                onChangeText={setFrom}
+                value={to}
+                onChangeText={setTo}
                 style={styles.input}
                 cursorColor={Colors.primary}
               />
-              {/* {errors.name && (
-            <Text style={authStyles.error}>{errors.fullName}</Text>
-          )} */}
             </View>
           </View>
 
@@ -190,16 +130,13 @@ const Home = () => {
                 style={styles.icon}
               />
               <TextInput
-                label="from"
+                label="departure"
                 mode="outlined"
-                value={from}
-                onChangeText={setFrom}
+                value={departure}
+                onChangeText={setDeparture}
                 style={styles.input}
                 cursorColor={Colors.primary}
               />
-              {/* {errors.name && (
-            <Text style={authStyles.error}>{errors.fullName}</Text>
-          )} */}
             </View>
           </View>
 
@@ -213,10 +150,10 @@ const Home = () => {
                 color="#00A1BF"
               />
               <TextInput
-                label="from"
+                label="passenger"
                 mode="outlined"
-                value={from}
-                onChangeText={setFrom}
+                value={passenger}
+                onChangeText={setPassenger}
                 style={styles.input}
                 cursorColor={Colors.primary}
               />
@@ -266,13 +203,15 @@ const Home = () => {
               </View>
             </View>
 
-            <View style={[styles.box, {gap: 0, justifyContent: "space-between"}]}>
+            <View
+              style={[styles.box, { gap: 0, justifyContent: "space-between" }]}
+            >
               <Image
                 source={require("../../assets/images/routeimg2.png")}
                 resizeMode="cover"
                 style={{ width: 90, height: 90 }}
               />
-              <View style={{ gap: 5, alignItems: 'flex-start', width: 150 }}>
+              <View style={{ gap: 5, alignItems: "flex-start", width: 150 }}>
                 <Text style={styles.text}>Lagos - Abuja</Text>
                 <Text style={styles.text}>6am</Text>
                 <Text style={styles.price}>NGN 28,900</Text>
@@ -285,7 +224,7 @@ const Home = () => {
                 resizeMode="cover"
                 style={{ width: 90, height: 90 }}
               />
-              <View style={{ gap: 5, alignItems: 'flex-start', width: 150 }}>
+              <View style={{ gap: 5, alignItems: "flex-start", width: 150 }}>
                 <Text style={styles.text}>Lagos - Enugu</Text>
                 <Text style={styles.text}>6am</Text>
                 <Text style={styles.price}>NGN 32,900</Text>
@@ -293,48 +232,6 @@ const Home = () => {
             </View>
           </View>
         </View>
-
-        {/* <FlatList 
-        renderItem={()=>{
-          return (
-            <View
-            style={{
-              marginHorizontal: "8%",
-              paddingVertical: 15,
-              paddingHorizontal: 5,
-              borderRadius: 15,
-              backgroundColor: Colors.white,
-              gap: 20,
-              justifyContent: "center",
-              alignItems: "center",
-              alignSelf: "center",
-              width: "100%",
-              left: 0,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 40,
-              }}
-            >
-              <Image
-                source={require("../../assets/images/routeimg1.png")}
-                resizeMode="cover"
-                style={{ width: 90, height: 90 }}
-              />
-              <View style={{ gap: 5 }}>
-                <Text style={styles.text}>Lagos - Portharcourt</Text>
-                <Text style={styles.text}>6am</Text>
-                <Text style={styles.price}>NGN 27,900</Text>
-              </View>
-            </View>
-          </View>
-          )
-        }}
-        /> */}
       </ScrollView>
     </SafeAreaView>
   );

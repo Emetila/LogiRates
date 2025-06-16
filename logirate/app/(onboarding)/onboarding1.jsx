@@ -30,7 +30,7 @@ const OnboardingOne = () => {
           <Button
             text={"Next"}
             onPress={() => {
-              router.navigate("./onboarding2");
+              router.navigate("/onboarding2");
             }}
           />
         </View>

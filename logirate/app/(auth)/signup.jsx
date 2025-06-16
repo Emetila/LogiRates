@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -19,7 +19,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "./styles";
-import * as AuthSession from "expo-auth-session";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // WebBrowser.maybeCompleteAuthSession();
 
@@ -175,7 +175,7 @@ const signupPage = () => {
               letterSpacing: -1.6,
             }}
           >
-            Hello there!
+            Hello Dear!
           </Text>
           <Text
             style={{
@@ -257,7 +257,7 @@ const signupPage = () => {
                   error={!!errors.email}
                 />
                 {errors.email && (
-                  <Text style={styles.error}>{errors.email}</Text>
+                  <Text style={authStyles.error}>{errors.email}</Text>
                 )}
               </View>
             </View>
@@ -278,7 +278,11 @@ const signupPage = () => {
               )}
             </View>
             <View style={{ position: "absolute", bottom: 120, right: 30 }}>
-              <Pressable onPress={() => setPasswordShow(!passwordShow)}>
+              <Pressable
+                onPress={() => {
+                  setPasswordShow(!passwordShow);
+                }}
+              >
                 <Ionicons
                   name={passwordShow ? "eye" : "eye-off"}
                   size={24}
@@ -300,9 +304,13 @@ const signupPage = () => {
               />
             </View>
             <View style={{ position: "absolute", bottom: 10, right: 30 }}>
-              <Pressable onPress={() => setPasswordShow(!passwordShow)}>
+              <Pressable
+                onPress={() => {
+                  setShowConfirmPassword(!showConfirmPassword);
+                }}
+              >
                 <Ionicons
-                  name={passwordShow ? "eye" : "eye-off"}
+                  name={showConfirmPassword ? "eye" : "eye-off"}
                   size={24}
                   color="#0F141A66"
                 />
@@ -318,7 +326,9 @@ const signupPage = () => {
           >
             <TouchableOpacity
               style={{ flexDirection: "row", alignItems: "center", margin: 10 }}
-              onPress={() => setIsChecked(!isChecked)}
+              onPress={() => {
+                setIsChecked(!isChecked);
+              }}
             >
               <View
                 style={[authStyles.checkbox, isChecked && authStyles.checked]}
@@ -413,10 +423,9 @@ const signupPage = () => {
             />
           </TouchableOpacity>
         </View>
-
         <TouchableOpacity
           onPress={() => {
-            router.navigate("./login");
+            router.navigate("/login");
           }}
         >
           <Text style={authStyles.footer}>
@@ -437,4 +446,4 @@ const signupPage = () => {
   );
 };
 
-export default signupPage;
+export default SignupPage;

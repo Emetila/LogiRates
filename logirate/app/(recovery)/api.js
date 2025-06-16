@@ -1,5 +1,5 @@
-const BASE_URL = 'http://192.168.19.90:3000/api'; 
-import axios from "axios";
+import axios from "axios"; 
+const BASE_URL = 'http://192.168.19.90:3000/api';
 
 export const requestOtp = async (email) => {
   try {

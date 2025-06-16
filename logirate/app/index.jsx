@@ -32,7 +32,9 @@ export default function NotFoundScreen() {
       }
     }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    } 
   }, [currentIndex]);
   const splash = splashScreens[currentIndex];
   return (

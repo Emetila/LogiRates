@@ -1,4 +1,3 @@
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import axios from "axios";
@@ -175,8 +174,8 @@ const Login = () => {
   // const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
-  const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
@@ -231,18 +230,13 @@ const Login = () => {
             resizeMode: "contain",
           }}
         />
-        <View
-          style={{
-            flexDirection: "column",
-            alignItems: "flex-start",
-          }}
-        >
+        <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
           <Text
             style={{
               color: Colors.text,
               fontFamily: "PoppinsMedium",
               fontSize: 32,
-              fontWeight: 600,
+              fontWeight: "600",
               letterSpacing: -1.6,
             }}
           >
@@ -260,6 +254,7 @@ const Login = () => {
             Let&apos;s get you ready for another trip!
           </Text>
         </View>
+
         <View style={authStyles.textBox}>
           <View style={authStyles.secContainer}>
             <View style={authStyles.formContainer}>
@@ -282,11 +277,12 @@ const Login = () => {
                   error={!!errors.email}
                 />
                 {errors.email && (
-                  <Text style={styles.error}>{errors.email}</Text>
+                  <Text style={authStyles.error}>{errors.email}</Text>
                 )}
               </View>
             </View>
 
+            {/* Password */}
             <View style={authStyles.formContainer}>
               <Text style={authStyles.formText}>Password</Text>
               <TextInput
@@ -304,8 +300,12 @@ const Login = () => {
                 <Text style={authStyles.error}>{errors.password}</Text>
               )}
             </View>
+
+            {/* Toggle password visibility */}
             <View style={{ position: "absolute", bottom: 30, right: 30 }}>
-              <Pressable onPress={() => setPasswordShow(!passwordShow)}>
+              <Pressable onPress={() => {
+                  setPasswordShow(!passwordShow);
+              }}>
                 <Ionicons
                   name={passwordShow ? "eye" : "eye-off"}
                   size={24}
@@ -313,6 +313,8 @@ const Login = () => {
                 />
               </Pressable>
             </View>
+
+            {/* Forgot password */}
             <TouchableOpacity
               style={{ marginTop: -20 }}
               onPress={() => {
@@ -335,6 +337,8 @@ const Login = () => {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Login button */}
         <TouchableOpacity
           onPress={handleLogin}
           disabled={loading}
@@ -351,6 +355,7 @@ const Login = () => {
           </Text>
         </TouchableOpacity>
 
+        {/* Divider */}
         <View
           style={{
             flexDirection: "row",
@@ -378,6 +383,8 @@ const Login = () => {
             style={{ backgroundColor: "#0000004D", width: 96, height: 2 }}
           ></View>
         </View>
+
+        {/* Social login buttons */}
         <View
           style={{
             alignItems: "center",
@@ -402,15 +409,10 @@ const Login = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Footer */}
         <TouchableOpacity
           onPress={() => {
-            router.navigate("./login");
-          }}
-        ></TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            router.navigate("./signup");
+            router.navigate("/signup");
           }}
         >
           <Text style={authStyles.footer}>
