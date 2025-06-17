@@ -1,12 +1,9 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import axios from "axios";
 import { router } from "expo-router";
-import * as WebBrowser from "expo-web-browser";
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Image,
   Pressable,
@@ -21,21 +18,7 @@ import Colors from "../../constants/Colors";
 import authStyles from "./styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// WebBrowser.maybeCompleteAuthSession();
-
-// const API_KEY = "AIzaSyDD2QNOdSKMZXb4skZkziI3PEeC77ay76g";
-// const API_BASE_URL = "https://your-api.com/api"; // Replace with your backend URL
-// const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
-
-// const api = axios.create({
-//   baseURL: API_BASE_URL,
-//   timeout: 10000,
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
-const signupPage = () => {
+const SignupPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     surname: "",
@@ -43,24 +26,19 @@ const signupPage = () => {
     password: "",
     confirmPassword: "",
   });
-  // const [firstName, setFirstName] = useState("");
-  // const [surname, setSurname] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmpassword, setConfirmPassword] = useState("");
-  const [usernameFocused, setUsernameFocused] = useState(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordShow, setPasswordShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [errors, setErrors] = useState({});
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
+  // ✅ Input Handler
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
-    // Clear error when user starts typing
+
     if (errors[field]) {
       setErrors((prev) => ({
         ...prev,
@@ -69,97 +47,68 @@ const signupPage = () => {
     }
   };
 
+  // ✅ Form Validation
   const validateForm = () => {
     const newErrors = {};
+    const { firstName, surname, email, password, confirmPassword } = formData;
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required";
-    }
+    if (!firstName.trim()) newErrors.firstName = "First name is required";
+    if (!surname.trim()) newErrors.surname = "Last name is required";
+    if (!email.trim()) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Email is invalid";
 
-    if (!formData.surname.trim()) {
-      newErrors.surname = "Last name is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
+    if (!password) newErrors.password = "Password is required";
+    else if (password.length < 8)
       newErrors.password = "Password must be at least 8 characters";
-    }
 
-    // Fixed the validation logic - was comparing confirmPassword to itself
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-    }
 
-    if (!isChecked) {
+    if (!isChecked)
       newErrors.terms = "You must agree to the terms and conditions";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle signup
+  // ✅ Signup Handler
   const handleSignup = async () => {
     if (!validateForm()) return;
 
-    setLoading(true);
+    const { email, password } = formData;
 
     try {
-      // Replace with your actual API endpoint
-      const response = await axios.post(
-        "https://logirate-api.onrender.com/auth/register",
-        {
-          firstName: formData.firstName,
-          surname: formData.surname,
-          email: formData.email,
-          password: formData.password,
-        }
+      const existingUsers = await AsyncStorage.getItem("users");
+      const parsedUsers = existingUsers ? JSON.parse(existingUsers) : [];
+
+      const isEmailTaken = parsedUsers.some(
+        (user) =>
+          user.email.toLowerCase().trim() === email.toLowerCase().trim()
       );
 
-      // Handle successful signup
-      Alert.alert(
-        "Success",
-        "Account created successfully! Please check your email for verification.",
-        [
-          {
-            text: "OK",
-            onPress: () => router.navigate("./login"), // Navigate to login page
-          },
-        ]
-      );
-    } catch (error) {
-      let errorMessage = "Something went wrong. Please try again.";
-
-      if (error.response) {
-        // Server responded with error status
-        const { status, data } = error.response;
-
-        if (status === 400) {
-          errorMessage = data.message || "Invalid input data";
-        } else if (status === 409) {
-          errorMessage = "Email already exists";
-        } else if (status === 422) {
-          errorMessage = "Please check your input and try again";
-        }
-      } else if (error.request) {
-        // Network error
-        errorMessage = "Network error. Please check your connection.";
+      if (isEmailTaken) {
+        Alert.alert("Signup Failed", "Email already exists.");
+        return;
       }
 
-      Alert.alert("Signup Failed", errorMessage);
-    } finally {
-      setLoading(false);
+      const newUser = {
+        email: email.trim(),
+        password: password,
+      };
+
+      parsedUsers.push(newUser);
+      await AsyncStorage.setItem("users", JSON.stringify(parsedUsers));
+
+      Alert.alert("Signup Successful!", "You can now log in.", [
+        { text: "OK", onPress: () => router.push("/login") },
+      ]);
+    } catch (err) {
+      console.error("Signup error:", err);
+      Alert.alert("Signup failed. Please try again.");
     }
   };
 
-  
+
 
   return (
     <SafeAreaView style={authStyles.container}>
@@ -204,7 +153,9 @@ const signupPage = () => {
                   mode="outlined"
                   // error={!!errors.firstName}
                   value={formData.firstName}
-                  onChangeText={(value) => handleInputChange("firstName", value)}
+                  onChangeText={(value) => {
+                    handleInputChange("firstName", value);
+                  }}
                   style={[authStyles.input, errors.firstName && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                 />
@@ -227,7 +178,9 @@ const signupPage = () => {
                   mode="outlined"
                   error={!!errors.surname}
                   value={formData.surname}
-                  onChangeText={(value) => handleInputChange("surname", value)}
+                  onChangeText={(value) => {
+                    handleInputChange("surname", value);
+                  }}
                   style={[authStyles.input, errors.surname && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                 />
@@ -249,7 +202,9 @@ const signupPage = () => {
                   mode="outlined"
                   label="email"
                   value={formData.email}
-                  onChangeText={(value) => handleInputChange("email", value)}
+                  onChangeText={(value) => {
+                    handleInputChange("email", value);
+                  }}
                   autoCorrect={false}
                   style={[authStyles.input, errors.email && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
@@ -265,7 +220,9 @@ const signupPage = () => {
               <Text style={authStyles.formText}>Password</Text>
               <TextInput
                 value={formData.password}
-                onChangeText={(value) => handleInputChange("password", value)}
+                onChangeText={(value) => {
+                    handleInputChange("password", value);
+                }}
                 style={[authStyles.input2, errors.password && { borderColor: 'red' }]}
                 secureTextEntry={!passwordShow}
                 cursorColor={Colors.primary}
@@ -295,9 +252,9 @@ const signupPage = () => {
               <Text style={authStyles.formText}>Repeat Password</Text>
               <TextInput
                 value={formData.confirmPassword}
-                onChangeText={(value) =>
-                  handleInputChange("confirmPassword", value)
-                }
+                onChangeText={(value) => {
+                  handleInputChange("confirmPassword", value);
+                }}
                 style={[authStyles.input2, errors.confirmPassword && { borderColor: 'red' }]}
                 secureTextEntry
                 cursorColor={Colors.primary}
@@ -352,7 +309,6 @@ const signupPage = () => {
         </View>
         <TouchableOpacity
           onPress={handleSignup}
-          disabled={loading}
           style={{
             backgroundColor: Colors.primary,
             padding: 16,
@@ -361,13 +317,9 @@ const signupPage = () => {
             marginTop: 20,
           }}
         >
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
             <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
               Sign Up
             </Text>
-          )}
         </TouchableOpacity>
         <View
           style={{
@@ -406,8 +358,6 @@ const signupPage = () => {
         >
           <TouchableOpacity
             style={authStyles.signupButtons}
-            // onPress={signIn}
-            // disabled={!request}
           >
             <Image
               style={{ width: 30, height: 30 }}

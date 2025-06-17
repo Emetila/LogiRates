@@ -61,9 +61,6 @@ const authStyles = StyleSheet.create({
     marginTop: 10,
     gap: 22,
   },
-  //   inputbtn: {
-  //     marginVertical: 15
-  //   },
   footer: {
     textAlign: "center",
     color: Colors.text,
