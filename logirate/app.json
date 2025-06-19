@@ -43,6 +43,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f8862cd5-2706-49e0-ae4d-36b19438953f"
+      }
+    },
+    "owner": "logirate"
   }
 }
