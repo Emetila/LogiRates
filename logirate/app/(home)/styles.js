@@ -127,6 +127,13 @@ const home = StyleSheet.create({
     alignSelf: "center",
     left: 0,
   },
+  itemText: {
+    color: Colors.text,
+    fontFamily: 'PoppinsMedium',
+    fontSize: 14,
+    fontWeight: 600,
+    letterSpacing: -0.32
+  }
 });
 
 export default home;
