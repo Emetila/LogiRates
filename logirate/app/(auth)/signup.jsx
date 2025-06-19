@@ -17,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
 import authStyles from "../(home)/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import authStyle from "./style";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -156,7 +157,7 @@ const SignupPage = () => {
                   onChangeText={(value) => {
                     handleInputChange("firstName", value);
                   }}
-                  style={[authStyles.input, errors.firstName && { borderColor: 'red' }]}
+                  style={[authStyle.input2, errors.firstName && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                 />
                 {errors.firstName && (
@@ -181,7 +182,7 @@ const SignupPage = () => {
                   onChangeText={(value) => {
                     handleInputChange("surname", value);
                   }}
-                  style={[authStyles.input, errors.surname && { borderColor: 'red' }]}
+                  style={[authStyle.input2, errors.surname && { borderColor: 'red' }]}
                   cursorColor={Colors.primary}
                 />
                 {errors.surname && (
@@ -223,7 +224,7 @@ const SignupPage = () => {
                 onChangeText={(value) => {
                     handleInputChange("password", value);
                 }}
-                style={[authStyles.input2, errors.password && { borderColor: 'red' }]}
+                style={[authStyle.input2, errors.password && { borderColor: 'red' }]}
                 secureTextEntry={!passwordShow}
                 cursorColor={Colors.primary}
                 mode="outlined"
@@ -255,7 +256,7 @@ const SignupPage = () => {
                 onChangeText={(value) => {
                   handleInputChange("confirmPassword", value);
                 }}
-                style={[authStyles.input2, errors.confirmPassword && { borderColor: 'red' }]}
+                style={[authStyle.input2, errors.confirmPassword && { borderColor: 'red' }]}
                 secureTextEntry
                 cursorColor={Colors.primary}
               />
