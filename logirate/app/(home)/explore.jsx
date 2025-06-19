@@ -23,6 +23,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const Explore = ({ route, navigation }) => {
+  const router = useRouter();
   const params = useLocalSearchParams();
   const { from, to, departureDate, passengers } = params;
   const handleCompanyClick = (company) => {
@@ -138,7 +139,7 @@ const Explore = ({ route, navigation }) => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={{ paddingHorizontal: 20, gap: 50 }}
-            onPress={() => router.navigate("./details", { vehicle: item })}
+            onPress={() => handleCompanyClick(item)}
           >
             <View
               style={{

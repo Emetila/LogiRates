@@ -128,7 +128,7 @@ const Login = () => {
               />
             </View>
 
-            <View style={{ position: "absolute", bottom: 30, right: 30 }}>
+            <View style={{ position: "absolute", bottom: 35, right: 30 }}>
               <Pressable
                 onPress={() => {
                   setPasswordShow(!passwordShow);

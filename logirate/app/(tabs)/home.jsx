@@ -93,25 +93,25 @@ const Home = () => {
     }));
   };
 
-  const handleExplore = () => {
-    if (from && to && departure && passenger) {
-      const filteredVehicles = transportCompanies.filter(
-        (v) =>
-          v.route?.from?.toLowerCase() === from.toLowerCase() &&
-          v.route?.to?.toLowerCase() === to.toLowerCase()
-      );
+  // const handleExplore = () => {
+  //   if (from && to && departure && passenger) {
+  //     const filteredVehicles = transportCompanies.filter(
+  //       (v) =>
+  //         v.route?.from?.toLowerCase() === from.toLowerCase() &&
+  //         v.route?.to?.toLowerCase() === to.toLowerCase()
+  //     );
 
-      router.push("/explore", {
-        from,
-        to,
-        departure,
-        passenger,
-        vehicles: filteredVehicles,
-      });
-    } else {
-      alert("Please fill all fields.");
-    }
-  };
+  //     router.push("/explore", {
+  //       from,
+  //       to,
+  //       departure,
+  //       passenger,
+  //       vehicles: filteredVehicles,
+  //     });
+  //   } else {
+  //     alert("Please fill all fields.");
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container2}>

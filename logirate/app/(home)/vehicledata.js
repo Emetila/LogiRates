@@ -5,32 +5,65 @@ const transportCompanies = [
     destination: "Lagos - Portharcourt",
     maxPassengers: 45,
     passengers: 2,
-    time: '7am',
+    time: "7am",
     price: "NGN 47,500",
     availability: "Available",
     availableSeats: 12,
-    location1: 'Rumuola Park',
-    location2: 'Lagos Station',
-    from1: 'Portharcourt',
-    from2: 'Lagos',
-    date: '13/05/2025',
-    vehicle: '18 Seater Bus',
-    phone: '08055091820',
+    location1: "Rumuola Park",
+    location2: "Lagos Station",
+    from1: "Portharcourt",
+    from2: "Lagos",
+    date: "13/05/2025",
+    vehicle: "18 Seater Bus",
+    phone: "08055091820",
     terminal1: {
-      name: 'Rumuola Terminal',
-      address: 'No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt',
-      phone: '08055091820',
+      name: "Rumuola Terminal",
+      address:
+        "No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt",
+      phone: "08055091820",
     },
     terminal2: {
-      name: 'Oilmill Terminal',
-      address: 'No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH',
-      phone: '0913 831 5658',
+      name: "Oilmill Terminal",
+      address:
+        "No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH",
+      phone: "0913 831 5658",
     },
     terminal3: {
-      name: 'Rumuodumanya Terminal',
-      address: '1 Airport Road, Rumuodumaya, PH',
-      phone: '07055792624',
-    }
+      name: "Rumuodumanya Terminal",
+      address: "1 Airport Road, Rumuodumaya, PH",
+      phone: "07055792624",
+    },
+    directionTerminal1: {
+      name: "Ojota Terminal",
+      address: "Ojota Total, beside Biode park towards Ketu, Lagos.",
+    },
+    directionTerminal2: {
+      name: "Jibowu Terminal",
+      address: "19 Ikorodu Road, Jibowu, Lagos.",
+    },
+    directionTerminal3: {
+      name: "Demorose Terminal",
+      address: "No 106 Old Ojo Road, by Church Bus Stop, Agboju.",
+    },
+    directionTerminal4: {
+      name: "Mazamaza Terminal",
+      address: "No 23 Badagry Expressway, Maza-maza first gate",
+    },
+    directionTerminal5: {
+      name: "Ojuelegba Terminal",
+      address:
+        "9-10 Western Avenue, Ojuelegba Roundabout, Opposite Abalti Barracks, Lagos",
+    },
+    directionTerminal6: {
+      name: "Ajah Terminal",
+      address:
+        "KM 23 Lekki-Epe Expressway, Ajah, By Graceland Estate, Opp. LG Showroom.",
+    },
+    directionTerminal7: {
+      name: "Sango Ota Terminal",
+      address:
+        "No 54 Idiroko Road, Beside WEMA Bank, Opp. MTN Office, Ogun State.",
+    },
   },
   {
     id: 2,
@@ -39,31 +72,64 @@ const transportCompanies = [
     maxPassengers: 8,
     passengers: 2,
     price: "NGN 60,000",
-    time: '6:30am',
+    time: "6:30am",
     availability: "Available",
     availableSeats: 12,
-    location1: 'Rumuola Park',
-    location2: 'Lagos Station',
-    from1: 'Portharcourt',
-    from2: 'Lagos',
-    date: '13/05/2025',
-    vehicle: '18 Seater Bus',
-    phone: '08055091820',
+    location1: "Rumuola Park",
+    location2: "Lagos Station",
+    from1: "Portharcourt",
+    from2: "Lagos",
+    date: "13/05/2025",
+    vehicle: "18 Seater Bus",
+    phone: "08055091820",
     terminal1: {
-      name: 'Rumuola Terminal',
-      address: 'No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt',
-      phone: '08055091820',
+      name: "Rumuola Terminal",
+      address:
+        "No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt",
+      phone: "08055091820",
     },
     terminal2: {
-      name: 'Oilmill Terminal',
-      address: 'No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH',
-      phone: '0913 831 5658',
+      name: "Oilmill Terminal",
+      address:
+        "No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH",
+      phone: "0913 831 5658",
     },
     terminal3: {
-      name: 'Rumuodumanya Terminal',
-      address: '1 Airport Road, Rumuodumaya, PH',
-      phone: '07055792624',
-    }
+      name: "Rumuodumanya Terminal",
+      address: "1 Airport Road, Rumuodumaya, PH",
+      phone: "07055792624",
+    },
+    directionTerminal1: {
+      name: "Ojota Terminal",
+      address: "Ojota Total, beside Biode park towards Ketu, Lagos.",
+    },
+    directionTerminal2: {
+      name: "Jibowu Terminal",
+      address: "19 Ikorodu Road, Jibowu, Lagos.",
+    },
+    directionTerminal3: {
+      name: "Demorose Terminal",
+      address: "No 106 Old Ojo Road, by Church Bus Stop, Agboju.",
+    },
+    directionTerminal4: {
+      name: "Mazamaza Terminal",
+      address: "No 23 Badagry Expressway, Maza-maza first gate",
+    },
+    directionTerminal5: {
+      name: "Ojuelegba Terminal",
+      address:
+        "9-10 Western Avenue, Ojuelegba Roundabout, Opposite Abalti Barracks, Lagos",
+    },
+    directionTerminal6: {
+      name: "Ajah Terminal",
+      address:
+        "KM 23 Lekki-Epe Expressway, Ajah, By Graceland Estate, Opp. LG Showroom.",
+    },
+    directionTerminal7: {
+      name: "Sango Ota Terminal",
+      address:
+        "No 54 Idiroko Road, Beside WEMA Bank, Opp. MTN Office, Ogun State.",
+    },
   },
   {
     id: 3,
@@ -72,31 +138,64 @@ const transportCompanies = [
     maxPassengers: 35,
     passengers: 2,
     price: "NGN 57,900",
-    time: '6:30am',
+    time: "6:30am",
     availability: "Available",
     availableSeats: 12,
-    location1: 'Rumuola Park',
-    location2: 'Lagos Station',
-    from1: 'Portharcourt',
-    from2: 'Lagos',
-    date: '13/05/2025',
-    vehicle: '18 Seater Bus',
-    phone: '08055091820',
+    location1: "Rumuola Park",
+    location2: "Lagos Station",
+    from1: "Portharcourt",
+    from2: "Lagos",
+    date: "13/05/2025",
+    vehicle: "18 Seater Bus",
+    phone: "08055091820",
     terminal1: {
-      name: 'Rumuola Terminal',
-      address: 'No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt',
-      phone: '08055091820',
+      name: "Rumuola Terminal",
+      address:
+        "No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt",
+      phone: "08055091820",
     },
     terminal2: {
-      name: 'Oilmill Terminal',
-      address: 'No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH',
-      phone: '0913 831 5658',
+      name: "Oilmill Terminal",
+      address:
+        "No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH",
+      phone: "0913 831 5658",
     },
     terminal3: {
-      name: 'Rumuodumanya Terminal',
-      address: '1 Airport Road, Rumuodumaya, PH',
-      phone: '07055792624',
-    }
+      name: "Rumuodumanya Terminal",
+      address: "1 Airport Road, Rumuodumaya, PH",
+      phone: "07055792624",
+    },
+    directionTerminal1: {
+      name: "Ojota Terminal",
+      address: "Ojota Total, beside Biode park towards Ketu, Lagos.",
+    },
+    directionTerminal2: {
+      name: "Jibowu Terminal",
+      address: "19 Ikorodu Road, Jibowu, Lagos.",
+    },
+    directionTerminal3: {
+      name: "Demorose Terminal",
+      address: "No 106 Old Ojo Road, by Church Bus Stop, Agboju.",
+    },
+    directionTerminal4: {
+      name: "Mazamaza Terminal",
+      address: "No 23 Badagry Expressway, Maza-maza first gate",
+    },
+    directionTerminal5: {
+      name: "Ojuelegba Terminal",
+      address:
+        "9-10 Western Avenue, Ojuelegba Roundabout, Opposite Abalti Barracks, Lagos",
+    },
+    directionTerminal6: {
+      name: "Ajah Terminal",
+      address:
+        "KM 23 Lekki-Epe Expressway, Ajah, By Graceland Estate, Opp. LG Showroom.",
+    },
+    directionTerminal7: {
+      name: "Sango Ota Terminal",
+      address:
+        "No 54 Idiroko Road, Beside WEMA Bank, Opp. MTN Office, Ogun State.",
+    },
   },
   {
     id: 4,
@@ -105,31 +204,64 @@ const transportCompanies = [
     maxPassengers: 4,
     passengers: 2,
     price: "NGN 57,900",
-    time: '7am',
+    time: "7am",
     availability: "Available",
     availableSeats: 12,
-    location1: 'Rumuola Park',
-    location2: 'Lagos Station',
-    from1: 'Portharcourt',
-    from2: 'Lagos',
-    date: '13/05/2025',
-    vehicle: '18 Seater Bus',
-    phone: '08055091820',
+    location1: "Rumuola Park",
+    location2: "Lagos Station",
+    from1: "Portharcourt",
+    from2: "Lagos",
+    date: "13/05/2025",
+    vehicle: "18 Seater Bus",
+    phone: "08055091820",
     terminal1: {
-      name: 'Rumuola Terminal',
-      address: 'No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt',
-      phone: '08055091820',
+      name: "Rumuola Terminal",
+      address:
+        "No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt",
+      phone: "08055091820",
     },
     terminal2: {
-      name: 'Oilmill Terminal',
-      address: 'No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH',
-      phone: '0913 831 5658',
+      name: "Oilmill Terminal",
+      address:
+        "No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH",
+      phone: "0913 831 5658",
     },
     terminal3: {
-      name: 'Rumuodumanya Terminal',
-      address: '1 Airport Road, Rumuodumaya, PH',
-      phone: '07055792624',
-    }
+      name: "Rumuodumanya Terminal",
+      address: "1 Airport Road, Rumuodumaya, PH",
+      phone: "07055792624",
+    },
+    directionTerminal1: {
+      name: "Ojota Terminal",
+      address: "Ojota Total, beside Biode park towards Ketu, Lagos.",
+    },
+    directionTerminal2: {
+      name: "Jibowu Terminal",
+      address: "19 Ikorodu Road, Jibowu, Lagos.",
+    },
+    directionTerminal3: {
+      name: "Demorose Terminal",
+      address: "No 106 Old Ojo Road, by Church Bus Stop, Agboju.",
+    },
+    directionTerminal4: {
+      name: "Mazamaza Terminal",
+      address: "No 23 Badagry Expressway, Maza-maza first gate",
+    },
+    directionTerminal5: {
+      name: "Ojuelegba Terminal",
+      address:
+        "9-10 Western Avenue, Ojuelegba Roundabout, Opposite Abalti Barracks, Lagos",
+    },
+    directionTerminal6: {
+      name: "Ajah Terminal",
+      address:
+        "KM 23 Lekki-Epe Expressway, Ajah, By Graceland Estate, Opp. LG Showroom.",
+    },
+    directionTerminal7: {
+      name: "Sango Ota Terminal",
+      address:
+        "No 54 Idiroko Road, Beside WEMA Bank, Opp. MTN Office, Ogun State.",
+    },
   },
   {
     id: 5,
@@ -138,31 +270,64 @@ const transportCompanies = [
     maxPassengers: 4,
     passengers: 2,
     price: "NGN 57,900",
-    time: '7am',
+    time: "7am",
     availability: "Available",
     availableSeats: 12,
-    location1: 'Rumuola Park',
-    location2: 'Lagos Station',
-    from1: 'Portharcourt',
-    from2: 'Lagos',
-    date: '13/05/2025',
-    vehicle: '18 Seater Bus',
-    phone: '08055091820',
+    location1: "Rumuola Park",
+    location2: "Lagos Station",
+    from1: "Portharcourt",
+    from2: "Lagos",
+    date: "13/05/2025",
+    vehicle: "18 Seater Bus",
+    phone: "08055091820",
     terminal1: {
-      name: 'Rumuola Terminal',
-      address: 'No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt',
-      phone: '08055091820',
+      name: "Rumuola Terminal",
+      address:
+        "No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt",
+      phone: "08055091820",
     },
     terminal2: {
-      name: 'Oilmill Terminal',
-      address: 'No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH',
-      phone: '0913 831 5658',
+      name: "Oilmill Terminal",
+      address:
+        "No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH",
+      phone: "0913 831 5658",
     },
     terminal3: {
-      name: 'Rumuodumanya Terminal',
-      address: '1 Airport Road, Rumuodumaya, PH',
-      phone: '07055792624',
-    }
+      name: "Rumuodumanya Terminal",
+      address: "1 Airport Road, Rumuodumaya, PH",
+      phone: "07055792624",
+    },
+    directionTerminal1: {
+      name: "Ojota Terminal",
+      address: "Ojota Total, beside Biode park towards Ketu, Lagos.",
+    },
+    directionTerminal2: {
+      name: "Jibowu Terminal",
+      address: "19 Ikorodu Road, Jibowu, Lagos.",
+    },
+    directionTerminal3: {
+      name: "Demorose Terminal",
+      address: "No 106 Old Ojo Road, by Church Bus Stop, Agboju.",
+    },
+    directionTerminal4: {
+      name: "Mazamaza Terminal",
+      address: "No 23 Badagry Expressway, Maza-maza first gate",
+    },
+    directionTerminal5: {
+      name: "Ojuelegba Terminal",
+      address:
+        "9-10 Western Avenue, Ojuelegba Roundabout, Opposite Abalti Barracks, Lagos",
+    },
+    directionTerminal6: {
+      name: "Ajah Terminal",
+      address:
+        "KM 23 Lekki-Epe Expressway, Ajah, By Graceland Estate, Opp. LG Showroom.",
+    },
+    directionTerminal7: {
+      name: "Sango Ota Terminal",
+      address:
+        "No 54 Idiroko Road, Beside WEMA Bank, Opp. MTN Office, Ogun State.",
+    },
   },
   {
     id: 6,
@@ -171,31 +336,64 @@ const transportCompanies = [
     maxPassengers: 12,
     passengers: 2,
     price: "NGN 57,900",
-    time: '7am',
+    time: "7am",
     availability: "Available",
     availableSeats: 12,
-    location1: 'Rumuola Park',
-    location2: 'Lagos Station',
-    from1: 'Portharcourt',
-    from2: 'Lagos',
-    date: '13/05/2025',
-    vehicle: '18 Seater Bus',
-    phone: '08055091820',
+    location1: "Rumuola Park",
+    location2: "Lagos Station",
+    from1: "Portharcourt",
+    from2: "Lagos",
+    date: "13/05/2025",
+    vehicle: "18 Seater Bus",
+    phone: "08055091820",
     terminal1: {
-      name: 'Rumuola Terminal',
-      address: 'No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt',
-      phone: '08055091820',
+      name: "Rumuola Terminal",
+      address:
+        "No 233 Aba Road, Opposite Bori Camp Military Barracks, Rumola, Port-Harcourt",
+      phone: "08055091820",
     },
     terminal2: {
-      name: 'Oilmill Terminal',
-      address: 'No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH',
-      phone: '0913 831 5658',
+      name: "Oilmill Terminal",
+      address:
+        "No 32B Aba Road, Oil Mill, By Eleme Junction, Beside Zenith Bank, OilMill, PH",
+      phone: "0913 831 5658",
     },
     terminal3: {
-      name: 'Rumuodumanya Terminal',
-      address: '1 Airport Road, Rumuodumaya, PH',
-      phone: '07055792624',
-    }
+      name: "Rumuodumanya Terminal",
+      address: "1 Airport Road, Rumuodumaya, PH",
+      phone: "07055792624",
+    },
+    directionTerminal1: {
+      name: "Ojota Terminal",
+      address: "Ojota Total, beside Biode park towards Ketu, Lagos.",
+    },
+    directionTerminal2: {
+      name: "Jibowu Terminal",
+      address: "19 Ikorodu Road, Jibowu, Lagos.",
+    },
+    directionTerminal3: {
+      name: "Demorose Terminal",
+      address: "No 106 Old Ojo Road, by Church Bus Stop, Agboju.",
+    },
+    directionTerminal4: {
+      name: "Mazamaza Terminal",
+      address: "No 23 Badagry Expressway, Maza-maza first gate",
+    },
+    directionTerminal5: {
+      name: "Ojuelegba Terminal",
+      address:
+        "9-10 Western Avenue, Ojuelegba Roundabout, Opposite Abalti Barracks, Lagos",
+    },
+    directionTerminal6: {
+      name: "Ajah Terminal",
+      address:
+        "KM 23 Lekki-Epe Expressway, Ajah, By Graceland Estate, Opp. LG Showroom.",
+    },
+    directionTerminal7: {
+      name: "Sango Ota Terminal",
+      address:
+        "No 54 Idiroko Road, Beside WEMA Bank, Opp. MTN Office, Ogun State.",
+    },
   },
 ];
 

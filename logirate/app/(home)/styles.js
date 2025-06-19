@@ -129,10 +129,60 @@ const home = StyleSheet.create({
   },
   itemText: {
     color: Colors.text,
-    fontFamily: 'PoppinsMedium',
+    fontFamily: "PoppinsMedium",
     fontSize: 14,
     fontWeight: 600,
-    letterSpacing: -0.32
+    letterSpacing: -0.32,
+  },
+  locationText: {
+    color: Colors.text,
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 20,
+    fontWeight: 600,
+    letterSpacing: -0.4,
+  },
+  detailsIcon: {
+    backgroundColor: "#00A1BF26",
+    paddingVertical: 5,
+    paddingHorizontal: 7,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderRadius: 10,
+  },
+  detailsText: {
+    color: Colors.primary,
+    fontFamily: "PoppinsMedium",
+    fontSize: 14,
+  },
+  detailTitle: {
+    paddingHorizontal: 10,
+    color: Colors.text,
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 16,
+    letterSpacing: -0.32,
+    fontWeight: 600,
+  },
+  details: {
+    backgroundColor: Colors.white,
+    marginHorizontal: 20,
+    paddingVertical: 20,
+    marginVertical: 20,
+    borderRadius: 15,
+  },
+  terminalText: {
+    color:Colors.text,
+    fontFamily: 'PoppinsMedium',
+    fontSize:16,
+    letterSpacing: -0.32,
+    fontWeight:600
+  }, 
+  terminalText2: {
+    color:Colors.text,
+    fontFamily: 'PoppinsRegular',
+    fontSize:14,
+    letterSpacing: -0.28,
+    fontWeight:400
   }
 });
 
