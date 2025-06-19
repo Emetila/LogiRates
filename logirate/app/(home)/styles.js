@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const authStyles = StyleSheet.create({
+const home = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
@@ -34,7 +34,7 @@ const authStyles = StyleSheet.create({
     color: Colors.text,
     width: 330,
     borderStyle: "solid",
-    alignSelf: 'center',
+    alignSelf: "center",
     height: 50,
     backgroundColor: Colors.inputBg,
     paddingLeft: 50,
@@ -114,6 +114,22 @@ const authStyles = StyleSheet.create({
     top: 10,
     left: 10,
   },
+  destinationField: {
+    marginHorizontal: "8%",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    backgroundColor: Colors.white,
+    position: "relative",
+    top: "-6%",
+    zIndex: 2,
+    gap: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    alignSelf: "center",
+    left: 0,
+  },
 });
 
-export default authStyles;
+export default home;

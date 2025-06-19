@@ -1,0 +1,58 @@
+const transportCompanies = [
+  {
+    id: 1,
+    image: require("../../assets/images/transport1.png"),
+    destination: "Lagos - Portharcourt",
+    maxPassengers: 45,
+    time: '7am',
+    price: "NGN 47,500",
+    availability: "Available",
+  },
+  {
+    id: 2,
+    image: require("../../assets/images/transport2.png"),
+    destination: "Lagos - Portharcourt",
+    maxPassengers: 8,
+    price: "NGN 60,000",
+    time: '6:30am',
+    availability: "Available",
+  },
+  {
+    id: 3,
+    image: require("../../assets/images/transport3.png"),
+    destination: "Lagos - Portharcourt",
+    maxPassengers: 35,
+    price: "NGN 57,900",
+    time: '6:30am',
+    availability: "Available",
+  },
+  {
+    id: 4,
+    image: require("../../assets/images/transport4.png"),
+    destination: "Lagos - Portharcourt",
+    maxPassengers: 4,
+    price: "NGN 57,900",
+    time: '7am',
+    availability: "Available",
+  },
+  {
+    id: 5,
+    image: require("../../assets/images/transport5.png"),
+    destination: "Lagos - Portharcourt",
+    maxPassengers: 4,
+    price: "NGN 57,900",
+    time: '7am',
+    availability: "Available",
+  },
+  {
+    id: 6,
+    image: require("../../assets/images/transport1.png"),
+    destination: "Lagos - Portharcourt",
+    maxPassengers: 12,
+    price: "NGN 57,900",
+    time: '7am',
+    availability: "Available",
+  },
+];
+
+export default transportCompanies;

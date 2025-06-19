@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const PasStyles = StyleSheet.create({
+const authStyle = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
     paddingHorizontal: "25%",
-    marginBottom: "20%",
+    paddingBottom: "20%",
   },
 
   textBox: {
@@ -31,10 +31,10 @@ const PasStyles = StyleSheet.create({
     alignSelf: "stretch",
   },
   input: {
-    color: "#000000",
-    width: 310,
+    color: Colors.text,
+    width: 330,
     borderStyle: "solid",
-    alignSelf: "stretch",
+    alignSelf: "center",
     height: 50,
     backgroundColor: Colors.inputBg,
     paddingLeft: 50,
@@ -44,8 +44,8 @@ const PasStyles = StyleSheet.create({
     borderColor: Colors.inputBg,
   },
   input2: {
-    color: "#000000",
-    width: 310,
+    color: Colors.text,
+    width: 330,
     borderStyle: "solid",
     alignSelf: "stretch",
     height: 50,
@@ -112,8 +112,8 @@ const PasStyles = StyleSheet.create({
   icon: {
     position: "absolute",
     top: 10,
-    left: 10,
+    right: 30,
   },
 });
 
-export default PasStyles;
+export default authStyle;

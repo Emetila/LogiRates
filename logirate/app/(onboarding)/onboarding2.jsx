@@ -7,7 +7,7 @@ import onboarding from "./styles";
 const OnboardingTwo = () => {
   return (
     <SafeAreaView style={onboarding.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={onboarding.imageBox}>
           <Image
             source={require("../../assets/images/logo2.png")}

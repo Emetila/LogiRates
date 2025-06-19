@@ -9,20 +9,65 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import authStyles from "../(auth)/styles";
+import authStyles from "../(home)/styles";
 import Colors from "@/constants/Colors";
-import { useState } from "react";
+import React, { useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Button from "@/components/ui/Button";
+import transportCompanies from "../(home)/vehicledata";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import {format} from "date-fns"
 
 const Home = () => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [departure, setDeparture] = useState("");
   const [passenger, setPassenger] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  // const [currentPage, setCurrentPage] = useState("search");
+  // const [isExploring, setIsExploring] = useState(false);
+  // const [vehicles, setVehicles] = useState([]);
+  // const [searchData, setSearchData] = useState({});
+
+  // Get today's date for min date validation
+  const today = new Date().toISOString().split("T")[0];
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    const formatted = date.toISOString().split("T")[0]; // "yyyy-MM-dd"
+    setDeparture(formatted);
+    hideDatePicker();
+  };
+
+  const handleExplore = () => {
+    if (from && to && departure && passenger) {
+      const filteredVehicles = transportCompanies.filter(
+        (v) =>
+          v.route?.from?.toLowerCase() === from.toLowerCase() &&
+          v.route?.to?.toLowerCase() === to.toLowerCase()
+      );
+
+      router.push("/explore", {
+        from,
+        to,
+        departure,
+        passenger,
+        vehicles: filteredVehicles,
+      });
+    } else {
+      alert("Please fill all fields.");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container2}>
@@ -36,20 +81,23 @@ const Home = () => {
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
             position: "relative",
-          }}>
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               alignItems: "flex-start",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Text style={[authStyles.authText, { fontSize: 32 }]}>
               Hello User
             </Text>
             <Pressable
               onPress={() => {
                 router.push("/notification");
-              }}>
+              }}
+            >
               <MaterialCommunityIcons
                 name="bell-circle"
                 size={28}
@@ -79,9 +127,10 @@ const Home = () => {
             width: "90%",
             alignSelf: "center",
             left: 0,
-          }}>
+          }}
+        >
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>From</Text>
+            {/* <Text style={styles.inputfield}>From</Text> */}
             <View style={{ position: "relative" }}>
               <MaterialIcons
                 name="location-on"
@@ -93,15 +142,18 @@ const Home = () => {
                 label="from"
                 mode="outlined"
                 value={from}
+                // onChange={(e) => setFrom(e.target.value)}
                 onChangeText={setFrom}
                 style={styles.input}
+                placeholder="From"
+                placeholderTextColor={Colors.text2}
                 cursorColor={Colors.primary}
               />
             </View>
           </View>
 
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>To</Text>
+            {/* <Text style={styles.inputfield}>To</Text> */}
             <View style={{ position: "relative" }}>
               <MaterialIcons
                 name="location-on"
@@ -113,15 +165,18 @@ const Home = () => {
                 label="to"
                 mode="outlined"
                 value={to}
+                // onChange={(e) => setTo(e.target.value)}
                 onChangeText={setTo}
                 style={styles.input}
                 cursorColor={Colors.primary}
+                placeholder="To"
+                placeholderTextColor={Colors.text2}
               />
             </View>
           </View>
 
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>Departure</Text>
+            {/* <Text style={styles.inputfield}>Departure</Text> */}
             <View style={{ position: "relative" }}>
               <Ionicons
                 name="calendar-clear"
@@ -129,19 +184,32 @@ const Home = () => {
                 color="#00A1BF"
                 style={styles.icon}
               />
-              <TextInput
-                label="departure"
-                mode="outlined"
-                value={departure}
-                onChangeText={setDeparture}
-                style={styles.input}
-                cursorColor={Colors.primary}
+              <Pressable onPress={showDatePicker}>
+                <View pointerEvents="none">
+                  <TextInput
+                    mode="outlined"
+                    value={departure}
+                    editable={false}
+                    // onChangeText={setDeparture}
+                    style={styles.input}
+                    cursorColor={Colors.primary}
+                    placeholder="Departure"
+                    placeholderTextColor={Colors.text2}
+                  />
+                </View>
+              </Pressable>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                minimumDate={new Date()}
               />
             </View>
           </View>
 
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>Passenger(s)</Text>
+            {/* <Text style={styles.inputfield}>Passenger(s)</Text> */}
             <View style={{ position: "relative" }}>
               <FontAwesome6
                 name="user-large"
@@ -150,10 +218,16 @@ const Home = () => {
                 color="#00A1BF"
               />
               <TextInput
-                label="passenger"
+                max="50"
+                type="number"
+                min="1"
                 mode="outlined"
                 value={passenger}
+                // onChange={(e) => setPassenger(e.target.value)}
                 onChangeText={setPassenger}
+                placeholder="Passenger(s)"
+                placeholderTextColor={Colors.text2}
+                keyboardType="number"
                 style={styles.input}
                 cursorColor={Colors.primary}
               />
@@ -161,10 +235,9 @@ const Home = () => {
           </View>
           <View style={{ width: "100%" }}>
             <Button
+              onPress={handleExplore}
+              // disabled={isExploring}
               text={"Explore"}
-              onPress={() => {
-                router.push("/explore");
-              }}
             />
           </View>
         </View>

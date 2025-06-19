@@ -1,13 +1,11 @@
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-const OtpVerificationTwo = () => {
+export default function VehicleDetailScreen(props) {
+  const vehicle = props?.route?.params?.vehicle;
   return (
     <SafeAreaView>
-      <Text>Otp verification number 2</Text>
+        <Text>This is detail page</Text>
     </SafeAreaView>
-  );
-};
-
-export default OtpVerificationTwo;
+  )
+}
