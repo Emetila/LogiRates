@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const noteStyles = StyleSheet.create({
+const home = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
@@ -113,4 +113,4 @@ const noteStyles = StyleSheet.create({
   },
 });
 
-export default noteStyles;
+export default home;
