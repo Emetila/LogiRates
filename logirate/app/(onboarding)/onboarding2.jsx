@@ -1,13 +1,45 @@
 import { router } from "expo-router";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/ui/Button";
 import onboarding from "./styles";
+import Colors from "@/constants/Colors";
 
 const OnboardingTwo = () => {
   return (
     <SafeAreaView style={onboarding.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            width: 80,
+            paddingVertical: 10,
+            alignSelf: "flex-end",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/signup");
+            }}
+            style={{
+              borderColor: Colors.primary,
+              borderStyle: "solid",
+              borderWidth: 2,
+              borderRadius: 100,
+              // width: 100,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.text,
+                fontFamily: "PoppinsMedium",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+            >
+              Skip
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={onboarding.imageBox}>
           <Image
             source={require("../../assets/images/logo2.png")}
@@ -32,7 +64,8 @@ const OnboardingTwo = () => {
             text={"Next"}
             onPress={() => {
               router.navigate("/onboarding3");
-            }}/>
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

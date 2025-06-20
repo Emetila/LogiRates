@@ -15,8 +15,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
-import authStyles from "./styles";
+import authStyles from "../(home)/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import authStyle from "./style";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -82,8 +83,7 @@ const SignupPage = () => {
       const parsedUsers = existingUsers ? JSON.parse(existingUsers) : [];
 
       const isEmailTaken = parsedUsers.some(
-        (user) =>
-          user.email.toLowerCase().trim() === email.toLowerCase().trim()
+        (user) => user.email.toLowerCase().trim() === email.toLowerCase().trim()
       );
 
       if (isEmailTaken) {
@@ -108,11 +108,9 @@ const SignupPage = () => {
     }
   };
 
-
-
   return (
     <SafeAreaView style={authStyles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={authStyles.textBox}>
           <Text
             style={{
@@ -124,7 +122,7 @@ const SignupPage = () => {
               letterSpacing: -1.6,
             }}
           >
-            Hello Dear!
+            Hello!
           </Text>
           <Text
             style={{
@@ -143,7 +141,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>First Name</Text>
               <View style={{ position: "relative" }}>
                 <FontAwesome6
-                  style={authStyles.icon}
+                  style={authStyle.icon}
                   name="user-large"
                   size={24}
                   color="#00A1BF"
@@ -156,7 +154,10 @@ const SignupPage = () => {
                   onChangeText={(value) => {
                     handleInputChange("firstName", value);
                   }}
-                  style={[authStyles.input, errors.firstName && { borderColor: 'red' }]}
+                  style={[
+                    authStyle.input2,
+                    errors.firstName && { borderColor: "red" },
+                  ]}
                   cursorColor={Colors.primary}
                 />
                 {errors.firstName && (
@@ -168,7 +169,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>Surname</Text>
               <View style={{ position: "relative" }}>
                 <FontAwesome6
-                  style={authStyles.icon}
+                  style={authStyle.icon}
                   name="user-large"
                   size={24}
                   color="#00A1BF"
@@ -181,7 +182,10 @@ const SignupPage = () => {
                   onChangeText={(value) => {
                     handleInputChange("surname", value);
                   }}
-                  style={[authStyles.input, errors.surname && { borderColor: 'red' }]}
+                  style={[
+                    authStyle.input2,
+                    errors.surname && { borderColor: "red" },
+                  ]}
                   cursorColor={Colors.primary}
                 />
                 {errors.surname && (
@@ -193,7 +197,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>Email/Mobile</Text>
               <View style={{ position: "relative" }}>
                 <MaterialCommunityIcons
-                  style={authStyles.icon}
+                  style={authStyle.icon}
                   name="email"
                   size={24}
                   color="#00A1BF"
@@ -206,7 +210,10 @@ const SignupPage = () => {
                     handleInputChange("email", value);
                   }}
                   autoCorrect={false}
-                  style={[authStyles.input, errors.email && { borderColor: 'red' }]}
+                  style={[
+                    authStyles.input2,
+                    errors.email && { borderColor: "red" },
+                  ]}
                   cursorColor={Colors.primary}
                   keyboardType="email-address"
                   error={!!errors.email}
@@ -221,9 +228,12 @@ const SignupPage = () => {
               <TextInput
                 value={formData.password}
                 onChangeText={(value) => {
-                    handleInputChange("password", value);
+                  handleInputChange("password", value);
                 }}
-                style={[authStyles.input2, errors.password && { borderColor: 'red' }]}
+                style={[
+                  authStyle.input2,
+                  errors.password && { borderColor: "red" },
+                ]}
                 secureTextEntry={!passwordShow}
                 cursorColor={Colors.primary}
                 mode="outlined"
@@ -243,7 +253,7 @@ const SignupPage = () => {
                 <Ionicons
                   name={passwordShow ? "eye" : "eye-off"}
                   size={24}
-                  color="#0F141A66"
+                  color="#00A1BF"
                 />
               </Pressable>
             </View>
@@ -255,7 +265,10 @@ const SignupPage = () => {
                 onChangeText={(value) => {
                   handleInputChange("confirmPassword", value);
                 }}
-                style={[authStyles.input2, errors.confirmPassword && { borderColor: 'red' }]}
+                style={[
+                  authStyle.input2,
+                  errors.confirmPassword && { borderColor: "red" },
+                ]}
                 secureTextEntry
                 cursorColor={Colors.primary}
               />
@@ -269,7 +282,7 @@ const SignupPage = () => {
                 <Ionicons
                   name={showConfirmPassword ? "eye" : "eye-off"}
                   size={24}
-                  color="#0F141A66"
+                  color="#00A1BF"
                 />
               </Pressable>
             </View>
@@ -293,16 +306,7 @@ const SignupPage = () => {
                 {isChecked && <Text style={authStyles.checkmark}>✓</Text>}
               </View>
               <Text style={authStyles.label}>
-                Agree with{" "}
-                <Text
-                  style={{
-                    color: Colors.primary,
-                    fontFamily: "PoppinsMedium",
-                    textDecorationLine: "underline",
-                  }}
-                >
-                  Terms & Conditions{" "}
-                </Text>
+                Agree with Terms & Conditions
               </Text>
             </TouchableOpacity>
           </View>
@@ -317,9 +321,9 @@ const SignupPage = () => {
             marginTop: 20,
           }}
         >
-            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
-              Sign Up
-            </Text>
+          <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
+            Sign Up
+          </Text>
         </TouchableOpacity>
         <View
           style={{
@@ -356,9 +360,7 @@ const SignupPage = () => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity
-            style={authStyles.signupButtons}
-          >
+          <TouchableOpacity style={authStyles.signupButtons}>
             <Image
               style={{ width: 30, height: 30 }}
               resizeMode="contain"

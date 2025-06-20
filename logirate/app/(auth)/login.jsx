@@ -14,8 +14,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../constants/Colors";
-import authStyles from "./styles";
+import authStyles from "../(home)/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import authStyle from "./style";
 
 const Login = () => {
   const [password, setPassword] = useState("");
@@ -62,7 +63,7 @@ const Login = () => {
 
   return (
     <SafeAreaView style={authStyles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           source={require("../../assets/images/loginimg.png")}
           style={{
@@ -100,7 +101,7 @@ const Login = () => {
               <Text style={authStyles.formText}>Email/Mobile</Text>
               <View style={{ position: "relative" }}>
                 <MaterialCommunityIcons
-                  style={authStyles.icon}
+                  style={authStyle.icon}
                   name="email"
                   size={24}
                   color="#00A1BF"
@@ -108,7 +109,7 @@ const Login = () => {
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
-                  style={authStyles.input}
+                  style={authStyles.input2}
                   cursorColor={Colors.primary}
                   keyboardType="email-address"
                 />
@@ -127,7 +128,7 @@ const Login = () => {
               />
             </View>
 
-            <View style={{ position: "absolute", bottom: 30, right: 30 }}>
+            <View style={{ position: "absolute", bottom: 35, right: 30 }}>
               <Pressable
                 onPress={() => {
                   setPasswordShow(!passwordShow);
@@ -136,7 +137,7 @@ const Login = () => {
                 <Ionicons
                   name={passwordShow ? "eye" : "eye-off"}
                   size={24}
-                  color="black"
+                  color="#00A1BF"
                 />
               </Pressable>
             </View>

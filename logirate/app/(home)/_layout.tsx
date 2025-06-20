@@ -4,6 +4,8 @@ const HomeScreens = () => {
   return (
     <Stack screenOptions={{headerShown:false}}>
       <Stack.Screen name="notification" />
+      <Stack.Screen name="explore" />
+      <Stack.Screen name="(tabs)" />
     </Stack>
   );
 };

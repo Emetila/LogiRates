@@ -1,28 +1,117 @@
 import {
+  Alert,
+  Dimensions,
   Image,
+  Modal,
   Pressable,
   ScrollView,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import authStyles from "../(auth)/styles";
+import authStyles from "../(home)/styles";
 import Colors from "@/constants/Colors";
-import { useState } from "react";
+import React, { useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Button from "@/components/ui/Button";
+import transportCompanies from "../(home)/vehicledata";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import {format} from "date-fns"
 
+const { width, height } = Dimensions.get("window");
 const Home = () => {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  // const [from, setFrom] = useState("");
+  // const [to, setTo] = useState("");
   const [departure, setDeparture] = useState("");
-  const [passenger, setPassenger] = useState("");
+  // const [passenger, setPassenger] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [currentPage, setCurrentPage] = useState("explore");
+  const [searchData, setSearchData] = useState({
+    from: "",
+    to: "",
+    departureDate: "",
+    passengers: "",
+  });
+  const [showPassengerModal, setShowPassengerModal] = useState(false);
+  const router = useRouter();
+  // const [currentPage, setCurrentPage] = useState("search");
+  // const [isExploring, setIsExploring] = useState(false);
+  // const [vehicles, setVehicles] = useState([]);
+  // const [searchData, setSearchData] = useState({});
+
+  // Get today's date for min date validation
+  const today = new Date().toISOString().split("T")[0];
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    const formatted = date.toISOString().split("T")[0]; // "yyyy-MM-dd"
+    setDeparture(formatted);
+    hideDatePicker();
+  };
+
+  const handleSearch = () => {
+    if (searchData.from && searchData.to) {
+      router.push({
+        pathname: "/explore",
+        params: {
+          from: searchData.from,
+          to: searchData.to,
+          passengers: searchData.passengers,
+        },
+      });
+    } else {
+      Alert.alert("Missing Information", "Please fill in all required fields");
+    }
+  };
+
+  const handleInputChange = (field, value) => {
+    setSearchData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleQuickRoute = (from, to) => {
+    setSearchData((prev) => ({
+      ...prev,
+      from,
+      to,
+    }));
+  };
+
+  // const handleExplore = () => {
+  //   if (from && to && departure && passenger) {
+  //     const filteredVehicles = transportCompanies.filter(
+  //       (v) =>
+  //         v.route?.from?.toLowerCase() === from.toLowerCase() &&
+  //         v.route?.to?.toLowerCase() === to.toLowerCase()
+  //     );
+
+  //     router.push("/explore", {
+  //       from,
+  //       to,
+  //       departure,
+  //       passenger,
+  //       vehicles: filteredVehicles,
+  //     });
+  //   } else {
+  //     alert("Please fill all fields.");
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container2}>
@@ -36,20 +125,23 @@ const Home = () => {
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
             position: "relative",
-          }}>
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               alignItems: "flex-start",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Text style={[authStyles.authText, { fontSize: 32 }]}>
               Hello User
             </Text>
             <Pressable
               onPress={() => {
                 router.push("/notification");
-              }}>
+              }}
+            >
               <MaterialCommunityIcons
                 name="bell-circle"
                 size={28}
@@ -79,9 +171,10 @@ const Home = () => {
             width: "90%",
             alignSelf: "center",
             left: 0,
-          }}>
+          }}
+        >
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>From</Text>
+            {/* <Text style={styles.inputfield}>From</Text> */}
             <View style={{ position: "relative" }}>
               <MaterialIcons
                 name="location-on"
@@ -92,16 +185,19 @@ const Home = () => {
               <TextInput
                 label="from"
                 mode="outlined"
-                value={from}
-                onChangeText={setFrom}
+                value={searchData.from}
+                // onChange={(e) => setFrom(e.target.value)}
+                onChangeText={(text) => handleInputChange("from", text)}
                 style={styles.input}
+                placeholder="From"
+                placeholderTextColor={Colors.text2}
                 cursorColor={Colors.primary}
               />
             </View>
           </View>
 
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>To</Text>
+            {/* <Text style={styles.inputfield}>To</Text> */}
             <View style={{ position: "relative" }}>
               <MaterialIcons
                 name="location-on"
@@ -112,16 +208,19 @@ const Home = () => {
               <TextInput
                 label="to"
                 mode="outlined"
-                value={to}
-                onChangeText={setTo}
+                value={searchData.to}
+                // onChange={(e) => setTo(e.target.value)}
+                onChangeText={(text) => handleInputChange("to", text)}
                 style={styles.input}
                 cursorColor={Colors.primary}
+                placeholder="To"
+                placeholderTextColor={Colors.text2}
               />
             </View>
           </View>
 
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>Departure</Text>
+            {/* <Text style={styles.inputfield}>Departure</Text> */}
             <View style={{ position: "relative" }}>
               <Ionicons
                 name="calendar-clear"
@@ -129,42 +228,71 @@ const Home = () => {
                 color="#00A1BF"
                 style={styles.icon}
               />
-              <TextInput
-                label="departure"
-                mode="outlined"
-                value={departure}
-                onChangeText={setDeparture}
-                style={styles.input}
-                cursorColor={Colors.primary}
+              <Pressable onPress={showDatePicker}>
+                <View pointerEvents="none">
+                  <TextInput
+                    mode="outlined"
+                    value={departure}
+                    editable={false}
+                    // onChangeText={setDeparture}
+                    style={styles.input}
+                    cursorColor={Colors.primary}
+                    placeholder="Departure"
+                    placeholderTextColor={Colors.text2}
+                  />
+                </View>
+              </Pressable>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                minimumDate={new Date()}
               />
             </View>
           </View>
 
           <View style={{ position: "relative" }}>
-            <Text style={styles.inputfield}>Passenger(s)</Text>
-            <View style={{ position: "relative" }}>
+            {/* <Text style={styles.inputfield}>Passenger(s)</Text> */}
+            <TouchableOpacity
+              onPress={() => setShowPassengerModal(true)}
+              style={{ position: "relative" }}
+            >
               <FontAwesome6
                 name="user-large"
                 style={styles.icon}
                 size={24}
                 color="#00A1BF"
               />
+              {/* <Text
+                style={{
+                  color: searchData.passengers ? Colors.text : Colors.text2,
+                }}
+              >
+                {searchData.passengers}{" "}
+                {searchData.passengers === 1 ? "Passenger" : "Passengers"}
+              </Text> */}
               <TextInput
-                label="passenger"
+                max="50"
+                type="number"
+                min="1"
                 mode="outlined"
-                value={passenger}
-                onChangeText={setPassenger}
+                value={searchData.passengers}
+                // onChange={(e) => setPassenger(e.target.value)}
+                onChangeText={(text) => handleInputChange("passengers", text)}
+                placeholder="Passenger(s)"
+                placeholderTextColor={Colors.text2}
+                keyboardType="number"
                 style={styles.input}
                 cursorColor={Colors.primary}
               />
-            </View>
+            </TouchableOpacity>
           </View>
           <View style={{ width: "100%" }}>
             <Button
+              onPress={handleSearch}
+              // disabled={isExploring}
               text={"Explore"}
-              onPress={() => {
-                router.push("/explore");
-              }}
             />
           </View>
         </View>
