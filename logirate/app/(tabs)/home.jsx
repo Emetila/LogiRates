@@ -139,7 +139,7 @@ const Home = () => {
             </Text>
             <Pressable
               onPress={() => {
-                router.push("/notification");
+                router.push("/messages");
               }}
             >
               <MaterialCommunityIcons
