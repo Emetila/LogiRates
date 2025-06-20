@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import styles from "../styles";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import noteStyles from "./styles";
+import home  from "./styles";
 import Colors from "@/constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -89,7 +89,7 @@ const Notification = () => {
               </Pressable>
             </View>
             <Text
-              style={[noteStyles.authText, { fontSize: 32, marginTop: 20 }]}
+              style={[home.authText, { fontSize: 32, marginTop: 20 }]}
             >
               Notification
             </Text>
@@ -107,7 +107,6 @@ const Notification = () => {
             >
               Today 7 June, 2025
             </Text>
-
             <View
               style={{
                 marginHorizontal: "8%",
@@ -154,7 +153,7 @@ const Notification = () => {
                     <View style={{ flex: 1, marginLeft: 4 }}>
                       <Text
                         style={[
-                          noteStyles.formText,
+                          home.formText,
                           { flexWrap: "wrap", flexShrink: 1 },
                         ]}
                       >
@@ -240,7 +239,7 @@ const Notification = () => {
                     <View style={{ flex: 1, marginLeft: 4 }}>
                       <Text
                         style={[
-                          noteStyles.formText,
+                          home.formText,
                           { flexWrap: "wrap", flexShrink: 1 },
                         ]}
                       >
@@ -279,7 +278,6 @@ const Notification = () => {
             >
               5, June 2025
             </Text>
-
             <View
               style={{
                 marginHorizontal: "8%",
@@ -326,7 +324,7 @@ const Notification = () => {
                     <View style={{ flex: 1, marginLeft: 4 }}>
                       <Text
                         style={[
-                          noteStyles.formText,
+                          home.formText,
                           { flexWrap: "wrap", flexShrink: 1 },
                         ]}
                       >
