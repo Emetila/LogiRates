@@ -17,7 +17,7 @@ const home = StyleSheet.create({
   authText: {
     fontFamily: "PoppinsSemiBold",
     color: Colors.white,
-    fontSize: 32,
+    fontSize: 22,
   },
   formContainer: {
     gap: 10,
@@ -26,7 +26,7 @@ const home = StyleSheet.create({
   },
   formText: {
     fontFamily: "PoppinsMedium",
-    fontSize: 11,
+    fontSize: 16,
     color: Colors.text,
     alignSelf: "stretch",
   },
@@ -34,7 +34,7 @@ const home = StyleSheet.create({
     color: Colors.text,
     width: 330,
     borderStyle: "solid",
-    alignSelf: 'center',
+    alignSelf: "center",
     height: 50,
     backgroundColor: Colors.inputBg,
     paddingLeft: 50,
@@ -111,6 +111,79 @@ const home = StyleSheet.create({
     top: 10,
     left: 10,
   },
+  destinationField: {
+    marginHorizontal: "8%",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    backgroundColor: Colors.white,
+    position: "relative",
+    top: "-6%",
+    zIndex: 2,
+    gap: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    alignSelf: "center",
+    left: 0,
+  },
+  itemText: {
+    color: Colors.text,
+    fontFamily: "PoppinsMedium",
+    fontSize: 14,
+    fontWeight: 600,
+    letterSpacing: -0.32,
+  },
+  locationText: {
+    color: Colors.text,
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 20,
+    fontWeight: 600,
+    letterSpacing: -0.4,
+  },
+  detailsIcon: {
+    backgroundColor: "#00A1BF26",
+    paddingVertical: 5,
+    paddingHorizontal: 7,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderRadius: 10,
+  },
+  detailsText: {
+    color: Colors.primary,
+    fontFamily: "PoppinsMedium",
+    fontSize: 14,
+  },
+  detailTitle: {
+    paddingHorizontal: 10,
+    color: Colors.text,
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 16,
+    letterSpacing: -0.32,
+    fontWeight: 600,
+  },
+  details: {
+    backgroundColor: Colors.white,
+    marginHorizontal: 20,
+    paddingVertical: 20,
+    marginVertical: 20,
+    borderRadius: 15,
+  },
+  terminalText: {
+    color:Colors.text,
+    fontFamily: 'PoppinsMedium',
+    fontSize:16,
+    letterSpacing: -0.32,
+    fontWeight:600
+  }, 
+  terminalText2: {
+    color:Colors.text,
+    fontFamily: 'PoppinsRegular',
+    fontSize:14,
+    letterSpacing: -0.28,
+    fontWeight:600
+  }
 });
 
 export default home;
