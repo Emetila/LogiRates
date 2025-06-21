@@ -214,6 +214,7 @@ const SignupPage = () => {
                     authStyles.input2,
                     errors.email && { borderColor: "red" },
                   ]}
+                  contentStyle={{ paddingLeft: 40 }}
                   cursorColor={Colors.primary}
                   keyboardType="email-address"
                   error={!!errors.email}
@@ -269,7 +270,7 @@ const SignupPage = () => {
                   authStyle.input2,
                   errors.confirmPassword && { borderColor: "red" },
                 ]}
-                secureTextEntry
+                secureTextEntry={!showConfirmPassword}
                 cursorColor={Colors.primary}
               />
             </View>
