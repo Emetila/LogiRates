@@ -74,7 +74,7 @@ const Login = () => {
             resizeMode: "contain",
           }}
         />
-        <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
+        <View style={{ flexDirection: "column", alignItems: "center" }}>
           <Text
             style={{
               color: Colors.text,

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
-const authStyle = StyleSheet.create({
+const setStyle = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
@@ -12,6 +12,7 @@ const authStyle = StyleSheet.create({
   textBox: {
     flexDirection: "column",
     alignItems: "flex-start",
+    marginTop: "10%",
   },
   authText: {
     fontFamily: "PoppinsSemiBold",
@@ -19,7 +20,7 @@ const authStyle = StyleSheet.create({
     fontSize: 22,
   },
   formContainer: {
-    gap: 6,
+    gap: 10,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -31,33 +32,34 @@ const authStyle = StyleSheet.create({
   },
   input: {
     color: Colors.text,
-    width: 340,
+    width: 330,
     borderStyle: "solid",
     alignSelf: "center",
     height: 50,
     backgroundColor: Colors.inputBg,
-    paddingLeft: 40,
+    paddingLeft: 50,
     fontFamily: "PoppinsSemiBold",
     borderWidth: 1,
     borderRadius: 8,
     borderColor: Colors.inputBg,
   },
   input2: {
-    paddingLeft: 40,
     color: Colors.text,
-    width: 340,
+    width: 330,
     borderStyle: "solid",
     alignSelf: "stretch",
     height: 50,
     backgroundColor: Colors.inputBg,
+    paddingLeft: 15,
     fontFamily: "PoppinsSemiBold",
     borderWidth: 1,
     borderRadius: 8,
     borderColor: Colors.inputBg,
+    position: "relative",
   },
   secContainer: {
     marginTop: 10,
-    gap: 15,
+    gap: 22,
   },
   //   inputbtn: {
   //     marginVertical: 15
@@ -110,8 +112,8 @@ const authStyle = StyleSheet.create({
   icon: {
     position: "absolute",
     top: 10,
-    left: 10,
+    right: 30,
   },
 });
 
-export default authStyle;
+export default setStyle;
