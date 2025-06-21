@@ -125,7 +125,7 @@ const Settings = () => {
 
           {/* Contact Us */}
           <Pressable
-            onPress={() => router.push("./contact")}
+            onPress={() => router.push('/contact')}
             style={styles.box}
           >
             <MaterialCommunityIcons name="headphones" size={24} color="#4FBBD0" />

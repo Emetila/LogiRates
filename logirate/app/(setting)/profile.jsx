@@ -10,9 +10,6 @@ import {
     import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
     import { useState } from "react";
     import * as ImagePicker from "expo-image-picker";
-
-  
-    
     const Profile = () => {
       const [showModal, setShowModal] = useState(false);
       const [profileImage, setProfileImage] = useState(
