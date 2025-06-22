@@ -316,55 +316,27 @@ const Home = () => {
   };
 
   const handleExplore = () => {
-    router.push({
-      pathname: '/explore',
-      params: {
-        from,
-        to,
-        passenger,
-        minPrice,
-        maxPrice,
-        departureTime: '08:00',
-        arrivalTime: '18:00',
-        vehicleType: 'Bus',
-      },
-    });
-  };
-  // const formatPrice = (price) => {
-  //   return new Intl.NumberFormat("en-NG", {
-  //     style: "currency",
-  //     currency: "NGN",
-  //   }).format(price);
-  // };
+  if (!from || !to || !departure || !passenger) {
+    Alert.alert("Missing Info", "Please fill all fields before searching");
+    return;
+  }
 
-  // const handleSearch = () => {
-  //   if (searchData.from && searchData.to) {
-  //     router.push({
-  //       pathname: "/explore",
-  //       params: {
-  //         from: searchData.from,
-  //         to: searchData.to,
-  //         passengers: searchData.passengers,
-  //       },
-  //     });
-  //   } else {
-  //     Alert.alert("Missing Information", "Please fill in all required fields");
-  //   }
-  // };
+  router.push({
+    pathname: "/explore",
+    params: {
+      from,
+      to,
+      departure,
+      passenger,
+      minPrice,
+      maxPrice,
+      departureTime: "08:00",
+      arrivalTime: "18:00",
+      vehicleType: "Bus",
+    },
+  });
+};
 
-  // const handleInputChange = (field, value) => {
-  //   const newData = { ...searchData, [field]: value };
-  //   setSearchData(newData);
-  //   globalSearchData = newData;
-  // };
-
-  // const handleQuickRoute = (from, to) => {
-  //   setSearchData((prev) => ({
-  //     ...prev,
-  //     from,
-  //     to,
-  //   }));
-  // };
 
   return (
     <SafeAreaView style={styles.container2}>

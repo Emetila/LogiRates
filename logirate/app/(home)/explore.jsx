@@ -1,78 +1,137 @@
+// ExploreScreen.js
+import React, { useEffect, useState } from "react";
 import {
+  SafeAreaView,
+  View,
+  Text,
+  ActivityIndicator,
   FlatList,
+  TouchableOpacity,
   Image,
   Pressable,
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { useLocalSearchParams, router } from "expo-router";
+import {
+  AntDesign,
+  MaterialIcons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import authStyles from "./styles";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import Colors from "@/constants/Colors";
 import home from "./styles";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import styles from "../styles";
-import React, { useEffect, useState } from "react";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import api from "./api";
+import Colors from "@/constants/Colors";
 
-const Explore = () => {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [vendors, setVendors] = useState([]);
-
-  const {
+// Travu search
+const fetchTravu = async (from, to, pax) => {
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), 4000); // Timeout
+  const res = await fetch("https://api.travu.africa/test/api/v1/bus/trips", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({ from, to, pax: Number(pax) }),
+  });
+  const json = await res.json();
+  return json.trips.map((t) => ({
+    _id: `travu-${t.id}`,
+    operator: t.operatorName,
+    logo: t.operatorLogoUrl,
     from,
     to,
-    passengers,
-    departureTime = "08:00",
-    arrivalTime = "18:00",
-    vehicleType = "Bus",
-    minPrice = 0,
-    maxPrice = 100000,
-  } = useLocalSearchParams();
+    departureTime: t.departureTime,
+    seatsAvailable: t.seatsAvailable,
+    price: t.price,
+    seatMap: t.seatMap,
+  }));
+};
+
+// Mock transport/logistics
+const mockData = [
+  {
+    id: "lg1",
+    type: "logistics",
+    name: "DHL Express",
+    logo: require("../../assets/images/DHL Express.jpeg"),
+    departureTime: "09:00",
+    seats: 0,
+    price: 50000,
+  },
+  {
+    id: "lg2",
+    type: "logistics",
+    name: "FedEx Nigeria",
+    logo: require("../../assets/images/download.jpeg"),
+    departureTime: "10:00",
+    seats: 0,
+    price: 55000,
+  },
+  {
+    id: "tr1",
+    type: "transport",
+    name: "GIGM",
+    logo: require("../../assets/images/GIG Logo 2.png"),
+    departureTime: "14:00",
+    seats: 25,
+    price: 16000,
+  },
+  {
+    id: "tr2",
+    type: "transport",
+    name: "ABC Transport",
+    logo: require("../../assets/images/ABC Logo 1.png"),
+    departureTime: "16:30",
+    seats: 15,
+    price: 18000,
+  },
+];
+
+export default function ExploreScreen() {
+  const { from, to, passenger } = useLocalSearchParams();
+  const [vendors, setVendors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getVendors = async () => {
-      if (!from || !to || !passengers) return;
+    (async () => {
       try {
-        const res = await api.get("/vendors/filter", {
-          params: {
+        const travaRes = await fetchTravu(from, to, passenger);
+        setVendors(
+          travaRes.length
+            ? travaRes
+            : mockData.map((m) => ({
+                _id: `${m.type}-${m.id}`,
+                operator: m.name,
+                logo: m.logo,
+                from,
+                to,
+                departureTime: m.departureTime,
+                seatsAvailable: m.seats,
+                price: m.price,
+                seatMap: null,
+              }))
+        );
+      } catch {
+        console.log("Primary API failed, using mock data");
+        setVendors(
+          mockData.map((m) => ({
+            _id: `${m.type}-${m.id}`,
+            operator: m.name,
+            logo: m.logo,
             from,
             to,
-            minSeats: passengers,
-            minPrice,
-            maxPrice,
-            departureTime,
-            arrivalTime,
-            vehicleType,
-          },
-        });
-
-        console.log("✅ Filtered Vendors API Response:", res.data); // 👈 LOGS FULL DATA
-        setVendors(res.data);
-      } catch (err) {
-        console.error(
-          "❌ Error fetching vendors:",
-          err.response?.data || err.message
+            departureTime: m.departureTime,
+            seatsAvailable: m.seats,
+            price: m.price,
+            seatMap: null,
+          }))
         );
       } finally {
         setLoading(false);
       }
-    };
-
-    getVendors();
+    })();
   }, []);
 
-  if (loading)
-    return <ActivityIndicator size="large" style={{ marginTop: 100 }} />;
-
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View
         style={{
           backgroundColor: "#4FBBD0",
@@ -91,7 +150,6 @@ const Explore = () => {
             <AntDesign name="closecircleo" size={28} color="white" />
           </Pressable>
         </View>
-
         <Text
           style={[
             home.formText,
@@ -102,55 +160,25 @@ const Explore = () => {
         </Text>
       </View>
 
-      <View style={[home.destinationField, { top: -30 }]}>
-        <View style={{ position: "relative" }}>
-          <MaterialIcons
-            name="location-on"
-            style={home.icon}
-            size={24}
-            color="#00A1BF"
-          />
-          <View
-            style={{
-              width: 308,
-              alignSelf: "center",
-              height: 66,
-              backgroundColor: Colors.inputBg,
-              paddingLeft: 50,
-              paddingTop: 5,
-              borderWidth: 1,
-              borderRadius: 8,
-              borderColor: Colors.inputBg,
-            }}
-          >
-            <Text style={styles.text}>
-              {from} → {to} • {passengers}
-            </Text>
-            <Text
-              style={{
-                color: "#3B3C3DB2",
-                fontSize: 12,
-                fontWeight: "600",
-                letterSpacing: -0.24,
-              }}
-            >
-              13/05/2025
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <FlatList
-        style={{ marginBottom: "30%" }}
-        data={vendors}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => {
-          const route = item.routes?.[0];
-          if (!route) return null;
-          return (
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          color={Colors.primary}
+          style={{ marginTop: 40 }}
+        />
+      ) : (
+        <FlatList
+          data={vendors}
+          keyExtractor={(item) => item._id}
+          style={{ marginBottom: "30%" }}
+          renderItem={({ item }) => (
             <TouchableOpacity
-              style={{ paddingHorizontal: 20, gap: 50 }}
-              onPress={() => router.push(`/details/${item._id}`)}
+              onPress={() =>
+                router.push({
+                  pathname: "/details",
+                  params: { tripId: item._id },
+                })
+              }
             >
               <View
                 style={{
@@ -166,18 +194,25 @@ const Explore = () => {
                 }}
               >
                 {item.logo ? (
-                  <Image
-                    source={{ uri: item.logo }}
-                    resizeMode="contain"
-                    style={{ width: 90, height: 40 }}
-                  />
+                  typeof item.logo === "number" ? (
+                    <Image
+                      source={item.logo}
+                      style={{ width: 90, height: 40 }}
+                      resizeMode="contain"
+                    />
+                  ) : (
+                    <Image
+                      source={{ uri: item.logo }}
+                      style={{ width: 90, height: 40 }}
+                      resizeMode="contain"
+                    />
+                  )
                 ) : (
                   <MaterialIcons name="directions-bus" size={40} color="#ccc" />
                 )}
-
                 <View style={{ gap: 5 }}>
                   <Text style={[home.itemText, { fontSize: 14 }]}>
-                    {route.from} → {route.to}
+                    {item.from} → {item.to}
                   </Text>
                   <View
                     style={{
@@ -198,11 +233,11 @@ const Explore = () => {
                         size={24}
                         color="#00A1BF"
                       />
-                      <Text style={home.itemText}>{route.departureTime}</Text>
+                      <Text style={home.itemText}>{item.departureTime}</Text>
                     </View>
                     <View style={{ flexDirection: "row", gap: 6 }}>
                       <FontAwesome5 name="user-alt" size={24} color="#00A1BF" />
-                      <Text style={home.itemText}>{route.seatsAvailable}</Text>
+                      <Text style={home.itemText}>{item.seatsAvailable}</Text>
                     </View>
                   </View>
                   <View
@@ -212,7 +247,7 @@ const Explore = () => {
                       backgroundColor: "#0000004D",
                     }}
                   />
-                  <Text style={home.itemText}>₦{route.price}</Text>
+                  <Text style={home.itemText}>₦{item.price}</Text>
                   <Text
                     style={{
                       color: Colors.primary,
@@ -225,11 +260,9 @@ const Explore = () => {
                 </View>
               </View>
             </TouchableOpacity>
-          );
-        }}
-      />
+          )}
+        />
+      )}
     </SafeAreaView>
   );
-};
-
-export default Explore;
+}

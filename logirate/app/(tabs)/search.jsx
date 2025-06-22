@@ -4,19 +4,19 @@ import { useState } from "react";
 import transportCompanies from "../(home)/vehicledata";
 
 const Search = () => {
-  const [query, setQuery] = useState("");
-  const [filteredData, setFilteredData] = useState(transportCompanies);
-  useEffect(() => {
-    const q = query.toLowerCase();
-    const filtered = transportCompanies.filter((item) =>
-      item.name.toLowerCase().includes(q)
-    );
-    setFilteredData(filtered);
-  }, [query]);
+  // const [query, setQuery] = useState("");
+  // const [filteredData, setFilteredData] = useState(transportCompanies);
+  // useEffect(() => {
+  //   const q = query.toLowerCase();
+  //   const filtered = transportCompanies.filter((item) =>
+  //     item.name.toLowerCase().includes(q)
+  //   );
+  //   setFilteredData(filtered);
+  // }, [query]);
 
   return (
     <SafeAreaView>
-      <View style={{ flex: 1, padding: 16 }}>
+      {/* <View style={{ flex: 1, padding: 16 }}>
         <TextInput
           placeholder="Search..."
           value={query}
@@ -46,7 +46,7 @@ const Search = () => {
           )}
           ListEmptyComponent={<Text>No results found.</Text>}
         />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
