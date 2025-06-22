@@ -20,7 +20,7 @@
     "app/index.jsx",
     "app/(auth)/signup.jsx",
     "app/(tabs)/_layout.jsx",
-    "app/(tabs)/search.jsx",
+    "app/(tabs)/search.tsx",
     "app/(tabs)/home.jsx"
   ]
 }
