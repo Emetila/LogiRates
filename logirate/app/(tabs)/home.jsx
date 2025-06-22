@@ -5,6 +5,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
@@ -35,6 +36,11 @@ const { width, height } = Dimensions.get("window");
 //     "Content-Type": "application/json",
 //   },
 // });
+
+const apiClient = axios.create({
+  baseURL: "https://logirate-api.onrender.com",
+  timeout: 10000,
+});
 
 // apiClient.interceptors.response.use(
 //   (response) => {
@@ -210,23 +216,59 @@ const { width, height } = Dimensions.get("window");
 
 // let globalSearchResults = [];
 // let globalSelectedVehicle = null;
+
+export const fetchAllVendors = async () => {
+  try {
+    const response = await apiClient.get("/vendors/allvendors-with-routes");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+    throw error;
+  }
+};
+
+export const fetchVendorDetails = async (id) => {
+  try {
+    const response = await apiClient.get(`/vendors/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching vendor details:", error);
+    throw error;
+  }
+};
+
+export const searchVendors = async (params) => {
+  try {
+    const response = await apiClient.get("/vendors/filter", { params });
+    return response.data;
+  } catch (error) {
+    console.error("Error searching vendors:", error);
+    throw error;
+  }
+};
 const Home = () => {
   // const [companies, setCompanies] = useState([]);
   // console.log(" Transport companies", transportCompanies[1]);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    from: "",
+    to: "",
+    departureDate: "",
+    passengers: "",
+  });
+  // const [from, setFrom] = useState("");
+  // const [to, setTo] = useState("");
   const [departure, setDeparture] = useState("");
-  const [passenger, setPassenger] = useState("");
+  // const [passenger, setPassenger] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [minPrice, setMinPrice] = useState('10000');
-  const [maxPrice, setMaxPrice] = useState('30000');
+  const [minPrice, setMinPrice] = useState("10000");
+  const [maxPrice, setMaxPrice] = useState("30000");
   // const [currentPage, setCurrentPage] = useState("explore");
   // const [searchResults, setSearchResults] = useState([]);
   // const [selectedVehicle, setSelectedVehicle] = useState(null);
   // const [searchData, setSearchData] = useState(globalSearchData);
   // const [showPassengerModal, setShowPassengerModal] = useState(false);
-  const router = useRouter();
   // const [currentPage, setCurrentPage] = useState("search");
   // const [isExploring, setIsExploring] = useState(false);
   // const [vehicles, setVehicles] = useState([]);
@@ -304,6 +346,19 @@ const Home = () => {
   //   });
   // };
 
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const showDatePickers = () => setDatePickerVisibility(true);
+  const hideDatePickers = () => setDatePickerVisibility(false);
+
+  const handleConfirms = (date) => {
+    const formattedDate = date.toISOString().split("T")[0];
+    handleInputChange("departureDate", formattedDate);
+    hideDatePicker();
+  };
+
   const handleConfirm = (date) => {
     const formatted = date.toISOString().split("T")[0]; // "yyyy-MM-dd"
     setDeparture(formatted);
@@ -316,17 +371,18 @@ const Home = () => {
   };
 
   const handleExplore = () => {
+    if (!formData.from || !formData.to) {
+      alert("Please enter departure and destination");
+      return;
+    }
+
     router.push({
-      pathname: '/explore',
+      pathname: "/explore",
       params: {
-        from,
-        to,
-        passenger,
-        minPrice,
-        maxPrice,
-        departureTime: '08:00',
-        arrivalTime: '18:00',
-        vehicleType: 'Bus',
+        from: formData.from,
+        to: formData.to,
+        passengers: formData.passengers,
+        departureDate: formData.departureDate,
       },
     });
   };
@@ -368,8 +424,9 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container2}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
       <ScrollView>
-        <Stack.Screen options={{ title: 'Search Transport' }} />
+        <Stack.Screen options={{ title: "Search Transport" }} />
         <View
           style={{
             backgroundColor: "#4FBBD0",
@@ -439,9 +496,10 @@ const Home = () => {
               <TextInput
                 label="from"
                 mode="outlined"
-                value={from}
+                // value={from}
                 // onChange={(e) => setFrom(e.target.value)}
-                onChangeText={setFrom}
+                value={formData.from}
+                onChangeText={(text) => handleInputChange("from", text)}
                 style={styles.input}
                 placeholder="From"
                 placeholderTextColor={Colors.text2}
@@ -462,9 +520,8 @@ const Home = () => {
               <TextInput
                 label="to"
                 mode="outlined"
-                value={to}
-                // onChange={(e) => setTo(e.target.value)}
-                onChangeText={setTo}
+                value={formData.to}
+                onChangeText={(text) => handleInputChange("to", text)}
                 style={styles.input}
                 cursorColor={Colors.primary}
                 placeholder="To"
@@ -486,12 +543,13 @@ const Home = () => {
                 <View pointerEvents="none">
                   <TextInput
                     mode="outlined"
-                    value={departure}
+                    // value={departure}
+                    value={formData.departureDate}
                     editable={false}
                     // onChangeText={setDeparture}
                     style={styles.input}
                     cursorColor={Colors.primary}
-                    placeholder="Departure"
+                    placeholder="Departure Date"
                     placeholderTextColor={Colors.text2}
                   />
                 </View>
@@ -499,8 +557,8 @@ const Home = () => {
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
+                onConfirm={handleConfirms}
+                onCancel={hideDatePickers}
                 minimumDate={new Date()}
               />
             </View>
@@ -524,9 +582,8 @@ const Home = () => {
                 type="number"
                 min="1"
                 mode="outlined"
-                value={passenger}
-                // onChange={(e) => setPassenger(e.target.value)}
-                onChangeText={setPassenger}
+                value={formData.passengers}
+                onChangeText={(text) => handleInputChange("passengers", text)}
                 placeholder="Passenger(s)"
                 placeholderTextColor={Colors.text2}
                 keyboardType="numeric"
@@ -544,7 +601,6 @@ const Home = () => {
             <Button
               onPress={handleExplore}
               disabled={loading}
-          
               // disabled={isExploring}
               text={loading ? "Searching..." : "Explore"}
             />

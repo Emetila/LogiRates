@@ -109,7 +109,7 @@ const Login = () => {
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
-                  style={authStyles.input2}
+                  style={authStyles.input}
                   cursorColor={Colors.primary}
                   keyboardType="email-address"
                 />

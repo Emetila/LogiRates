@@ -6,11 +6,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import authStyles from "./styles";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import Colors from "@/constants/Colors";
 import home from "./styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -19,60 +20,86 @@ import React, { useEffect, useState } from "react";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import api from "./api";
+import apiClient from "./api";
 
+export const fetchAllVendors = async () => {
+  try {
+    const response = await apiClient.get("/vendors/allvendors-with-routes");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+    throw error;
+  }
+};
+
+export const searchVendors = async (params) => {
+  try {
+    const response = await apiClient.get("/vendors/filter", { params });
+    console.log("✅ Filtered Vendors API Response:", response.data[1]);
+    return response.data;
+  } catch (error) {
+    console.error("Error searching vendors:", error);
+    throw error;
+  }
+};
 const Explore = () => {
   const router = useRouter();
+  const params = useLocalSearchParams();
   const [loading, setLoading] = useState(true);
   const [vendors, setVendors] = useState([]);
+  const [error, setError] = useState(null);
 
-  const {
-    from,
-    to,
-    passengers,
-    departureTime = "08:00",
-    arrivalTime = "18:00",
-    vehicleType = "Bus",
-    minPrice = 0,
-    maxPrice = 100000,
-  } = useLocalSearchParams();
+  // const {
+  //   from,
+  //   to,
+  //   passengers,
+  //   departureTime = "08:00",
+  //   arrivalTime = "18:00",
+  //   vehicleType = "Bus",
+  //   minPrice = 0,
+  //   maxPrice = 100000,
+  // } = useLocalSearchParams();
 
   useEffect(() => {
-    const getVendors = async () => {
-      if (!from || !to || !passengers) return;
+    const fetchVendors = async () => {
       try {
-        const res = await api.get("/vendors/filter", {
-          params: {
-            from,
-            to,
-            minSeats: passengers,
-            minPrice,
-            maxPrice,
-            departureTime,
-            arrivalTime,
-            vehicleType,
-          },
+        const results = await searchVendors({
+          from: params.from,
+          to: params.to,
+          minSeats: params.passengers,
+          departureDate: params.departureDate,
         });
-
-        console.log("✅ Filtered Vendors API Response:", res.data); // 👈 LOGS FULL DATA
-        setVendors(res.data);
+        setVendors(results);
       } catch (err) {
-        console.error(
-          "❌ Error fetching vendors:",
-          err.response?.data || err.message
-        );
+        setError(err.message);
+        console.log("Fetching vendors with params:", {
+          from,
+          to,
+          minSeats: passengers,
+          departureDate,
+        });
       } finally {
         setLoading(false);
       }
     };
 
-    getVendors();
-  }, []);
+    fetchVendors();
+  }, [params]);
 
   if (loading)
     return <ActivityIndicator size="large" style={{ marginTop: 100 }} />;
 
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
       <View
         style={{
           backgroundColor: "#4FBBD0",
@@ -98,7 +125,7 @@ const Explore = () => {
             { color: Colors.white, fontSize: 20, letterSpacing: -1 },
           ]}
         >
-          {from} - {to}
+          {params.from} → {params.to}
         </Text>
       </View>
 
@@ -124,7 +151,7 @@ const Explore = () => {
             }}
           >
             <Text style={styles.text}>
-              {from} → {to} • {passengers}
+              {params.from} → {params.to} . {params.passengers}
             </Text>
             <Text
               style={{
@@ -145,12 +172,26 @@ const Explore = () => {
         data={vendors}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
-          const route = item.routes?.[0];
-          if (!route) return null;
+          // const route = item.routes?.[0];
+          // if (!route) return null;
           return (
-            <TouchableOpacity
+            <Pressable
               style={{ paddingHorizontal: 20, gap: 50 }}
-              onPress={() => router.push(`/details/${item._id}`)}
+              onPress={() => {
+                router.navigate({
+                  pathname: "./details",
+                  params: { id: item._id },
+                });
+              }}
+              // onPress={() =>
+              //   router.navigate({
+              //     pathname: "/details",
+              //     params: { id: item._id },
+              //   })
+              // }
+              // onPress={() => {
+              //   router.navigate(`./details/${item._id}`)
+              // }}
             >
               <View
                 style={{
@@ -177,7 +218,7 @@ const Explore = () => {
 
                 <View style={{ gap: 5 }}>
                   <Text style={[home.itemText, { fontSize: 14 }]}>
-                    {route.from} → {route.to}
+                    {params.from} → {params.to}
                   </Text>
                   <View
                     style={{
@@ -198,11 +239,15 @@ const Explore = () => {
                         size={24}
                         color="#00A1BF"
                       />
-                      <Text style={home.itemText}>{route.departureTime}</Text>
+                      <Text style={home.itemText}>
+                        {item.routes?.[0]?.departureTime}am
+                      </Text>
                     </View>
                     <View style={{ flexDirection: "row", gap: 6 }}>
                       <FontAwesome5 name="user-alt" size={24} color="#00A1BF" />
-                      <Text style={home.itemText}>{route.seatsAvailable}</Text>
+                      <Text style={home.itemText}>
+                        {item.routes?.[0]?.availableSeats}{" "}
+                      </Text>
                     </View>
                   </View>
                   <View
@@ -212,7 +257,9 @@ const Explore = () => {
                       backgroundColor: "#0000004D",
                     }}
                   />
-                  <Text style={home.itemText}>₦{route.price}</Text>
+                  <Text style={home.itemText}>
+                    NGN {item.routes?.[0]?.price}
+                  </Text>
                   <Text
                     style={{
                       color: Colors.primary,
@@ -224,7 +271,7 @@ const Explore = () => {
                   </Text>
                 </View>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           );
         }}
       />
