@@ -9,17 +9,17 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/logo3.png",
-      "resizeMode": "cover",
+      "image": "./assets/images/logo.png",
+      "resizeMode": "contain",
       "backgroundColor": "#0F141A"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo3.png",
-        "backgroundColor": "#0F141A"
+      "splash": {
+        "backgroundColor": "#0F141A",
+        "resizeMode": "contain"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.logirate"

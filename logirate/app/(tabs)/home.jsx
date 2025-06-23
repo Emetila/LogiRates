@@ -146,7 +146,7 @@ const Home = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
       <ScrollView>
-        <Stack.Screen options={{ title: "Search Transport" }} />
+        {/* <Stack.Screen options={{ title: "Search Transport" }} /> */}
         <View
           style={{
             backgroundColor: "#4FBBD0",
