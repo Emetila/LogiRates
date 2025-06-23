@@ -68,6 +68,16 @@ export default function SearchScreen() {
   const handleViewDetails = (vendorId) => {
     navigation.navigate("VendorDetails", { vendorId });
   };
+const Search = () => {
+  // const [query, setQuery] = useState("");
+  // const [filteredData, setFilteredData] = useState(transportCompanies);
+  // useEffect(() => {
+  //   const q = query.toLowerCase();
+  //   const filtered = transportCompanies.filter((item) =>
+  //     item.name.toLowerCase().includes(q)
+  //   );
+  //   setFilteredData(filtered);
+  // }, [query]);
 
   if (error) {
     return (
@@ -147,6 +157,37 @@ export default function SearchScreen() {
           />
         )}
       </View>
+      {/* <View style={{ flex: 1, padding: 16 }}>
+        <TextInput
+          placeholder="Search..."
+          value={query}
+          onChangeText={setQuery}
+          style={{
+            borderWidth: 1,
+            borderColor: "#ccc",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 16,
+          }}
+        />
+
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                padding: 12,
+                borderBottomWidth: 1,
+                borderBottomColor: "#eee",
+              }}
+            >
+              <Text>{item.name}</Text>
+            </View>
+          )}
+          ListEmptyComponent={<Text>No results found.</Text>}
+        />
+      </View> */}
     </SafeAreaView>
   );
 }

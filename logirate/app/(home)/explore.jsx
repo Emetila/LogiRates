@@ -2,8 +2,9 @@ import {
   FlatList,
   Image,
   Pressable,
-  ActivityIndicator,
+  ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
   StatusBar,
@@ -16,8 +17,10 @@ import Colors from "@/constants/Colors";
 import home from "./styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import styles from "../styles";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import transportCompanies from "./vehicledata";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import api from "./api";
 import apiClient from "./api";
@@ -108,13 +111,24 @@ const Explore = () => {
           paddingHorizontal: "5%",
           borderBottomLeftRadius: 30,
           borderBottomRightRadius: 30,
+          position: "relative",
         }}
       >
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+          }}
+        >
           <Text style={[authStyles.authText, { fontSize: 32 }]}>
             Explore Trips
           </Text>
-          <Pressable onPress={() => router.push("/home")}>
+          <Pressable
+            onPress={() => {
+              router.push("/home");
+            }}
+          >
             <AntDesign name="closecircleo" size={28} color="white" />
           </Pressable>
         </View>
@@ -128,7 +142,6 @@ const Explore = () => {
           {params.from} → {params.to}
         </Text>
       </View>
-
       <View style={[home.destinationField, { top: -30 }]}>
         <View style={{ position: "relative" }}>
           <MaterialIcons
@@ -231,6 +244,7 @@ const Explore = () => {
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
+                      gap: 6,
                     }}
                   >
                     <View style={{ flexDirection: "row", gap: 6 }}>
@@ -275,6 +289,7 @@ const Explore = () => {
           );
         }}
       />
+      {/* )} */}
     </SafeAreaView>
   );
 };
