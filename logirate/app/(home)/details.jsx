@@ -34,7 +34,7 @@ export default function VendorDetailScreen() {
         }
 
         const data = await response.json();
-        console.log("All vendors data received:", data);
+        // console.log("All vendors data received:", data[1]);
 
         if (!data || !Array.isArray(data)) {
           throw new Error("Invalid data format received");
@@ -93,7 +93,7 @@ export default function VendorDetailScreen() {
           marginBottom: 24,
           backgroundColor: Colors.white,
           borderRadius: 15,
-          paddingVertical:20
+          paddingVertical: 20,
         }}
       >
         {vendor.logo ? (
@@ -130,9 +130,11 @@ export default function VendorDetailScreen() {
         >
           {vendor.name}
         </Text>
-        <Text style={{ color: Colors.textSecondary, marginTop: 4 }}>
+        <Text style={{ color: Colors.primary, marginTop: 4 }}>
           {vendor.vehicleType}
         </Text>
+        {/* <Text style={{ flex: 1 }}>{vendor.price || "N/A"}</Text> */}
+        <Text style={{ marginLeft: 8 }}>{vendor.description || "N/A"}</Text>
       </View>
 
       <View
@@ -148,16 +150,8 @@ export default function VendorDetailScreen() {
           Contact Information
         </Text>
         <View style={{ flexDirection: "row", marginBottom: 8 }}>
-          <FontAwesome5 name="phone" size={16} color={Colors.primary} />
+          <FontAwesome5 name="envelope" size={16} color={Colors.primary} />
           <Text style={{ marginLeft: 8 }}>{vendor.contactInfo || "N/A"}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <FontAwesome5
-            name="map-marker-alt"
-            size={16}
-            color={Colors.primary}
-          />
-          <Text style={{ marginLeft: 8 }}>{vendor.address || "N/A"}</Text>
         </View>
       </View>
 
@@ -188,17 +182,17 @@ export default function VendorDetailScreen() {
         Vehicle Details
       </Text>
       <View style={{ flexDirection: "row", marginBottom: 8 }}>
-        <Text style={{ flex: 1, color: Colors.textSecondary }}>Type:</Text>
-        <Text style={{ flex: 1 }}>{vendor.vehicleType || "N/A"}</Text>
+        <Text style={{ flex: 1, color: Colors.text }}>Type:</Text>
+        <Text style={{ flex: 1 }}>{vendor.vehicle || "N/A"}</Text>
       </View>
       <View style={{ flexDirection: "row", marginBottom: 8 }}>
-        <Text style={{ flex: 1, color: Colors.textSecondary }}>Capacity:</Text>
-        <Text style={{ flex: 1 }}>{vendor.vehicleCapacity || "N/A"}</Text>
+        <Text style={{ flex: 1, color: Colors.text }}>Capacity:</Text>
+        <Text style={{ flex: 1 }}>{vendor.availableSeats || "N/A"}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
-        <Text style={{ flex: 1, color: Colors.textSecondary }}>Amenities:</Text>
+        <Text style={{ flex: 1, color: Colors.text }}>Services:</Text>
         <Text style={{ flex: 1 }}>
-          {vendor.amenities?.join(", ") || "None"}
+          {vendor.services?.join(", ") || "None"}
         </Text>
       </View>
     </View>

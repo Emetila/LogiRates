@@ -386,44 +386,9 @@ const Home = () => {
       },
     });
   };
-  // const formatPrice = (price) => {
-  //   return new Intl.NumberFormat("en-NG", {
-  //     style: "currency",
-  //     currency: "NGN",
-  //   }).format(price);
-  // };
-
-  // const handleSearch = () => {
-  //   if (searchData.from && searchData.to) {
-  //     router.push({
-  //       pathname: "/explore",
-  //       params: {
-  //         from: searchData.from,
-  //         to: searchData.to,
-  //         passengers: searchData.passengers,
-  //       },
-  //     });
-  //   } else {
-  //     Alert.alert("Missing Information", "Please fill in all required fields");
-  //   }
-  // };
-
-  // const handleInputChange = (field, value) => {
-  //   const newData = { ...searchData, [field]: value };
-  //   setSearchData(newData);
-  //   globalSearchData = newData;
-  // };
-
-  // const handleQuickRoute = (from, to) => {
-  //   setSearchData((prev) => ({
-  //     ...prev,
-  //     from,
-  //     to,
-  //   }));
-  // };
 
   return (
-    <SafeAreaView style={styles.container2}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
       <ScrollView>
         <Stack.Screen options={{ title: "Search Transport" }} />

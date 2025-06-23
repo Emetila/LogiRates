@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -17,10 +18,10 @@ import Colors from "@/constants/Colors";
 import home from "./styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import styles from "../styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import transportCompanies from "./vehicledata";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { useRouter, useLocalSearchParams } from "expo-router";
+
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import api from "./api";
 import apiClient from "./api";

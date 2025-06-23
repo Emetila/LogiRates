@@ -3,9 +3,9 @@ import Colors from "../constants/Colors";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.white2,
     flex: 1,
-    paddingHorizontal: "10%",
+    // paddingHorizontal: "10%",
   },
 
   container2: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 
-  containe2: {
+  container2: {
     flex: 1,
     backgroundColor: Colors.white,
   },
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
   title: {
     color: Colors.white,
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: Colors.white,
     borderRadius: 8,
     paddingHorizontal: 12,
@@ -113,75 +113,94 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   listContent: {
-    flexGrow: 1,
     paddingBottom: 20,
+  },
+  emptyListContent: {
+    flex: 1,
+    justifyContent: 'center',
   },
   card: {
     backgroundColor: Colors.white,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    alignItems: "center",
   },
   logo: {
     width: 150,
     height: 80,
     marginBottom: 12,
+    alignSelf: 'center',
   },
   companyName: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  locationsContainer: {
     marginBottom: 12,
-    textAlign: "center",
+  },
+  locationsTitle: {
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  locationText: {
+    color: Colors.text,
+    marginLeft: 8,
+  },
+  moreLocationsText: {
+    color: Colors.primary,
+    fontStyle: 'italic',
+    marginTop: 4,
   },
   noLogo: {
     width: 150,
     height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Colors.lightGray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: Colors.lightGray,
     marginBottom: 12,
     borderRadius: 4,
+    alignSelf: 'center',
   },
   noLogoText: {
-    color: Colors.darkGray,
+    color: Colors.text,
   },
   detailsButton: {
     backgroundColor: Colors.primary,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: 6,
+    alignItems: 'center',
   },
   detailsButtonText: {
     color: Colors.white,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center',
     padding: 20,
   },
   emptyText: {
     fontSize: 18,
-    fontWeight: "600",
-    color: Colors.darkGray,
+    fontWeight: '600',
+    color: Colors.inputBg,
     marginTop: 16,
   },
   emptySubtext: {
     fontSize: 14,
-    color: Colors.gray,
+    color: Colors.text2,
     marginTop: 4,
+    textAlign: 'center',
   },
   errorText: {
-    color: Colors.error,
+    color: Colors.warning,
     padding: 20,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 
