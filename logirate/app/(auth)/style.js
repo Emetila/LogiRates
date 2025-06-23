@@ -112,6 +112,11 @@ const authStyle = StyleSheet.create({
     top: 10,
     left: 10,
   },
+  icon2: {
+    position: "absolute",
+    top: 10,
+    right: 30,
+  }
 });
 
 export default authStyle;

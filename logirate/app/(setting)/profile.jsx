@@ -18,7 +18,7 @@ import Colors from "@/constants/Colors";
 const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [profileImage, setProfileImage] = useState(
-    require("../../assets/images/profilephoto.png")
+    require("../../assets/images/image-logo.png")
   );
 
   const [fields, setFields] = useState({
@@ -26,6 +26,7 @@ const Profile = () => {
     email: "miracle@gmail.com",
     address: "123 Lagos Street",
     phone: "+2348012345678",
+    location: "Lagos",
   });
 
   const [editField, setEditField] = useState(null);
@@ -65,7 +66,7 @@ const Profile = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View
           style={{
@@ -76,7 +77,14 @@ const Profile = () => {
             paddingTop: 60,
           }}
         >
-          <Text style={{ color: "#fff", fontSize: 32, fontWeight: "bold", marginBottom: 20 }}>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 32,
+              fontWeight: "bold",
+              marginBottom: 20,
+            }}
+          >
             Profile
           </Text>
 
@@ -92,9 +100,15 @@ const Profile = () => {
               }}
             />
             <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 20, fontWeight: "600", color: "#fff" }}>{fields.name}</Text>
-              <Text style={{ color: "#f0f0f0", marginTop: 3 }}>{fields.email}</Text>
-              <Text style={{ color: "#f0f0f0", marginTop: 2 }}>Location: Lagos</Text>
+              <Text style={{ fontSize: 20, fontWeight: "600", color: "#fff" }}>
+                {fields.name}
+              </Text>
+              <Text style={{ color: "#f0f0f0", marginTop: 3 }}>
+                {fields.email}
+              </Text>
+              <Text style={{ color: "#f0f0f0", marginTop: 2 }}>
+                Location: {fields.location}
+              </Text>
 
               <Pressable
                 onPress={() => setShowModal(true)}
@@ -107,7 +121,9 @@ const Profile = () => {
                   alignSelf: "flex-start",
                 }}
               >
-                <Text style={{ color: "#4FBBD0", fontSize: 14 }}>Edit Profile Picture</Text>
+                <Text style={{ color: "#4FBBD0", fontSize: 14 }}>
+                  Edit Profile Picture
+                </Text>
               </Pressable>
             </View>
           </View>
@@ -120,8 +136,13 @@ const Profile = () => {
             { field: "Email", icon: "email", placeholder: "Email" },
             { field: "Address", icon: "map-marker", placeholder: "Address" },
             { field: "Phone", icon: "phone", placeholder: "Phone Number" },
-            { field: "Password", icon: "lock", placeholder: "Password" },
-          ].map(({ field, icon, placeholder }) => (
+            {
+              field: "location",
+              label: "Location",
+              icon: "map-marker-radius",
+              placeholder: "Location",
+            },
+          ].map(({ field, label, icon, placeholder }) => (
             <View
               key={field}
               style={{
@@ -134,7 +155,7 @@ const Profile = () => {
                 elevation: 1,
               }}
             >
-              <Text style={{fontFamily:"PoppinsSemiBold"}}>{field}</Text>
+              <Text style={{ fontFamily: "PoppinsSemiBold" }}>{fields[field]}</Text>
               <View
                 style={{
                   flexDirection: "row",
@@ -147,7 +168,12 @@ const Profile = () => {
                   borderColor: editField === field ? "#4FBBD0" : "transparent",
                 }}
               >
-                <MaterialCommunityIcons name={icon} size={22} color="#4FBBD0" style={{ marginRight: 8 }} />
+                <MaterialCommunityIcons
+                  name={icon}
+                  size={22}
+                  color="#4FBBD0"
+                  style={{ marginRight: 8 }}
+                />
 
                 {editField === field && field !== "password" ? (
                   <TextInput
@@ -187,7 +213,11 @@ const Profile = () => {
                   </Pressable>
                 ) : (
                   <Pressable onPress={saveField}>
-                    <MaterialCommunityIcons name="check-circle" size={22} color="#4FBBD0" />
+                    <MaterialCommunityIcons
+                      name="check-circle"
+                      size={22}
+                      color="#4FBBD0"
+                    />
                   </Pressable>
                 )}
               </View>
@@ -228,7 +258,11 @@ const Profile = () => {
                 }}
               >
                 <TouchableOpacity onPress={() => setShowModal(false)}>
-                  <MaterialCommunityIcons name="close" size={28} color="black" />
+                  <MaterialCommunityIcons
+                    name="close"
+                    size={28}
+                    color="black"
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowModal(false)}>
                   <MaterialCommunityIcons name="delete" size={28} color="red" />
@@ -253,7 +287,10 @@ const Profile = () => {
                   marginTop: 10,
                 }}
               >
-                <TouchableOpacity onPress={pickFromGallery} style={{ alignItems: "center", gap: 8 }}>
+                <TouchableOpacity
+                  onPress={pickFromGallery}
+                  style={{ alignItems: "center", gap: 8 }}
+                >
                   <View
                     style={{
                       width: 80,
@@ -264,12 +301,19 @@ const Profile = () => {
                       borderRadius: 16,
                     }}
                   >
-                    <MaterialCommunityIcons name="image" size={36} color="white" />
+                    <MaterialCommunityIcons
+                      name="image"
+                      size={36}
+                      color="white"
+                    />
                   </View>
                   <Text>Gallery</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={pickFromCamera} style={{ alignItems: "center", gap: 8 }}>
+                <TouchableOpacity
+                  onPress={pickFromCamera}
+                  style={{ alignItems: "center", gap: 8 }}
+                >
                   <View
                     style={{
                       width: 80,
@@ -280,7 +324,11 @@ const Profile = () => {
                       borderRadius: 16,
                     }}
                   >
-                    <MaterialCommunityIcons name="camera" size={36} color="white" />
+                    <MaterialCommunityIcons
+                      name="camera"
+                      size={36}
+                      color="white"
+                    />
                   </View>
                   <Text>Camera</Text>
                 </TouchableOpacity>

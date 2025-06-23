@@ -77,9 +77,14 @@ export default function SearchScreen() {
   }, [searchTerm, vendors]);
 
   const handleViewDetails = (vendorId) => {
+    console.log("Attempting to navigate with vendorId:", vendorId);
+    if (!vendorId) {
+      Alert.alert("Error", "Vendor ID is missing");
+      return;
+    }
     router.push({
       pathname: "/details",
-      params: { vendorId },
+      params: { id: vendorId }, // Changed from vendorid to id
     });
   };
 
@@ -126,7 +131,7 @@ export default function SearchScreen() {
         ) : (
           <FlatList
             data={filteredVendors}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => item.id || item._id}
             renderItem={({ item }) => (
               <View style={styles.card}>
                 {item.logo ? (
@@ -162,7 +167,7 @@ export default function SearchScreen() {
                 )} */}
 
                 <TouchableOpacity
-                  onPress={() => handleViewDetails(item._id)}
+                  onPress={() => handleViewDetails(item.id || item._id)}
                   style={styles.detailsButton}
                 >
                   <Text style={styles.detailsButtonText}>View Details</Text>

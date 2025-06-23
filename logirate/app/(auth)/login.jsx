@@ -101,7 +101,7 @@ const Login = () => {
               <Text style={authStyles.formText}>Email/Mobile</Text>
               <View style={{ position: "relative" }}>
                 <MaterialCommunityIcons
-                  style={authStyle.icon}
+                  style={authStyle.icon2}
                   name="email"
                   size={24}
                   color="#00A1BF"
@@ -109,7 +109,7 @@ const Login = () => {
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
-                  style={authStyles.input}
+                  style={authStyles.input2}
                   cursorColor={Colors.primary}
                   keyboardType="email-address"
                 />
