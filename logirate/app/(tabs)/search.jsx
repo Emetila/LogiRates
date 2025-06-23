@@ -15,8 +15,10 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
+import styles from "../styles";
 
-const API_URL = "https://logirate-api.onrender.com/vendors/allvendors-with-routes";
+const API_URL =
+  "https://logirate-api.onrender.com/vendors/allvendors-with-routes";
 
 export default function SearchScreen() {
   const [query, setQuery] = useState("");
@@ -40,7 +42,10 @@ export default function SearchScreen() {
       } catch (err) {
         console.error("Fetch error:", err);
         setError(err.message);
-        Alert.alert("Error", "Failed to fetch vendors. Please try again later.");
+        Alert.alert(
+          "Error",
+          "Failed to fetch vendors. Please try again later."
+        );
       } finally {
         setLoading(false);
       }
@@ -55,12 +60,12 @@ export default function SearchScreen() {
     }
 
     const q = query.toLowerCase();
-    const filtered = vendors.filter(vendor => {
+    const filtered = vendors.filter((vendor) => {
       // Add optional chaining and fallback for companyName
       const companyName = vendor?.companyName?.toLowerCase() || "";
       return companyName.includes(q);
     });
-    
+
     console.log("Filtered results:", filtered.length);
     setFilteredVendors(filtered);
   }, [query, vendors]);
@@ -68,96 +73,100 @@ export default function SearchScreen() {
   const handleViewDetails = (vendorId) => {
     navigation.navigate("VendorDetails", { vendorId });
   };
-const Search = () => {
-  // const [query, setQuery] = useState("");
-  // const [filteredData, setFilteredData] = useState(transportCompanies);
-  // useEffect(() => {
-  //   const q = query.toLowerCase();
-  //   const filtered = transportCompanies.filter((item) =>
-  //     item.name.toLowerCase().includes(q)
-  //   );
-  //   setFilteredData(filtered);
-  // }, [query]);
+  const Search = () => {
+    // const [query, setQuery] = useState("");
+    // const [filteredData, setFilteredData] = useState(transportCompanies);
+    // useEffect(() => {
+    //   const q = query.toLowerCase();
+    //   const filtered = transportCompanies.filter((item) =>
+    //     item.name.toLowerCase().includes(q)
+    //   );
+    //   setFilteredData(filtered);
+    // }, [query]);
 
-  if (error) {
+    if (error) {
+      return (
+        <SafeAreaView style={styles.container}>
+          <Text style={styles.errorText}>Error: {error}</Text>
+        </SafeAreaView>
+      );
+    }
+
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.errorText}>Error: {error}</Text>
-      </SafeAreaView>
-    );
-  }
+        <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
-      
-      {/* Header Section */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Search for Operators</Text>
-        
-        {/* Search Input */}
-        <View style={styles.searchContainer}>
-          <Feather
-            name="search"
-            size={20}
-            color={Colors.gray}
-            style={styles.searchIcon}
-          />
-          <TextInput
-            placeholder="Search for Operator Here"
-            placeholderTextColor={Colors.gray}
-            value={query}
-            onChangeText={setQuery}
-            style={styles.searchInput}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
+        {/* Header Section */}
+        <View style={styles.header}>
+          <Text style={styles.title}>Search for Operators</Text>
+
+          {/* Search Input */}
+          <View style={styles.searchContainer}>
+            <Feather
+              name="search"
+              size={20}
+              color={Colors.gray}
+              style={styles.searchIcon}
+            />
+            <TextInput
+              placeholder="Search for Operator Here"
+              placeholderTextColor={Colors.gray}
+              value={query}
+              onChangeText={setQuery}
+              style={styles.searchInput}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
         </View>
-      </View>
 
-      {/* Content Section */}
-      <View style={styles.content}>
-        {loading ? (
-          <ActivityIndicator size="large" color={Colors.primary} />
-        ) : (
-          <FlatList
-            data={filteredVendors}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                {item.logo ? (
-                  <Image
-                    source={{ uri: item.logo }}
-                    style={styles.logo}
-                    resizeMode="contain"
-                    onError={() => console.log("Image load error")}
-                  />
-                ) : (
-                  <View style={styles.noLogo}>
-                    <Text style={styles.noLogoText}>No Logo</Text>
-                  </View>
-                )}
-                <Text style={styles.companyName}>{item.companyName || "Unknown Company"}</Text>
-                <TouchableOpacity
-                  onPress={() => handleViewDetails(item._id)}
-                  style={styles.detailsButton}
-                >
-                  <Text style={styles.detailsButtonText}>View Details</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            ListEmptyComponent={
-              <View style={styles.emptyContainer}>
-                <Feather name="search" size={48} color={Colors.gray} />
-                <Text style={styles.emptyText}>No operators found</Text>
-                <Text style={styles.emptySubtext}>Try a different search term</Text>
-              </View>
-            }
-            contentContainerStyle={styles.listContent}
-          />
-        )}
-      </View>
-      {/* <View style={{ flex: 1, padding: 16 }}>
+        {/* Content Section */}
+        <View style={styles.content}>
+          {loading ? (
+            <ActivityIndicator size="large" color={Colors.primary} />
+          ) : (
+            <FlatList
+              data={filteredVendors}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => (
+                <View style={styles.card}>
+                  {item.logo ? (
+                    <Image
+                      source={{ uri: item.logo }}
+                      style={styles.logo}
+                      resizeMode="contain"
+                      onError={() => console.log("Image load error")}
+                    />
+                  ) : (
+                    <View style={styles.noLogo}>
+                      <Text style={styles.noLogoText}>No Logo</Text>
+                    </View>
+                  )}
+                  <Text style={styles.companyName}>
+                    {item.companyName || "Unknown Company"}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => handleViewDetails(item._id)}
+                    style={styles.detailsButton}
+                  >
+                    <Text style={styles.detailsButtonText}>View Details</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              ListEmptyComponent={
+                <View style={styles.emptyContainer}>
+                  <Feather name="search" size={48} color={Colors.gray} />
+                  <Text style={styles.emptyText}>No operators found</Text>
+                  <Text style={styles.emptySubtext}>
+                    Try a different search term
+                  </Text>
+                </View>
+              }
+              contentContainerStyle={styles.listContent}
+            />
+          )}
+        </View>
+        {/* <View style={{ flex: 1, padding: 16 }}>
         <TextInput
           placeholder="Search..."
           value={query}
@@ -188,117 +197,7 @@ const Search = () => {
           ListEmptyComponent={<Text>No results found.</Text>}
         />
       </View> */}
-    </SafeAreaView>
-  );
+      </SafeAreaView>
+    );
+  };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-  header: {
-    backgroundColor: Colors.primary,
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-  },
-  title: {
-    color: Colors.white,
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    height: 48,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-  listContent: {
-    flexGrow: 1,
-    paddingBottom: 20,
-  },
-  card: {
-    backgroundColor: Colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    alignItems: 'center',
-  },
-  logo: {
-    width: 150,
-    height: 80,
-    marginBottom: 12,
-  },
-  companyName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  noLogo: {
-    width: 150,
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.lightGray,
-    marginBottom: 12,
-    borderRadius: 4,
-  },
-  noLogoText: {
-    color: Colors.darkGray,
-  },
-  detailsButton: {
-    backgroundColor: Colors.primary,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 6,
-  },
-  detailsButtonText: {
-    color: Colors.white,
-    fontWeight: '600',
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  emptyText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.darkGray,
-    marginTop: 16,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: Colors.gray,
-    marginTop: 4,
-  },
-  errorText: {
-    color: Colors.error,
-    padding: 20,
-    textAlign: 'center',
-  },
-});

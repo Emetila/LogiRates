@@ -73,6 +73,116 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: "100%",
   },
+
+  containe2: {
+    flex: 1,
+    backgroundColor: Colors.white,
+  },
+
+  header: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  title: {
+    color: Colors.white,
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 48,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  listContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
+  card: {
+    backgroundColor: Colors.white,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    alignItems: "center",
+  },
+  logo: {
+    width: 150,
+    height: 80,
+    marginBottom: 12,
+  },
+  companyName: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  noLogo: {
+    width: 150,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.lightGray,
+    marginBottom: 12,
+    borderRadius: 4,
+  },
+  noLogoText: {
+    color: Colors.darkGray,
+  },
+  detailsButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  detailsButtonText: {
+    color: Colors.white,
+    fontWeight: "600",
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: Colors.darkGray,
+    marginTop: 16,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    color: Colors.gray,
+    marginTop: 4,
+  },
+  errorText: {
+    color: Colors.error,
+    padding: 20,
+    textAlign: "center",
+  },
 });
 
 export default styles;
