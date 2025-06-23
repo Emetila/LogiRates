@@ -655,7 +655,7 @@ const Home = () => {
                 <TouchableOpacity
                   key={`${route.from}-${route.to}-${index}`}
                   style={styles.box}
-                  onPress={() => handleRoutePress(route)}
+                  // onPress={() => handleRoutePress(route)}
                 >
                   <Image
                     source={route.image}

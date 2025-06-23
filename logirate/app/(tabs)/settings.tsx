@@ -85,7 +85,7 @@ const Settings = () => {
           {/* Profile */}
           <Pressable
             onPress={() =>{
-              router.push("./profile");
+              router.push("/profile");
             }}
             style={styles.box}
           >
