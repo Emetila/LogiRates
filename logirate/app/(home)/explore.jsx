@@ -9,6 +9,7 @@ import {
   View,
   StatusBar,
   ActivityIndicator,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -18,6 +19,7 @@ import Colors from "@/constants/Colors";
 import home from "./styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import styles from "../styles";
+import React, { useEffect, useState } from "react";
 import React, { useEffect, useState } from "react";
 import transportCompanies from "./vehicledata";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -31,7 +33,6 @@ export const fetchAllVendors = async () => {
     const response = await apiClient.get("/vendors/allvendors-with-routes");
     return response.data;
   } catch (error) {
-    console.error("Error fetching vendors:", error);
     throw error;
   }
 };
@@ -39,10 +40,9 @@ export const fetchAllVendors = async () => {
 export const searchVendors = async (params) => {
   try {
     const response = await apiClient.get("/vendors/filter", { params });
-    console.log("✅ Filtered Vendors API Response:", response.data[1]);
+    
     return response.data;
   } catch (error) {
-    console.error("Error searching vendors:", error);
     throw error;
   }
 };
@@ -53,16 +53,7 @@ const Explore = () => {
   const [vendors, setVendors] = useState([]);
   const [error, setError] = useState(null);
 
-  // const {
-  //   from,
-  //   to,
-  //   passengers,
-  //   departureTime = "08:00",
-  //   arrivalTime = "18:00",
-  //   vehicleType = "Bus",
-  //   minPrice = 0,
-  //   maxPrice = 100000,
-  // } = useLocalSearchParams();
+
 
   useEffect(() => {
     const fetchVendors = async () => {
@@ -76,12 +67,6 @@ const Explore = () => {
         setVendors(results);
       } catch (err) {
         setError(err.message);
-        console.log("Fetching vendors with params:", {
-          from,
-          to,
-          minSeats: passengers,
-          departureDate,
-        });
       } finally {
         setLoading(false);
       }
@@ -197,15 +182,7 @@ const Explore = () => {
                   params: { id: item._id },
                 });
               }}
-              // onPress={() =>
-              //   router.navigate({
-              //     pathname: "/details",
-              //     params: { id: item._id },
-              //   })
-              // }
-              // onPress={() => {
-              //   router.navigate(`./details/${item._id}`)
-              // }}
+              
             >
               <View
                 style={{
