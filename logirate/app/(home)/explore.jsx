@@ -9,7 +9,6 @@ import {
   View,
   StatusBar,
   ActivityIndicator,
-  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -20,8 +19,6 @@ import home from "./styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import styles from "../styles";
 import React, { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react";
-import transportCompanies from "./vehicledata";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
