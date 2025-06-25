@@ -23,12 +23,12 @@ const Notification = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Chisco just updated the price for their luxirious vehicle. Check it out now.",
+      text: "ABC just updated the price for their luxirious vehicle. Check it out now.",
       time: "7:45 am",
     },
     {
       id: 2,
-      text: "Peace mass transit has changed the time of depature of the second bus from 6:45 am to 7:10 am",
+      text: "GIGM has changed the time of depature of the second bus from 6:45 am to 7:10 am",
       time: "7:45 am",
     },
   ]);
