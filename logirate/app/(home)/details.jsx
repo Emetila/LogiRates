@@ -24,32 +24,28 @@ export default function VendorDetailScreen() {
   useEffect(() => {
     const fetchVendor = async () => {
       try {
-        console.log("Fetching all vendors data...");
+        console.log("Fetching vendor with ID:", id);
         const response = await fetch(
           "https://logirate-api.onrender.com/vendors/allvendors-with-routes"
         );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
         const data = await response.json();
-        // console.log("All vendors data received:", data[1]);
 
-        if (!data || !Array.isArray(data)) {
-          throw new Error("Invalid data format received");
+        // Debug: Check the ID field names
+        if (data.length > 0) {
+          console.log("First vendor keys:", Object.keys(data[0]));
         }
 
-        // Find the specific vendor by ID
-        const foundVendor = data.find((v) => v._id === id);
+        // Find vendor by either id or _id
+        const foundVendor = data.find((v) => v.id === id || v._id === id);
+        
         if (!foundVendor) {
-          throw new Error("Vendor not found");
+          console.error("Available IDs:", data.map(v => v.id || v._id));
+          throw new Error(`Vendor with ID ${id} not found`);
         }
 
-        console.log("Found vendor:", foundVendor);
         setVendor(foundVendor);
       } catch (err) {
-        console.error("Error fetching vendor details:", err);
+        console.error("Error:", err);
         setError(err.message);
       } finally {
         setLoading(false);

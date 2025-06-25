@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Dimensions,
   Image,
@@ -41,6 +42,181 @@ const apiClient = axios.create({
   baseURL: "https://logirate-api.onrender.com",
   timeout: 10000,
 });
+
+// apiClient.interceptors.response.use(
+//   (response) => {
+//     console.log("API Response Success:", {
+//       status: response.status,
+//       url: response.config.url,
+//       dataType: typeof response.data,
+//       dataKeys: response.data ? Object.keys(response.data) : [],
+//     });
+//     return response;
+//   },
+//   (error) => {
+//     console.error("API Response Error:", {
+//       status: error.response?.status,
+//       statusText: error.response?.statusText,
+//       data: error.response?.data,
+//       message: error.message,
+//       url: error.config?.url,
+//       fullURL: error.config
+//         ? `${error.config.baseURL}${error.config.url}`
+//         : "Unknown",
+//     });
+//     return Promise.reject(error);
+//   }
+// );
+
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     const fullURL = `${config.baseURL}${config.url}`;
+//     console.log("API Request:", {
+//       method: config.method?.toUpperCase(),
+//       fullURL,
+//       params: config.params,
+//       data: config.data,
+//     });
+//     return config;
+//   },
+//   (error) => {
+//     console.error("Request Error:", error);
+//     return Promise.reject(error);
+//   }
+// );
+
+// const searchTransport = async (searchData) => {
+//   try {
+//     console.log("Searching with data:", searchData);
+//     if (!searchData.from || !searchData.to || !searchData.passengers) {
+//       throw new Error("Missing required fields: from, to, or passengers");
+//     }
+
+//     // Format the date properly if provided
+//     let formattedDate = searchData.departureDate;
+//     if (formattedDate && typeof formattedDate === "string") {
+//       // Ensure date is in YYYY-MM-DD format
+//       const dateObj = new Date(formattedDate);
+//       if (!isNaN(dateObj.getTime())) {
+//         formattedDate = dateObj.toISOString().split("T")[0];
+//       }
+//     }
+
+//     const params = {
+//       from: searchData.from.trim(),
+//       to: searchData.to.trim(),
+//       passengers: parseInt(searchData.passengers) || 1,
+//     };
+
+//     // Only add date if it's provided
+//     if (formattedDate) {
+//       params.departureDate = formattedDate;
+//     }
+
+//     console.log("API Params:", params);
+
+//     const response = await apiClient.get("/vendors/allvendors-with-routes", {
+//       params,
+//     });
+
+//     console.log("Search response received:", response.data);
+
+//     // Handle different response structures
+//     if (response.data) {
+//       return response.data.results || response.data.data || response.data;
+//     } else {
+//       return [];
+//     }
+//   } catch (error) {
+//     console.error("Search API Error Details:", {
+//       message: error.message,
+//       response: error.response?.data,
+//       status: error.response?.status,
+//       config: error.config,
+//     });
+
+//     if (error.response) {
+//       // Server responded with an error status
+//       const status = error.response.status;
+//       const message =
+//         error.response.data?.message ||
+//         error.response.data?.error ||
+//         "Server error occurred";
+
+//       if (status === 404) {
+//         throw new Error(
+//           "Transport search service not found. Please contact support."
+//         );
+//       } else if (status === 400) {
+//         throw new Error(`Invalid search parameters: ${message}`);
+//       } else if (status === 500) {
+//         throw new Error(
+//           "Server is currently unavailable. Please try again later."
+//         );
+//       } else {
+//         throw new Error(`Server Error (${status}): ${message}`);
+//       }
+//     } else if (error.request) {
+//       // Network error
+//       throw new Error(
+//         "Network Error: Please check your internet connection and try again."
+//       );
+//     } else {
+//       // Other error
+//       throw new Error(
+//         error.message || "Something went wrong. Please try again."
+//       );
+//     }
+//   }
+// };
+
+// const getTransportDetails = async (id) => {
+//   try {
+//     const response = await apiClient.get(`/transport/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error("Details API Error:", error);
+//     if (error.response) {
+//       throw new Error(
+//         `Server Error: ${error.response.status} - ${
+//           error.response.data.message || "Please try again"
+//         }`
+//       );
+//     } else if (error.request) {
+//       throw new Error("Network Error: Please check your internet connection");
+//     } else {
+//       throw new Error("Failed to load transport details");
+//     }
+//   }
+// };
+
+// const router = (useRouter = () => {
+//   const [currentRoute, setCurrentRoute] = useState("/");
+//   const [params, setParams] = useState({});
+
+//   return {
+//     push: (path, options = {}) => {
+//       setCurrentRoute(path);
+//       if (options.params) setParams(options.params);
+//     },
+//     back: () => {
+//       if (currentRoute === "/details") setCurrentRoute("/explore");
+//       else if (currentRoute === "/explore") setCurrentRoute("/");
+//     },
+//     pathname: currentRoute,
+//     query: params,
+//   };
+// });
+
+// let globalSearchData = {
+//   from: "",
+//   to: "",
+//   departureDate: "",
+//   passengers: "",
+// };
+
+// let globalSearchResults = [];
+// let globalSelectedVehicle = null;
 
 export const fetchAllVendors = async () => {
   try {
@@ -89,6 +265,131 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [minPrice, setMinPrice] = useState("10000");
   const [maxPrice, setMaxPrice] = useState("30000");
+  const [popularRoutes, setPopularRoutes] = useState([
+    {
+      from: "Lagos",
+      to: "Abuja",
+      time: "6am",
+      price: "28,900",
+      image: require("../../assets/images/routeimg2.png"),
+    },
+    {
+      from: "Lagos",
+      to: "Portharcourt",
+      time: "6am",
+      price: "27,900",
+      image: require("../../assets/images/routeimg1.png"),
+    },
+    {
+      from: "Lagos",
+      to: "Enugu",
+      time: "6am",
+      price: "32,900",
+      image: require("../../assets/images/routeimg3.png"),
+    },
+  ]);
+  const [loadingRoutes, setLoadingRoutes] = useState(false);
+
+  // Fetch popular routes from API
+  const fetchPopularRoutes = async () => {
+    try {
+      setLoadingRoutes(true);
+      const response = await apiClient.get("/vendors/allvendors-with-routes");
+
+      // Process the API data to match our UI structure
+      const vendors = response.data.vendors || [];
+      const processedRoutes = [];
+
+      // Get unique routes from all vendors
+      vendors.forEach((vendor) => {
+        if (vendor.routes && vendor.routes.length > 0) {
+          vendor.routes.forEach((route) => {
+            // Check if we already have this route
+            const exists = processedRoutes.some(
+              (r) => r.from === route.origin && r.to === route.destination
+            );
+
+            if (!exists) {
+              processedRoutes.push({
+                from: route.origin,
+                to: route.destination,
+                time: route.departureTime || "6am",
+                price: `NGN ${route.price?.toLocaleString() || "15,000"}`,
+                image: { uri: vendor.logo || "https://via.placeholder.com/90" },
+                companies: [
+                  {
+                    id: vendor._id,
+                    name: vendor.companyName,
+                    logo: vendor.logo,
+                    rating: vendor.rating,
+                  },
+                ],
+              });
+            }
+          });
+        }
+      });
+
+      // Update popular routes with API data (or keep defaults if empty)
+      if (processedRoutes.length > 0) {
+        setPopularRoutes(processedRoutes.slice(0, 3)); // Show top 3 routes
+      }
+    } catch (error) {
+      console.error("Error fetching popular routes:", error);
+      // Keep the default routes if API fails
+    } finally {
+      setLoadingRoutes(false);
+    }
+  };
+
+  // Fetch popular routes on component mount
+  useEffect(() => {
+    fetchPopularRoutes();
+  }, []);
+
+  // Modified handleRoutePress to use the companies data we already have
+  const handleRoutePress = (route) => {
+    if (route.companies && route.companies.length > 0) {
+      setSelectedRouteCompanies(route.companies);
+      setShowCompaniesModal(true);
+    } else {
+      // Fallback: Try to fetch companies if we don't have them
+      fetchCompaniesForRoute(route.from, route.to);
+    }
+  };
+
+  // Fallback function to fetch companies if not already loaded
+  const fetchCompaniesForRoute = async (from, to) => {
+    try {
+      setLoading(true);
+      const response = await apiClient.get("/vendors/filter", {
+        params: {
+          from,
+          to,
+          minPrice: "10000",
+          maxPrice: "30000",
+          vehicleType: "Bus",
+        },
+      });
+
+      if (response.data.vendors) {
+        setSelectedRouteCompanies(
+          response.data.vendors.map((vendor) => ({
+            id: vendor._id,
+            name: vendor.companyName,
+            logo: vendor.logo,
+            rating: vendor.rating,
+          }))
+        );
+        setShowCompaniesModal(true);
+      }
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+      Alert.alert("Error", "Could not load transport companies");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Get today's date for min date validation
   const today = new Date().toISOString().split("T")[0];
@@ -146,7 +447,6 @@ const Home = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
       <ScrollView>
-        {/* <Stack.Screen options={{ title: "Search Transport" }} /> */}
         <View
           style={{
             backgroundColor: "#4FBBD0",
@@ -166,7 +466,7 @@ const Home = () => {
             }}
           >
             <Text style={[authStyles.authText, { fontSize: 32 }]}>
-              Hello User
+              Welcome Back
             </Text>
             <Pressable
               onPress={() => {
@@ -337,7 +637,44 @@ const Home = () => {
           >
             Popular Routes
           </Text>
-          <View
+          {loadingRoutes ? (
+            <ActivityIndicator size="large" color={Colors.primary} />
+          ) : (
+            <View
+              style={{
+                marginHorizontal: "8%",
+                gap: 20,
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center",
+                width: "100%",
+                left: 0,
+              }}
+            >
+              {popularRoutes.map((route, index) => (
+                <TouchableOpacity
+                  key={`${route.from}-${route.to}-${index}`}
+                  style={styles.box}
+                  // onPress={() => handleRoutePress(route)}
+                >
+                  <Image
+                    source={route.image}
+                    resizeMode="cover"
+                    style={{ width: 90, height: 90, borderRadius: 8 }}
+                  />
+                  <View style={{ gap: 5 }}>
+                    <Text style={styles.text}>
+                      {route.from} - {route.to}
+                    </Text>
+                    <Text style={styles.text}>{route.time}</Text>
+                    <Text style={styles.price}>{route.price}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          {/* <View
             style={{
               marginHorizontal: "8%",
               gap: 20,
@@ -388,7 +725,7 @@ const Home = () => {
                 <Text style={styles.price}>NGN 32,900</Text>
               </View>
             </View>
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -141,7 +141,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>First Name</Text>
               <View style={{ position: "relative" }}>
                 <FontAwesome6
-                  style={authStyle.icon}
+                  style={authStyle.icon2}
                   name="user-large"
                   size={24}
                   color="#00A1BF"
@@ -155,7 +155,7 @@ const SignupPage = () => {
                     handleInputChange("firstName", value);
                   }}
                   style={[
-                    authStyle.input2,
+                    authStyles.input2,
                     errors.firstName && { borderColor: "red" },
                   ]}
                   cursorColor={Colors.primary}
@@ -169,7 +169,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>Surname</Text>
               <View style={{ position: "relative" }}>
                 <FontAwesome6
-                  style={authStyle.icon}
+                  style={authStyle.icon2}
                   name="user-large"
                   size={24}
                   color="#00A1BF"
@@ -183,7 +183,7 @@ const SignupPage = () => {
                     handleInputChange("surname", value);
                   }}
                   style={[
-                    authStyle.input2,
+                    authStyles.input2,
                     errors.surname && { borderColor: "red" },
                   ]}
                   cursorColor={Colors.primary}
@@ -197,7 +197,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>Email/Mobile</Text>
               <View style={{ position: "relative" }}>
                 <MaterialCommunityIcons
-                  style={authStyle.icon}
+                  style={authStyle.icon2}
                   name="email"
                   size={24}
                   color="#00A1BF"
@@ -211,7 +211,7 @@ const SignupPage = () => {
                   }}
                   autoCorrect={false}
                   style={[
-                    authStyles.input,
+                    authStyles.input2,
                     errors.email && { borderColor: "red" },
                   ]}
                   contentStyle={{ paddingLeft: 40 }}
