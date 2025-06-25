@@ -197,7 +197,7 @@ const SignupPage = () => {
               <Text style={authStyles.formText}>Email/Mobile</Text>
               <View style={{ position: "relative" }}>
                 <MaterialCommunityIcons
-                  style={authStyles.icon}
+                  style={authStyle.icon}
                   name="email"
                   size={24}
                   color="#00A1BF"

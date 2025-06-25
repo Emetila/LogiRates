@@ -2,30 +2,63 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Image,
   Pressable,
   TouchableOpacity,
+  Image,
+  SafeAreaView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import Colors from "@/constants/Colors";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+
+const Colors = {
+  text: "#333",
+  white: "#fff",
+};
 
 const Notification = () => {
   const navigation = useNavigation();
 
   const [pushEnabled, setPushEnabled] = useState(false);
+  const [emailEnabled, setEmailEnabled] = useState(false);
+
   const [priceDropChecked, setPriceDropChecked] = useState(false);
   const [promotionsChecked, setPromotionsChecked] = useState(false);
   const [updatesChecked, setUpdatesChecked] = useState(false);
 
+  const [rateTrendChecked, setrateTrendChecked] = useState(false);
+  const [weeklySumChecked, setweeklySumChecked] = useState(false);
+
+  const handleEnablePushNotifications = () => {
+    setPriceDropChecked(true);
+    setPromotionsChecked(true);
+    setUpdatesChecked(true);
+  };
+
+  const handleDisablePushNotifications = () => {
+    setPriceDropChecked(false);
+    setPromotionsChecked(false);
+    setUpdatesChecked(false);
+  };
+
+  const handleEnableEmailNotifications = () => {
+    setrateTrendChecked(true);
+    setweeklySumChecked(true);
+  };
+
+  const handleDisableEmailNotifications = () => {
+    setrateTrendChecked(false);
+    setweeklySumChecked(false);
+  };
+
   const handleSave = () => {
-    console.log("Saved:", {
+    console.log("Saved settings:", {
       pushEnabled,
+      emailEnabled,
       priceDropChecked,
       promotionsChecked,
       updatesChecked,
+      rateTrendChecked,
+      weeklySumChecked,
     });
   };
 
@@ -44,11 +77,7 @@ const Notification = () => {
       }}
     >
       {checked && (
-        <MaterialCommunityIcons
-          name="check"
-          size={16}
-          color="white"
-        />
+        <MaterialCommunityIcons name="check" size={16} color="white" />
       )}
     </Pressable>
   );
@@ -59,26 +88,25 @@ const Notification = () => {
       <Pressable onPress={() => navigation.goBack()} style={{ padding: 10 }}>
         <Image
           source={require("../../assets/images/Vector.png")}
-          style={{ width: 20, height: 20, resizeMode: "contain" }}
+          style={{ width: 20, height: 90, resizeMode: "contain" }}
         />
       </Pressable>
 
       {/* Heading */}
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: 10 }}>
         <Text
           style={{
             color: Colors.text,
-            fontFamily: "PoppinsMedium",
             fontSize: 32,
             fontWeight: "600",
-            marginBottom: 40,
+            marginBottom: 35,
           }}
         >
           Notification
         </Text>
       </View>
 
-      {/* Push Navigation */}
+      {/* Push Notification Toggle */}
       <View
         style={{
           flexDirection: "row",
@@ -89,10 +117,19 @@ const Notification = () => {
         }}
       >
         <Text style={{ fontSize: 16, fontWeight: "500", color: Colors.text }}>
-          Push Navigation
+          Push Notifications
         </Text>
+
         <TouchableOpacity
-          onPress={() => setPushEnabled(!pushEnabled)}
+          onPress={() => {
+            const newValue = !pushEnabled;
+            setPushEnabled(newValue);
+            if (newValue) {
+              handleEnablePushNotifications();
+            } else {
+              handleDisablePushNotifications();
+            }
+          }}
           style={{
             backgroundColor: pushEnabled ? "#4FBBD0" : "#ccc",
             width: 50,
@@ -114,7 +151,7 @@ const Notification = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Notifications Options */}
+      {/* Push Notifications Options */}
       <View
         style={{
           backgroundColor: "#F2F2F2",
@@ -123,7 +160,6 @@ const Notification = () => {
           padding: 20,
         }}
       >
-        {/* Price Drop */}
         <View
           style={{
             flexDirection: "row",
@@ -138,7 +174,6 @@ const Notification = () => {
           {renderCheckbox(priceDropChecked, setPriceDropChecked)}
         </View>
 
-        {/* Promotions */}
         <View
           style={{
             flexDirection: "row",
@@ -153,7 +188,6 @@ const Notification = () => {
           {renderCheckbox(promotionsChecked, setPromotionsChecked)}
         </View>
 
-        {/* Company Updates */}
         <View
           style={{
             flexDirection: "row",
@@ -167,23 +201,32 @@ const Notification = () => {
           {renderCheckbox(updatesChecked, setUpdatesChecked)}
         </View>
       </View>
-      {/* Email Navigation */}
+
+      {/* Email Notification Toggle */}
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
           marginHorizontal: 20,
-          margin: 20,
+          marginVertical: 20,
         }}
       >
         <Text style={{ fontSize: 16, fontWeight: "500", color: Colors.text }}>
           Email Notifications
         </Text>
         <TouchableOpacity
-          onPress={() => setPushEnabled(!pushEnabled)}
+          onPress={() => {
+            const newValue = !emailEnabled;
+            setEmailEnabled(newValue);
+            if (newValue) {
+              handleEnableEmailNotifications();
+            } else {
+              handleDisableEmailNotifications();
+            }
+          }}
           style={{
-            backgroundColor: pushEnabled ? "#4FBBD0" : "#ccc",
+            backgroundColor: emailEnabled ? "#4FBBD0" : "#ccc",
             width: 50,
             height: 28,
             borderRadius: 20,
@@ -197,13 +240,13 @@ const Notification = () => {
               width: 20,
               borderRadius: 10,
               backgroundColor: "white",
-              alignSelf: pushEnabled ? "flex-end" : "flex-start",
+              alignSelf: emailEnabled ? "flex-end" : "flex-start",
             }}
           />
         </TouchableOpacity>
       </View>
 
-      {/* Email Options */}
+      {/* Email Notifications Options */}
       <View
         style={{
           backgroundColor: "#F2F2F2",
@@ -212,7 +255,6 @@ const Notification = () => {
           padding: 20,
         }}
       >
-        {/* Price Drop */}
         <View
           style={{
             flexDirection: "row",
@@ -224,10 +266,9 @@ const Notification = () => {
           <Text style={{ fontSize: 15, fontWeight: "500", color: Colors.text }}>
             Rate Trends
           </Text>
-          {renderCheckbox(priceDropChecked, setPriceDropChecked)}
+          {renderCheckbox(rateTrendChecked, setrateTrendChecked)}
         </View>
 
-        {/* Promotions */}
         <View
           style={{
             flexDirection: "row",
@@ -237,9 +278,9 @@ const Notification = () => {
           }}
         >
           <Text style={{ fontSize: 15, fontWeight: "500", color: Colors.text }}>
-           Weekly Summary
+            Weekly Summary
           </Text>
-          {renderCheckbox(promotionsChecked, setPromotionsChecked)}
+          {renderCheckbox(weeklySumChecked, setweeklySumChecked)}
         </View>
       </View>
 
@@ -256,7 +297,7 @@ const Notification = () => {
         }}
       >
         <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
-          Save 
+          Save
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
